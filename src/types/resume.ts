@@ -29,13 +29,30 @@ export interface Experience {
   tags: string[];
 }
 
+export interface ProjectImage {
+  src: string;
+  alt: string;
+}
+
+export interface ProjectCommit {
+  hash: string;
+  message: string;
+  date: string;
+}
+
 export interface Project {
   name: string;
+  slug: string;  // URL identifier
   description: string;
+  detail?: string;  // Markdown content for detail page
   highlights: string[];
   tags: string[];
   link?: string;
-  image?: string;
+  image?: string;  // Cover image (for backward compatibility)
+  images?: ProjectImage[];  // Multiple images for gallery
+  commits?: ProjectCommit[];  // Git commit examples
+  period?: string;  // Project timeline
+  role?: string;  // Your role in the project
 }
 
 export interface SkillItem {

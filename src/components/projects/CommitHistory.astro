@@ -1,0 +1,95 @@
+---
+import type { ProjectCommit } from '../../types/resume';
+
+interface Props {
+  commits: ProjectCommit[];
+  title?: string;
+}
+
+const { commits, title = "Git Commit 规范示例" } = Astro.props;
+
+// Helper to get commit type color
+function getCommitTypeColor(message: string): string {
+  if (message.startsWith('feat')) return 'text-green-500';
+  if (message.startsWith('fix')) return 'text-red-500';
+  if (message.startsWith('refactor')) return 'text-yellow-500';
+  if (message.startsWith('perf')) return 'text-purple-500';
+  if (message.startsWith('test')) return 'text-blue-500';
+  if (message.startsWith('docs')) return 'text-cyan-500';
+  if (message.startsWith('chore')) return 'text-gray-500';
+  return 'text-gray-400';
+}
+
+// Helper to get commit type label
+function getCommitTypeLabel(message: string): string {
+  const match = message.match(/^(\w+)(\(.+?\))?:/);
+  if (match) {
+    return match[1];
+  }
+  return 'commit';
+}
+---
+
+<div class="commit-history rounded-lg overflow-hidden" style="background-color: #1e1e1e; font-family: 'Fira Code', 'SF Mono', Monaco, 'Inconsolata', monospace;">
+  <!-- Terminal Header -->
+  <div class="flex items-center gap-2 px-4 py-2 border-b border-gray-700" style="background-color: #2d2d2d;">
+    <div class="flex gap-1.5">
+      <span class="w-3 h-3 rounded-full bg-red-500"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+      <span class="w-3 h-3 rounded-full bg-green-500"></span>
+    </div>
+    <span class="text-gray-400 text-xs ml-2">{title}</span>
+  </div>
+
+  <!-- Commit List -->
+  <div class="p-4 text-sm">
+    <div class="text-gray-500 mb-3">
+      <span class="text-green-400">$</span> git log --oneline -n {commits.length}
+    </div>
+
+    <div class="space-y-2">
+      {commits.map((commit) => (
+        <div class="flex items-start gap-3 group">
+          <!-- Commit Hash -->
+          <span class="text-yellow-400 font-mono text-xs flex-shrink-0">
+            {commit.hash}
+          </span>
+
+          <!-- Commit Message -->
+          <div class="flex-grow min-w-0">
+            <span class={`${getCommitTypeColor(commit.message)} font-semibold`}>
+              {getCommitTypeLabel(commit.message)}
+            </span>
+            <span class="text-gray-300">
+              {commit.message.replace(/^\w+(\(.+?\))?:\s*/, ': ')}
+            </span>
+          </div>
+
+          <!-- Date -->
+          <span class="text-gray-600 text-xs flex-shrink-0 hidden sm:block">
+            {commit.date}
+          </span>
+        </div>
+      ))}
+    </div>
+
+    <!-- Legend -->
+    <div class="mt-4 pt-3 border-t border-gray-700">
+      <div class="text-gray-500 text-xs mb-2">Commit Types:</div>
+      <div class="flex flex-wrap gap-3 text-xs">
+        <span><span class="text-green-500">feat</span> <span class="text-gray-500">新功能</span></span>
+        <span><span class="text-red-500">fix</span> <span class="text-gray-500">修复</span></span>
+        <span><span class="text-yellow-500">refactor</span> <span class="text-gray-500">重构</span></span>
+        <span><span class="text-purple-500">perf</span> <span class="text-gray-500">性能</span></span>
+        <span><span class="text-blue-500">test</span> <span class="text-gray-500">测试</span></span>
+        <span><span class="text-cyan-500">docs</span> <span class="text-gray-500">文档</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .commit-history {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+</style>
