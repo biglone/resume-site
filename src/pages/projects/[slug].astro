@@ -34,6 +34,11 @@ interface Props {
 const { project } = Astro.props;
 const { site } = config;
 
+// Ensure baseUrl ends with slash
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
 // Parse markdown content
 const detailHtml = project.detail ? marked(project.detail) : '';
 ---
@@ -47,7 +52,7 @@ const detailHtml = project.detail ? marked(project.detail) : '';
     <div class="section-container">
       <!-- Back Link -->
       <a
-        href={`${import.meta.env.BASE_URL}#projects`}
+        href={`${baseUrl}#projects`}
         class="inline-flex items-center gap-2 text-sm mb-8 hover:text-blue-500 transition-colors"
         style="color: var(--color-text-secondary);"
       >
