@@ -6,9 +6,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // GitHub Pages deployment: uncomment and replace with your repo name
-  // site: 'https://username.github.io',
-  // base: '/resume-site',
+  // GitHub Pages deployment
+  site: 'https://biglone.github.io',
+  base: '/resume-site',
 
   integrations: [react()],
 
