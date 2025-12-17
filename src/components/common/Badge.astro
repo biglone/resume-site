@@ -1,0 +1,12 @@
+---
+interface Props {
+  text: string;
+  variant?: 'solid' | 'outline';
+}
+
+const { text, variant = 'solid' } = Astro.props;
+---
+
+<span class={variant === 'outline' ? 'badge-outline' : 'badge'}>
+  {text}
+</span>

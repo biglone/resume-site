@@ -1,0 +1,128 @@
+# ============================================
+# Resume Site Configuration / 简历网站配置
+# ============================================
+# Fork this project and edit this file to customize your own resume site
+# 复制此项目后，编辑此文件以定制你自己的简历网站
+
+# Personal Information / 个人信息
+profile:
+  name: "张三"
+  title: "高级前端工程师"
+  avatar: "/images/avatar.jpg"
+  bio: "5年前端开发经验，专注于 React 生态和性能优化。热爱开源，追求极致的用户体验。"
+  location: "北京"
+  email: "zhangsan@example.com"
+  phone: "+86 138-0000-0000"  # Optional / 可选
+  social:
+    github: "https://github.com/username"
+    linkedin: "https://linkedin.com/in/username"
+    twitter: "https://twitter.com/username"
+    # blog: "https://your-blog.com"  # Optional / 可选
+
+# Work Experience / 工作经历
+experience:
+  - company: "某知名科技公司"
+    logo: "/images/company1.png"  # Optional / 可选
+    position: "高级前端工程师"
+    period: "2022.03 - 至今"
+    location: "北京"
+    description:
+      - "负责核心业务系统前端架构设计与重构，提升团队开发效率 30%"
+      - "主导前端性能优化项目，LCP 指标从 4.2s 降至 1.8s，提升 57%"
+      - "搭建前端监控体系，实现错误自动上报和性能数据可视化"
+      - "指导初级工程师，组织技术分享，推动团队技术成长"
+    tags: ["React", "TypeScript", "Node.js", "Webpack"]
+
+  - company: "某互联网公司"
+    position: "前端工程师"
+    period: "2019.07 - 2022.02"
+    location: "上海"
+    description:
+      - "负责电商平台前端开发，参与从 0 到 1 搭建项目"
+      - "封装通用组件库，被多个业务线复用，节省开发成本"
+      - "优化首屏加载速度，通过代码分割和懒加载减少 40% 加载时间"
+    tags: ["Vue.js", "JavaScript", "Sass", "Git"]
+
+# Projects / 项目经历
+projects:
+  - name: "电商平台前端重构"
+    description: "将老旧 jQuery 项目迁移至 React 技术栈，采用微前端架构，支持多团队并行开发"
+    highlights:
+      - "首屏加载时间从 4s 降至 1.2s"
+      - "组件复用率提升至 70%"
+      - "支持 10+ 业务线独立部署"
+    tags: ["React", "TypeScript", "Webpack 5", "qiankun"]
+    link: "https://github.com/username/project1"
+    # image: "/images/project1.png"  # Optional / 可选
+
+  - name: "前端监控 SDK"
+    description: "从零搭建前端监控系统，支持错误捕获、性能监控、用户行为追踪"
+    highlights:
+      - "接入 50+ 项目，日均处理 1000万+ 事件"
+      - "错误发现时间从小时级降至分钟级"
+      - "支持 SourceMap 自动解析"
+    tags: ["TypeScript", "Rollup", "IndexedDB", "Web Vitals"]
+    link: "https://github.com/username/project2"
+
+  - name: "开源组件库"
+    description: "基于 React 的企业级 UI 组件库，支持主题定制和按需加载"
+    highlights:
+      - "GitHub 1000+ Star"
+      - "NPM 周下载量 5000+"
+      - "完善的文档和测试覆盖"
+    tags: ["React", "Storybook", "Jest", "Rollup"]
+    link: "https://github.com/username/project3"
+
+# Skills / 技术栈
+skills:
+  - category: "前端框架"
+    items:
+      - name: "React"
+        level: 90
+      - name: "Vue.js"
+        level: 80
+      - name: "Next.js"
+        level: 75
+
+  - category: "语言 & 工具"
+    items:
+      - name: "TypeScript"
+        level: 85
+      - name: "JavaScript"
+        level: 90
+      - name: "Node.js"
+        level: 70
+
+  - category: "工程化"
+    items:
+      - name: "Webpack"
+        level: 80
+      - name: "Vite"
+        level: 75
+      - name: "Git"
+        level: 85
+
+  - category: "其他"
+    items:
+      - name: "Docker"
+        level: 60
+      - name: "CI/CD"
+        level: 65
+      - name: "Linux"
+        level: 60
+
+# Education / 教育背景 (Optional / 可选)
+education:
+  - school: "某大学"
+    degree: "计算机科学与技术 学士"
+    period: "2015.09 - 2019.06"
+    # description: "GPA 3.8/4.0"  # Optional / 可选
+
+# Site Configuration / 网站配置
+site:
+  title: "张三的个人主页"
+  description: "高级前端工程师 | React 专家 | 开源爱好者"
+  keywords: "前端工程师, React, TypeScript, 简历"
+  theme: "auto"  # auto | light | dark
+  language: "zh-CN"
+  # analytics: "G-XXXXXXXXXX"  # Google Analytics ID / 可选

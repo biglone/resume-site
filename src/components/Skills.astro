@@ -1,0 +1,45 @@
+---
+import type { SkillCategory } from '../types/resume';
+
+interface Props {
+  skills: SkillCategory[];
+}
+
+const { skills } = Astro.props;
+---
+
+<section id="skills" class="py-16">
+  <div class="section-container">
+    <h2 class="section-title">技术栈</h2>
+
+    <div class="grid gap-8 md:grid-cols-2">
+      {skills.map((category, categoryIndex) => (
+        <div
+          class="animate-fade-in-up"
+          style={`animation-delay: ${categoryIndex * 0.1}s`}
+        >
+          <h3 class="text-lg font-semibold mb-4">{category.category}</h3>
+
+          <div class="space-y-4">
+            {category.items.map((skill, skillIndex) => (
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-sm font-medium">{skill.name}</span>
+                  <span class="text-xs" style="color: var(--color-text-secondary);">
+                    {skill.level}%
+                  </span>
+                </div>
+                <div class="h-2 rounded-full overflow-hidden" style="background-color: var(--color-border);">
+                  <div
+                    class="h-full rounded-full progress-bar"
+                    style={`width: ${skill.level}%; background-color: var(--color-primary); animation-delay: ${(categoryIndex * 0.1) + (skillIndex * 0.05)}s`}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

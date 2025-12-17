@@ -1,0 +1,65 @@
+---
+import type { Profile } from '../types/resume';
+import SocialLinks from './common/SocialLinks.astro';
+
+interface Props {
+  profile: Profile;
+}
+
+const { profile } = Astro.props;
+---
+
+<section id="about" class="py-16 sm:py-24">
+  <div class="section-container">
+    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-8">
+      <!-- Avatar -->
+      <div class="flex-shrink-0">
+        <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden ring-4 ring-blue-500/20">
+          <img
+            src={profile.avatar}
+            alt={profile.name}
+            class="w-full h-full object-cover"
+            onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent(this.alt) + '&size=160&background=3b82f6&color=fff'"
+          />
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="flex-grow text-center sm:text-left">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-2">
+          {profile.name}
+        </h1>
+        <p class="text-xl mb-4" style="color: var(--color-primary);">
+          {profile.title}
+        </p>
+        <p class="text-base mb-6 max-w-2xl" style="color: var(--color-text-secondary);">
+          {profile.bio}
+        </p>
+
+        <!-- Contact Info -->
+        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 mb-6 text-sm" style="color: var(--color-text-secondary);">
+          {profile.location && (
+            <span class="flex items-center gap-1">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {profile.location}
+            </span>
+          )}
+          {profile.email && (
+            <a href={`mailto:${profile.email}`} class="flex items-center gap-1 hover:text-blue-500 transition-colors">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              {profile.email}
+            </a>
+          )}
+        </div>
+
+        <!-- Social Links -->
+        <SocialLinks social={profile.social} />
+      </div>
+    </div>
+  </div>
+</section>

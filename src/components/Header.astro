@@ -1,0 +1,46 @@
+---
+import ThemeToggle from './ThemeToggle';
+---
+
+<header class="sticky top-0 z-50 backdrop-blur-sm border-b" style="background-color: rgba(var(--color-bg-rgb, 255 255 255), 0.8); border-color: var(--color-border);">
+  <nav class="section-container py-4">
+    <div class="flex items-center justify-between">
+      <a href="/" class="text-xl font-bold hover:opacity-80 transition-opacity">
+        Resume
+      </a>
+
+      <div class="flex items-center gap-6">
+        <ul class="hidden sm:flex items-center gap-6 text-sm">
+          <li>
+            <a href="#about" class="hover:text-blue-500 transition-colors">
+              关于
+            </a>
+          </li>
+          <li>
+            <a href="#experience" class="hover:text-blue-500 transition-colors">
+              经历
+            </a>
+          </li>
+          <li>
+            <a href="#projects" class="hover:text-blue-500 transition-colors">
+              项目
+            </a>
+          </li>
+          <li>
+            <a href="#skills" class="hover:text-blue-500 transition-colors">
+              技能
+            </a>
+          </li>
+        </ul>
+
+        <ThemeToggle client:load />
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  :global(.dark) header {
+    background-color: rgba(17, 24, 39, 0.8);
+  }
+</style>

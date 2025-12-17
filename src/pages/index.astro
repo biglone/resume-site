@@ -1,0 +1,31 @@
+---
+import { parse } from 'yaml';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import type { ResumeConfig } from '../types/resume';
+
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import Skills from '../components/Skills.astro';
+
+// Read and parse resume configuration
+const configPath = join(process.cwd(), 'src/config/resume.yaml');
+const configFile = readFileSync(configPath, 'utf-8');
+const config = parse(configFile) as ResumeConfig;
+
+const { profile, experience, projects, skills, site } = config;
+---
+
+<Layout
+  title={site.title}
+  description={site.description}
+  keywords={site.keywords}
+  language={site.language}
+>
+  <Hero profile={profile} />
+  <Experience experience={experience} />
+  <Projects projects={projects} />
+  <Skills skills={skills} />
+</Layout>
