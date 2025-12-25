@@ -24,7 +24,10 @@ export function getStaticPaths() {
     if (!path || path.startsWith('http://') || path.startsWith('https://')) {
       return path;
     }
-    return path.startsWith('/') ? `${baseUrl}${path.slice(1)}` : `${baseUrl}${path}`;
+    // Ensure baseUrl ends with / and path doesn't start with /
+    const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+    const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
+    return `${normalizedBase}${normalizedPath}`;
   };
 
   return config.projects.map((project) => {
