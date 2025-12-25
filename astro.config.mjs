@@ -6,9 +6,10 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // GitHub Pages deployment
-  site: 'https://biglone.github.io',
-  base: '/resume-site',
+  // Netlify 会自动设置 site URL
+  // 如需部署到 GitHub Pages，取消注释以下两行：
+  // site: 'https://biglone.github.io',
+  // base: '/resume-site',
 
   integrations: [react()],
 
