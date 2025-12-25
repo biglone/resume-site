@@ -15,7 +15,35 @@ const configPath = join(process.cwd(), 'src/config/resume.yaml');
 const configFile = readFileSync(configPath, 'utf-8');
 const config = parse(configFile) as ResumeConfig;
 
-const { profile, experience, projects, skills, site } = config;
+// Helper to prefix paths with BASE_URL
+const baseUrl = import.meta.env.BASE_URL;
+const prefixPath = (path: string) => {
+  if (!path || path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+  return path.startsWith('/') ? `${baseUrl}${path.slice(1)}` : `${baseUrl}${path}`;
+};
+
+// Transform image paths to include base URL
+const profile = {
+  ...config.profile,
+  avatar: prefixPath(config.profile.avatar),
+};
+
+const experience = config.experience.map(exp => ({
+  ...exp,
+  logo: exp.logo ? prefixPath(exp.logo) : undefined,
+}));
+
+const projects = config.projects.map(proj => ({
+  ...proj,
+  images: proj.images?.map(img => ({
+    ...img,
+    src: prefixPath(img.src),
+  })),
+}));
+
+const { skills, site } = config;
 ---
 
 <Layout

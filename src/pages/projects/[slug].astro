@@ -10,22 +10,44 @@ import Badge from '../../components/common/Badge.astro';
 import ImageGallery from '../../components/projects/ImageGallery';
 import CommitHistory from '../../components/projects/CommitHistory.astro';
 
-// Read config
-const configPath = join(process.cwd(), 'src/config/resume.yaml');
-const configFile = readFileSync(configPath, 'utf-8');
-const config = parse(configFile) as ResumeConfig;
-
 // Generate static paths for all projects
 export function getStaticPaths() {
   const configPath = join(process.cwd(), 'src/config/resume.yaml');
   const configFile = readFileSync(configPath, 'utf-8');
   const config = parse(configFile) as ResumeConfig;
 
-  return config.projects.map((project) => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
+  // Note: BASE_URL is '/resume-site/' in production, '/' in dev
+  const baseUrl = import.meta.env.BASE_URL;
+
+  // Helper to prefix paths with BASE_URL
+  const prefixPath = (path: string) => {
+    if (!path || path.startsWith('http://') || path.startsWith('https://')) {
+      return path;
+    }
+    return path.startsWith('/') ? `${baseUrl}${path.slice(1)}` : `${baseUrl}${path}`;
+  };
+
+  return config.projects.map((project) => {
+    // Transform image paths to include base URL
+    const transformedProject = {
+      ...project,
+      images: project.images?.map(img => ({
+        ...img,
+        src: prefixPath(img.src),
+      })),
+    };
+
+    return {
+      params: { slug: project.slug },
+      props: { project: transformedProject },
+    };
+  });
 }
+
+// Read config for use in the component
+const configPath = join(process.cwd(), 'src/config/resume.yaml');
+const configFile = readFileSync(configPath, 'utf-8');
+const config = parse(configFile) as ResumeConfig;
 
 interface Props {
   project: Project;

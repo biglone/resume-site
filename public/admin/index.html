@@ -18,7 +18,10 @@
         window.netlifyIdentity.on("init", user => {
           if (!user) {
             window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
+              // Get base path from current location
+              const pathSegments = window.location.pathname.split('/').filter(Boolean);
+              const basePath = pathSegments.length > 1 ? '/' + pathSegments[0] + '/' : '/';
+              document.location.href = basePath + "admin/";
             });
           }
         });
