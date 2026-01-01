@@ -11,12 +11,8 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# 重定向规则 - SPA 路由支持
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Role = ["admin"]}
+# 静态站点不需要 SPA 重定向规则
+# Astro 已生成所有静态 HTML 页面
 
 # 静态资源缓存
 [[headers]]
