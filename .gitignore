@@ -23,5 +23,9 @@ server/data/*.json
 # macOS-specific files
 .DS_Store
 
+# local AI workspace artifacts
+.claude/
+.claude-fulldev.json
+
 # jetbrains setting folder
 .idea/
