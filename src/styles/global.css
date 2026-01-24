@@ -3,6 +3,7 @@
 /* Custom theme variables */
 :root {
   --color-bg: #ffffff;
+  --color-bg-rgb: 255 255 255;
   --color-bg-secondary: #f9fafb;
   --color-text: #111827;
   --color-text-secondary: #6b7280;
@@ -13,6 +14,7 @@
 
 .dark {
   --color-bg: #111827;
+  --color-bg-rgb: 17 24 39;
   --color-bg-secondary: #1f2937;
   --color-text: #f9fafb;
   --color-text-secondary: #9ca3af;

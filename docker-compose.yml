@@ -1,0 +1,43 @@
+services:
+  api:
+    build:
+      context: ./server
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./server/.env
+    environment:
+      DATA_DIR: /app/data
+      SEED_RESUME_PATH: /app/seed/resume.yaml
+      CORS_ORIGIN: http://localhost:4321,http://localhost:5173,http://127.0.0.1:4321,http://127.0.0.1:5173
+    volumes:
+      - ./server/data:/app/data
+      - ./src/config/resume.yaml:/app/seed/resume.yaml:ro
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4321:4321"
+    environment:
+      API_BASE_URL: http://api:4000
+      HOST: 0.0.0.0
+      PORT: 4321
+      ASTRO_BASE: /
+      ASTRO_SITE: http://localhost:4321
+      ADMIN_URL: http://localhost:5173
+    depends_on:
+      - api
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:4000
+        VITE_PUBLIC_SITE_URL: http://localhost:4321
+    ports:
+      - "5173:80"
+    depends_on:
+      - api

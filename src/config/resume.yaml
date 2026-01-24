@@ -1,55 +1,48 @@
-# ============================================
-# Resume Site Configuration / 简历网站配置
-# ============================================
-# Fork this project and edit this file to customize your own resume site
-# 复制此项目后，编辑此文件以定制你自己的简历网站
-
-# Personal Information / 个人信息
 profile:
-  name: "张三"
-  title: "高级前端工程师"
-  avatar: "/images/avatar.jpg"
-  bio: "5年前端开发经验，专注于 React 生态和性能优化。热爱开源，追求极致的用户体验。"
-  location: "北京"
-  email: "zhangsan@example.com"
-  phone: "+86 138-0000-0000"  # Optional / 可选
+  name: 张三
+  title: 高级前端工程师
+  avatar: /images/screenshot_20251226_174700.jpg
+  bio: 5年前端开发经验，专注于 React 生态和性能优化。热爱开源，追求极致的用户体验。
+  location: 北京
+  email: zhangsan@example.com
+  phone: +86 138-0000-0000
   social:
-    github: "https://github.com/username"
-    linkedin: "https://linkedin.com/in/username"
-    twitter: "https://twitter.com/username"
-    # blog: "https://your-blog.com"  # Optional / 可选
-
-# Work Experience / 工作经历
+    github: https://github.com/username
+    linkedin: https://linkedin.com/in/username
+    twitter: https://twitter.com/username
 experience:
-  - company: "某知名科技公司"
-    logo: "/images/company1.png"  # Optional / 可选
-    position: "高级前端工程师"
-    period: "2022.03 - 至今"
-    location: "北京"
+  - company: 某知名科技公司
+    logo: /images/company1.png
+    position: 高级前端工程师
+    period: 2022.03 - 至今
+    location: 北京
     description:
-      - "负责核心业务系统前端架构设计与重构，提升团队开发效率 30%"
-      - "主导前端性能优化项目，LCP 指标从 4.2s 降至 1.8s，提升 57%"
-      - "搭建前端监控体系，实现错误自动上报和性能数据可视化"
-      - "指导初级工程师，组织技术分享，推动团队技术成长"
-    tags: ["React", "TypeScript", "Node.js", "Webpack"]
-
-  - company: "某互联网公司"
-    position: "前端工程师"
-    period: "2019.07 - 2022.02"
-    location: "上海"
+      - 负责核心业务系统前端架构设计与重构，提升团队开发效率 30%
+      - 主导前端性能优化项目，LCP 指标从 4.2s 降至 1.8s，提升 57%
+      - 搭建前端监控体系，实现错误自动上报和性能数据可视化
+      - 指导初级工程师，组织技术分享，推动团队技术成长
+    tags:
+      - React
+      - TypeScript
+      - Node.js
+      - Webpack
+  - company: 某互联网公司
+    position: 前端工程师
+    period: 2019.07 - 2022.02
+    location: 上海
     description:
-      - "负责电商平台前端开发，参与从 0 到 1 搭建项目"
-      - "封装通用组件库，被多个业务线复用，节省开发成本"
-      - "优化首屏加载速度，通过代码分割和懒加载减少 40% 加载时间"
-    tags: ["Vue.js", "JavaScript", "Sass", "Git"]
-
-# Projects / 项目经历
+      - 负责电商平台前端开发，参与从 0 到 1 搭建项目
+      - 封装通用组件库，被多个业务线复用，节省开发成本
+      - 优化首屏加载速度，通过代码分割和懒加载减少 40% 加载时间
+    tags:
+      - Vue.js
+      - JavaScript
+      - Sass
+      - Git
 projects:
-  - name: "电商平台前端重构"
-    slug: "ecommerce-refactor"
-    description: "将老旧 jQuery 项目迁移至 React 技术栈，采用微前端架构，支持多团队并行开发"
-    period: "2023.06 - 2023.12"
-    role: "前端负责人"
+  - period: 2023.06 - 2023.12
+    name: 电商平台前端重构
+    slug: ecommerce-refactor
     detail: |
       ## 项目背景
 
@@ -92,42 +85,44 @@ projects:
       - 组件复用率达到 **70%**
       - 支持 **10+ 业务线**独立部署
       - 开发效率提升 **40%**
-
-    highlights:
-      - "首屏加载时间从 4s 降至 1.2s"
-      - "组件复用率提升至 70%"
-      - "支持 10+ 业务线独立部署"
-    tags: ["React", "TypeScript", "Webpack 5", "qiankun"]
-    link: "https://github.com/username/project1"
+    role: 前端负责人
     images:
-      - src: "/images/projects/ecommerce/home.png"
-        alt: "电商首页设计"
-      - src: "/images/projects/ecommerce/product.png"
-        alt: "商品详情页"
-      - src: "/images/projects/ecommerce/cart.png"
-        alt: "购物车页面"
+      - src: /images/projects/ecommerce/home.png
+        alt: 电商首页设计
+      - src: /images/projects/ecommerce/product.png
+        alt: 商品详情页
+      - src: /images/projects/ecommerce/cart.png
+        alt: 购物车页面
+    tags:
+      - React
+      - TypeScript
+      - Webpack 5
+      - qiankun
+    link: https://github.com/username/project1
     commits:
-      - hash: "a1b2c3d"
+      - hash: a1b2c3d
         message: "feat(cart): add quantity adjustment with debounce"
-        date: "2023-11-15"
-      - hash: "e4f5g6h"
+        date: 2023-11-15
+      - hash: e4f5g6h
         message: "fix(checkout): resolve payment callback race condition"
-        date: "2023-11-12"
-      - hash: "i7j8k9l"
+        date: 2023-11-12
+      - hash: i7j8k9l
         message: "refactor(product): extract ProductCard as shared component"
-        date: "2023-11-10"
-      - hash: "m1n2o3p"
+        date: 2023-11-10
+      - hash: m1n2o3p
         message: "perf(home): implement virtual list for product grid"
-        date: "2023-11-08"
-      - hash: "q4r5s6t"
+        date: 2023-11-08
+      - hash: q4r5s6t
         message: "test(cart): add unit tests for cart reducer"
-        date: "2023-11-05"
-
-  - name: "前端监控 SDK"
-    slug: "frontend-monitor-sdk"
-    description: "从零搭建前端监控系统，支持错误捕获、性能监控、用户行为追踪"
-    period: "2023.01 - 2023.05"
-    role: "核心开发者"
+        date: 2023-11-05
+    description: 将老旧 jQuery 项目迁移至 React 技术栈，采用微前端架构，支持多团队并行开发
+    highlights:
+      - 首屏加载时间从 4s 降至 1.2s
+      - 组件复用率提升至 70%
+      - 支持 10+ 业务线独立部署
+  - period: 2023.01 - 2023.05
+    name: 前端监控 SDK
+    slug: frontend-monitor-sdk
     detail: |
       ## 项目背景
 
@@ -145,29 +140,31 @@ projects:
       2. 支持 **SourceMap** 自动解析错误堆栈
       3. 离线缓存 + 批量上报，减少网络请求
       4. 采样率可配置，控制数据量
-
-    highlights:
-      - "接入 50+ 项目，日均处理 1000万+ 事件"
-      - "错误发现时间从小时级降至分钟级"
-      - "支持 SourceMap 自动解析"
-    tags: ["TypeScript", "Rollup", "IndexedDB", "Web Vitals"]
-    link: "https://github.com/username/project2"
+    role: 核心开发者
+    tags:
+      - TypeScript
+      - Rollup
+      - IndexedDB
+      - Web Vitals
+    link: https://github.com/username/project2
     commits:
-      - hash: "x1y2z3a"
+      - hash: x1y2z3a
         message: "feat(core): implement error boundary capture"
-        date: "2023-04-20"
-      - hash: "b4c5d6e"
+        date: 2023-04-20
+      - hash: b4c5d6e
         message: "feat(performance): add Web Vitals metrics collection"
-        date: "2023-04-15"
-      - hash: "f7g8h9i"
+        date: 2023-04-15
+      - hash: f7g8h9i
         message: "perf(report): batch upload with IndexedDB queue"
-        date: "2023-04-10"
-
-  - name: "开源组件库"
-    slug: "ui-component-library"
-    description: "基于 React 的企业级 UI 组件库，支持主题定制和按需加载"
-    period: "2022.06 - 至今"
-    role: "项目发起人"
+        date: 2023-04-10
+    description: 从零搭建前端监控系统，支持错误捕获、性能监控、用户行为追踪
+    highlights:
+      - 接入 50+ 项目，日均处理 1000万+ 事件
+      - 错误发现时间从小时级降至分钟级
+      - 支持 SourceMap 自动解析
+  - period: 2022.06 - 至今
+    name: 开源组件库
+    slug: ui-component-library
     detail: |
       ## 项目简介
 
@@ -186,74 +183,68 @@ projects:
       - Storybook 交互式文档
       - Jest + Testing Library 单元测试
       - 测试覆盖率 > 85%
-
-    highlights:
-      - "GitHub 1000+ Star"
-      - "NPM 周下载量 5000+"
-      - "完善的文档和测试覆盖"
-    tags: ["React", "Storybook", "Jest", "Rollup"]
-    link: "https://github.com/username/project3"
+    role: 项目发起人
+    tags:
+      - React
+      - Storybook
+      - Jest
+      - Rollup
+    link: https://github.com/username/project3
     commits:
-      - hash: "j1k2l3m"
+      - hash: j1k2l3m
         message: "feat(button): add loading state and icon support"
-        date: "2024-01-10"
-      - hash: "n4o5p6q"
+        date: 2024-01-10
+      - hash: n4o5p6q
         message: "docs(table): add sorting and filtering examples"
-        date: "2024-01-05"
-      - hash: "r7s8t9u"
+        date: 2024-01-05
+      - hash: r7s8t9u
         message: "fix(modal): prevent body scroll when open"
-        date: "2024-01-02"
-
-# Skills / 技术栈
+        date: 2024-01-02
+    description: 基于 React 的企业级 UI 组件库，支持主题定制和按需加载
+    highlights:
+      - GitHub 1000+ Star
+      - NPM 周下载量 5000+
+      - 完善的文档和测试覆盖
 skills:
-  - category: "前端框架"
+  - category: 前端框架
     items:
-      - name: "React"
+      - name: React
         level: 90
-      - name: "Vue.js"
+      - name: Vue.js
         level: 80
-      - name: "Next.js"
+      - name: Next.js
         level: 75
-
-  - category: "语言 & 工具"
+  - category: 语言 & 工具
     items:
-      - name: "TypeScript"
+      - name: TypeScript
         level: 85
-      - name: "JavaScript"
+      - name: JavaScript
         level: 90
-      - name: "Node.js"
+      - name: Node.js
         level: 70
-
-  - category: "工程化"
+  - category: 工程化
     items:
-      - name: "Webpack"
+      - name: Webpack
         level: 80
-      - name: "Vite"
+      - name: Vite
         level: 75
-      - name: "Git"
+      - name: Git
         level: 85
-
-  - category: "其他"
+  - category: 其他
     items:
-      - name: "Docker"
+      - name: Docker
         level: 60
-      - name: "CI/CD"
+      - name: CI/CD
         level: 65
-      - name: "Linux"
+      - name: Linux
         level: 60
-
-# Education / 教育背景 (Optional / 可选)
 education:
-  - school: "某大学"
-    degree: "计算机科学与技术 学士"
-    period: "2015.09 - 2019.06"
-    # description: "GPA 3.8/4.0"  # Optional / 可选
-
-# Site Configuration / 网站配置
+  - school: 某大学
+    degree: 计算机科学与技术 学士
+    period: 2015.09 - 2019.06
 site:
-  title: "张三的个人主页"
-  description: "高级前端工程师 | React 专家 | 开源爱好者"
-  keywords: "前端工程师, React, TypeScript, 简历"
-  theme: "auto"  # auto | light | dark
-  language: "zh-CN"
-  # analytics: "G-XXXXXXXXXX"  # Google Analytics ID / 可选
+  title: 张三的个人主页
+  description: 高级前端工程师 | React 专家 | 开源爱好者
+  keywords: 前端工程师, React, TypeScript, 简历
+  theme: auto
+  language: zh-CN

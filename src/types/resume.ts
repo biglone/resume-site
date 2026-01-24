@@ -38,6 +38,8 @@ export interface ProjectCommit {
   hash: string;
   message: string;
   date: string;
+  language?: string;
+  snippet?: string;
 }
 
 export interface Project {

@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# local API data
+server/data/*.json
+
 # macOS-specific files
 .DS_Store
 

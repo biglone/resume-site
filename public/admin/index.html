@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>简历内容管理</title>
-    <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <title>Resume Admin</title>
   </head>
   <body>
-    <!-- Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-
-    <!-- Redirect after login -->
+    <p>Redirecting to the resume admin console...</p>
+    <p>
+      If you are not redirected, open
+      <a id="admin-link" href="http://localhost:5173">http://localhost:5173</a>.
+    </p>
     <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              // Get base path from current location
-              const pathSegments = window.location.pathname.split('/').filter(Boolean);
-              const basePath = pathSegments.length > 1 ? '/' + pathSegments[0] + '/' : '/';
-              document.location.href = basePath + "admin/";
-            });
-          }
-        });
-      }
+      (function () {
+        var host = window.location.hostname || 'localhost';
+        var protocol = window.location.protocol || 'http:';
+        var adminUrl = protocol + '//' + host + ':5173';
+        var link = document.getElementById('admin-link');
+        if (link) {
+          link.href = adminUrl;
+          link.textContent = adminUrl;
+        }
+        window.location.replace(adminUrl);
+      })();
     </script>
   </body>
 </html>

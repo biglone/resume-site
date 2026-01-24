@@ -1,0 +1,43 @@
+---
+import type { Education as EducationType } from '../types/resume';
+
+interface Props {
+  education: EducationType[];
+}
+
+const { education } = Astro.props;
+---
+
+{education && education.length > 0 && (
+  <section id="education" class="py-16" style="background-color: var(--color-bg-secondary);">
+    <div class="section-container">
+      <h2 class="section-title">教育背景</h2>
+
+      <div class="space-y-6">
+        {education.map((edu, index) => (
+          <div
+            class="card animate-fade-in-up"
+            style={`animation-delay: ${index * 0.1}s`}
+          >
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+              <div>
+                <h3 class="text-lg font-semibold">{edu.school}</h3>
+                <p class="text-base" style="color: var(--color-primary);">
+                  {edu.degree}
+                </p>
+                {edu.description && (
+                  <p class="text-sm mt-2" style="color: var(--color-text-secondary);">
+                    {edu.description}
+                  </p>
+                )}
+              </div>
+              <div class="text-sm flex-shrink-0" style="color: var(--color-text-secondary);">
+                <p>{edu.period}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

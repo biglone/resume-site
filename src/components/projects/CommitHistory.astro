@@ -47,28 +47,40 @@ function getCommitTypeLabel(message: string): string {
       <span class="text-green-400">$</span> git log --oneline -n {commits.length}
     </div>
 
-    <div class="space-y-2">
+    <div class="space-y-4">
       {commits.map((commit) => (
-        <div class="flex items-start gap-3 group">
-          <!-- Commit Hash -->
-          <span class="text-yellow-400 font-mono text-xs flex-shrink-0">
-            {commit.hash}
-          </span>
-
-          <!-- Commit Message -->
-          <div class="flex-grow min-w-0">
-            <span class={`${getCommitTypeColor(commit.message)} font-semibold`}>
-              {getCommitTypeLabel(commit.message)}
+        <div class="commit-entry space-y-2">
+          <div class="flex items-start gap-3 group">
+            <!-- Commit Hash -->
+            <span class="text-yellow-400 font-mono text-xs flex-shrink-0">
+              {commit.hash}
             </span>
-            <span class="text-gray-300">
-              {commit.message.replace(/^\w+(\(.+?\))?:\s*/, ': ')}
+
+            <!-- Commit Message -->
+            <div class="flex-grow min-w-0">
+              <span class={`${getCommitTypeColor(commit.message)} font-semibold`}>
+                {getCommitTypeLabel(commit.message)}
+              </span>
+              <span class="text-gray-300">
+                {commit.message.replace(/^\w+(\(.+?\))?:\s*/, ': ')}
+              </span>
+            </div>
+
+            <!-- Date -->
+            <span class="text-gray-600 text-xs flex-shrink-0 hidden sm:block">
+              {commit.date}
             </span>
           </div>
 
-          <!-- Date -->
-          <span class="text-gray-600 text-xs flex-shrink-0 hidden sm:block">
-            {commit.date}
-          </span>
+          {commit.snippet && commit.snippet.trim().length > 0 && (
+            <div class="commit-snippet rounded-lg border border-gray-700 bg-gray-900/70 p-3">
+              <div class="text-gray-500 text-xs mb-2">
+                <span class="text-gray-400">Snippet</span>
+                {commit.language && <span class="text-gray-500"> · {commit.language}</span>}
+              </div>
+              <pre class="text-gray-200 text-xs leading-relaxed"><code>{commit.snippet}</code></pre>
+            </div>
+          )}
         </div>
       ))}
     </div>
@@ -91,5 +103,10 @@ function getCommitTypeLabel(message: string): string {
 <style>
   .commit-history {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .commit-snippet pre {
+    margin: 0;
+    white-space: pre-wrap;
   }
 </style>
