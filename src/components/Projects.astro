@@ -13,11 +13,11 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
   : `${import.meta.env.BASE_URL}/`;
 ---
 
-<section id="projects" class="py-16" style="background-color: var(--color-bg-secondary);">
+<section id="projects" class="py-16 section-surface">
   <div class="section-container">
     <h2 class="section-title">项目经历</h2>
 
-    <div class="grid gap-6 md:grid-cols-2">
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       {projects.map((project, index) => (
         <div
           class="card group animate-fade-in-up"
@@ -25,7 +25,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
         >
           {/* Cover Image */}
           {(project.image || (project.images && project.images.length > 0)) && (
-            <div class="mb-4 -mx-6 -mt-6 overflow-hidden rounded-t-lg">
+            <div class="media-frame mb-4">
               <a href={`${baseUrl}projects/${project.slug}`}>
                 <img
                   src={project.image || project.images?.[0]?.src}
@@ -39,7 +39,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
 
           {/* Header */}
           <div class="flex items-start justify-between gap-2 mb-2">
-            <a href={`${baseUrl}projects/${project.slug}`} class="hover:text-blue-500 transition-colors">
+            <a href={`${baseUrl}projects/${project.slug}`} class="link font-medium">
               <h3 class="text-lg font-semibold">{project.name}</h3>
             </a>
             <div class="flex items-center gap-1">
@@ -48,7 +48,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="flex-shrink-0 p-1 hover:text-blue-500 transition-colors"
+                  class="flex-shrink-0 icon-button"
                   title="GitHub"
                 >
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

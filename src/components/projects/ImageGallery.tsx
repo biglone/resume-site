@@ -48,7 +48,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
   return (
     <div className="w-full">
       {/* Main Image */}
-      <div className="relative aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden mb-4">
+      <div className="relative aspect-video media-frame mb-4">
         <img
           src={currentImage.src}
           alt={currentImage.alt}
@@ -66,7 +66,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
           <>
             <button
               onClick={goToPrevious}
-              className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+              className="absolute left-2 top-1/2 -translate-y-1/2 gallery-nav"
               aria-label="Previous image"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,7 +75,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 gallery-nav"
               aria-label="Next image"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -87,14 +87,14 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
 
         {/* Image Counter */}
         {images.length > 1 && (
-          <div className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/50 text-white text-xs">
+          <div className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/60 text-white text-xs">
             {currentIndex + 1} / {images.length}
           </div>
         )}
       </div>
 
       {/* Caption */}
-      <p className="text-center text-sm text-gray-600 dark:text-gray-400 mb-4">
+      <p className="text-center text-sm" style={{ color: 'var(--color-text-secondary)' }}>
         {currentImage.alt}
       </p>
 
@@ -105,10 +105,10 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`flex-shrink-0 w-20 h-14 rounded overflow-hidden border-2 transition-all ${
+              className={`flex-shrink-0 w-20 h-14 rounded overflow-hidden thumb ${
                 index === currentIndex
-                  ? 'border-blue-500 ring-2 ring-blue-500/20'
-                  : 'border-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                  ? 'thumb-active'
+                  : ''
               }`}
             >
               <img

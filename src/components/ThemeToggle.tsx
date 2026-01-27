@@ -83,7 +83,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={cycleTheme}
-      className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      className="icon-button"
       title={labels[theme]}
       aria-label={`切换主题 (当前: ${labels[theme]})`}
     >

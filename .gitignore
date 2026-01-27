@@ -19,6 +19,7 @@ pnpm-debug.log*
 
 # local API data
 server/data/*.json
+server/data/draft-history/
 
 # macOS-specific files
 .DS_Store

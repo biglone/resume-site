@@ -13,7 +13,7 @@ function getCommitTypeColor(message: string): string {
   if (message.startsWith('feat')) return 'text-green-500';
   if (message.startsWith('fix')) return 'text-red-500';
   if (message.startsWith('refactor')) return 'text-yellow-500';
-  if (message.startsWith('perf')) return 'text-purple-500';
+  if (message.startsWith('perf')) return 'text-amber-500';
   if (message.startsWith('test')) return 'text-blue-500';
   if (message.startsWith('docs')) return 'text-cyan-500';
   if (message.startsWith('chore')) return 'text-gray-500';
@@ -92,7 +92,7 @@ function getCommitTypeLabel(message: string): string {
         <span><span class="text-green-500">feat</span> <span class="text-gray-500">新功能</span></span>
         <span><span class="text-red-500">fix</span> <span class="text-gray-500">修复</span></span>
         <span><span class="text-yellow-500">refactor</span> <span class="text-gray-500">重构</span></span>
-        <span><span class="text-purple-500">perf</span> <span class="text-gray-500">性能</span></span>
+        <span><span class="text-amber-500">perf</span> <span class="text-gray-500">性能</span></span>
         <span><span class="text-blue-500">test</span> <span class="text-gray-500">测试</span></span>
         <span><span class="text-cyan-500">docs</span> <span class="text-gray-500">文档</span></span>
       </div>

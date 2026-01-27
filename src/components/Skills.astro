@@ -12,10 +12,10 @@ const { skills } = Astro.props;
   <div class="section-container">
     <h2 class="section-title">技术栈</h2>
 
-    <div class="grid gap-8 md:grid-cols-2">
+    <div class="grid gap-6 md:grid-cols-2">
       {skills.map((category, categoryIndex) => (
         <div
-          class="animate-fade-in-up"
+          class="card animate-fade-in-up"
           style={`animation-delay: ${categoryIndex * 0.1}s`}
         >
           <h3 class="text-lg font-semibold mb-4">{category.category}</h3>
@@ -29,10 +29,10 @@ const { skills } = Astro.props;
                     {skill.level}%
                   </span>
                 </div>
-                <div class="h-2 rounded-full overflow-hidden" style="background-color: var(--color-border);">
+                <div class="progress-track">
                   <div
-                    class="h-full rounded-full progress-bar"
-                    style={`width: ${skill.level}%; background-color: var(--color-primary); animation-delay: ${(categoryIndex * 0.1) + (skillIndex * 0.05)}s`}
+                    class="progress-bar"
+                    style={`width: ${skill.level}%; animation-delay: ${(categoryIndex * 0.1) + (skillIndex * 0.05)}s`}
                   ></div>
                 </div>
               </div>

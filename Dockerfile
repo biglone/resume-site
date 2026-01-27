@@ -2,6 +2,12 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
+ARG ASTRO_SITE
+ARG ASTRO_BASE
+
+ENV ASTRO_SITE=${ASTRO_SITE}
+ENV ASTRO_BASE=${ASTRO_BASE}
+
 COPY package.json package-lock.json ./
 RUN npm ci
 

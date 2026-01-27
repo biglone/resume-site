@@ -1,7 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import { config } from './config.js';
-import { ensureDataFiles, readDraft, readPublished, writeDraft, writePublished } from './storage.js';
+import {
+  ensureDataFiles,
+  listDraftHistory,
+  readDraft,
+  readDraftHistory,
+  readPublished,
+  restoreDraftFromHistory,
+  writeDraft,
+  writePublished
+} from './storage.js';
 import { resumeSchema } from './schema/resumeSchema.js';
 import { hashPassword, requireAuth, signToken, verifyCredentials } from './auth.js';
 import { countUsers, createUser, ensureUsersFile, findUserByEmail } from './users.js';
@@ -89,6 +98,29 @@ app.put('/api/resume/draft', requireAuth, async (req, res) => {
 
   const updated = await writeDraft(parseResult.data);
   return res.json(updated);
+});
+
+app.get('/api/resume/draft/history', requireAuth, async (req, res) => {
+  const rawLimit = Number(req.query.limit);
+  const limit = Number.isFinite(rawLimit) ? Math.max(1, Math.min(200, rawLimit)) : 50;
+  const payload = await listDraftHistory(limit);
+  return res.json(payload);
+});
+
+app.get('/api/resume/draft/history/:id', requireAuth, async (req, res) => {
+  const payload = await readDraftHistory(req.params.id);
+  if (!payload) {
+    return res.status(404).json({ error: 'Draft history not found' });
+  }
+  return res.json({ id: req.params.id, ...payload });
+});
+
+app.post('/api/resume/draft/history/:id/restore', requireAuth, async (req, res) => {
+  const restored = await restoreDraftFromHistory(req.params.id);
+  if (!restored) {
+    return res.status(404).json({ error: 'Draft history not found' });
+  }
+  return res.json(restored);
 });
 
 app.post('/api/resume/publish', requireAuth, async (req, res) => {

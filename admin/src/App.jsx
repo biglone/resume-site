@@ -208,6 +208,54 @@ const normalizeResume = (resume) => {
   };
 };
 
+const formatSummaryValue = (value) => (value ? value : 'N/A');
+
+const summarizeResume = (resume) => ({
+  name: resume.profile?.name || '',
+  title: resume.profile?.title || '',
+  location: resume.profile?.location || '',
+  email: resume.profile?.email || '',
+  siteTitle: resume.site?.title || '',
+  theme: resume.site?.theme || '',
+  language: resume.site?.language || '',
+  experienceCount: resume.experience?.length || 0,
+  projectCount: resume.projects?.length || 0,
+  skillCount: resume.skills?.length || 0,
+  educationCount: resume.education?.length || 0
+});
+
+const buildDiffSummary = (current, history) => {
+  const summaryCurrent = summarizeResume(current);
+  const summaryHistory = summarizeResume(history);
+  const items = [];
+
+  const pushField = (label, currentValue, historyValue) => {
+    if (currentValue !== historyValue) {
+      items.push(`${label}: "${formatSummaryValue(historyValue)}" -> "${formatSummaryValue(currentValue)}"`);
+    }
+  };
+
+  const pushCount = (label, currentValue, historyValue) => {
+    if (currentValue !== historyValue) {
+      items.push(`${label} count: ${historyValue} -> ${currentValue}`);
+    }
+  };
+
+  pushField('Name', summaryCurrent.name, summaryHistory.name);
+  pushField('Title', summaryCurrent.title, summaryHistory.title);
+  pushField('Location', summaryCurrent.location, summaryHistory.location);
+  pushField('Email', summaryCurrent.email, summaryHistory.email);
+  pushField('Site title', summaryCurrent.siteTitle, summaryHistory.siteTitle);
+  pushField('Theme', summaryCurrent.theme, summaryHistory.theme);
+  pushField('Language', summaryCurrent.language, summaryHistory.language);
+  pushCount('Experience', summaryCurrent.experienceCount, summaryHistory.experienceCount);
+  pushCount('Projects', summaryCurrent.projectCount, summaryHistory.projectCount);
+  pushCount('Skills', summaryCurrent.skillCount, summaryHistory.skillCount);
+  pushCount('Education', summaryCurrent.educationCount, summaryHistory.educationCount);
+
+  return items;
+};
+
 const createEmptyExperience = () => ({
   company: '',
   logo: '',
@@ -288,6 +336,15 @@ export default function App() {
   const [draftText, setDraftText] = useState('');
   const [draftUpdatedAt, setDraftUpdatedAt] = useState('');
   const [publishedAt, setPublishedAt] = useState('');
+  const [draftHistory, setDraftHistory] = useState([]);
+  const [draftHistoryTotal, setDraftHistoryTotal] = useState(0);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
+  const [restoringId, setRestoringId] = useState('');
+  const [historyDetail, setHistoryDetail] = useState(null);
+  const [historyPanelMode, setHistoryPanelMode] = useState('');
+  const [historyPanelError, setHistoryPanelError] = useState('');
+  const [historyPanelBusy, setHistoryPanelBusy] = useState(false);
   const [status, setStatus] = useState(null);
   const [busy, setBusy] = useState(false);
 
@@ -311,6 +368,15 @@ export default function App() {
     setDraftText('');
     setDraftUpdatedAt('');
     setPublishedAt('');
+    setDraftHistory([]);
+    setDraftHistoryTotal(0);
+    setHistoryLoading(false);
+    setHistoryError('');
+    setRestoringId('');
+    setHistoryDetail(null);
+    setHistoryPanelMode('');
+    setHistoryPanelError('');
+    setHistoryPanelBusy(false);
   };
 
   const updateDraft = (updater) => {
@@ -366,6 +432,46 @@ export default function App() {
     setPublishedAt(payload?.publishedAt || '');
   };
 
+  const loadDraftHistory = async () => {
+    setHistoryLoading(true);
+    setHistoryError('');
+    try {
+      const payload = await fetchJson('/api/resume/draft/history?limit=50', {}, true);
+      setDraftHistory(payload.items || []);
+      setDraftHistoryTotal(payload.total || 0);
+    } catch (error) {
+      setHistoryError(error.message);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  const openHistoryPanel = async (id, mode) => {
+    if (!id) {
+      return;
+    }
+    setHistoryPanelMode(mode);
+    setHistoryPanelError('');
+    setHistoryDetail(null);
+    setHistoryPanelBusy(true);
+    try {
+      const payload = await fetchJson(`/api/resume/draft/history/${id}`, {}, true);
+      const normalized = normalizeResume(payload.resume);
+      setHistoryDetail({ ...payload, resume: normalized });
+    } catch (error) {
+      setHistoryDetail(null);
+      setHistoryPanelError(error.message);
+    } finally {
+      setHistoryPanelBusy(false);
+    }
+  };
+
+  const closeHistoryPanel = () => {
+    setHistoryPanelMode('');
+    setHistoryPanelError('');
+    setHistoryDetail(null);
+  };
+
   useEffect(() => {
     if (!authenticated) {
       return;
@@ -376,6 +482,7 @@ export default function App() {
       .catch((error) => {
         setStatus(toStatus('error', error.message));
       });
+    loadDraftHistory();
   }, [authenticated]);
 
   useEffect(() => {
@@ -384,6 +491,17 @@ export default function App() {
     }
     setDraftText(JSON.stringify(draft, null, 2));
   }, [draft, authenticated, isJsonMode]);
+
+  const historySummary = historyDetail ? summarizeResume(historyDetail.resume) : null;
+  const historyJson = useMemo(
+    () => (historyDetail ? JSON.stringify(historyDetail.resume, null, 2) : ''),
+    [historyDetail]
+  );
+  const currentJson = useMemo(() => JSON.stringify(draft, null, 2), [draft]);
+  const diffSummary =
+    historyDetail && historyPanelMode === 'compare'
+      ? buildDiffSummary(draft, historyDetail.resume)
+      : [];
 
   const toggleAuthMode = () => {
     setAuthMode(isRegistering ? 'login' : 'register');
@@ -464,6 +582,7 @@ export default function App() {
       setDraftText(JSON.stringify(nextResume, null, 2));
       setDraftUpdatedAt(payload.updatedAt || '');
       setStatus(toStatus('success', 'Draft saved.'));
+      loadDraftHistory();
     } catch (error) {
       setStatus(toStatus('error', error.message));
     } finally {
@@ -475,19 +594,68 @@ export default function App() {
     setBusy(true);
     setStatus(null);
     try {
-      const payload = await fetchJson(
+      const payloadData = isJsonMode ? JSON.parse(draftText) : draft;
+      const normalized = normalizeResume(payloadData);
+      const saved = await fetchJson(
+        '/api/resume/draft',
+        {
+          method: 'PUT',
+          body: JSON.stringify(normalized)
+        },
+        true
+      );
+      const nextResume = normalizeResume(saved.resume);
+      setDraft(nextResume);
+      setDraftText(JSON.stringify(nextResume, null, 2));
+      setDraftUpdatedAt(saved.updatedAt || '');
+
+      const published = await fetchJson(
         '/api/resume/publish',
         {
           method: 'POST'
         },
         true
       );
-      setPublishedAt(payload.publishedAt || '');
+      setPublishedAt(published.publishedAt || '');
       setStatus(toStatus('success', 'Published successfully.'));
+      loadDraftHistory();
+    } catch (error) {
+      const message =
+        isJsonMode && error instanceof SyntaxError
+          ? 'Fix JSON errors before publishing.'
+        : error.message;
+      setStatus(toStatus('error', message));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleRestore = async (id) => {
+    if (!id || busy) {
+      return;
+    }
+    if (typeof window !== 'undefined') {
+      const ok = window.confirm('Restore this draft? This will replace the current draft.');
+      if (!ok) {
+        return;
+      }
+    }
+    setBusy(true);
+    setRestoringId(id);
+    setStatus(null);
+    try {
+      const payload = await fetchJson(`/api/resume/draft/history/${id}/restore`, { method: 'POST' }, true);
+      const normalized = normalizeResume(payload.resume);
+      setDraft(normalized);
+      setDraftText(JSON.stringify(normalized, null, 2));
+      setDraftUpdatedAt(payload.updatedAt || '');
+      setStatus(toStatus('success', 'Draft restored.'));
+      loadDraftHistory();
     } catch (error) {
       setStatus(toStatus('error', error.message));
     } finally {
       setBusy(false);
+      setRestoringId('');
     }
   };
 
@@ -957,6 +1125,80 @@ export default function App() {
                 {busy ? 'Publishing...' : 'Publish'}
               </button>
             </div>
+          </div>
+
+          <div className="draft-history">
+            <div className="history-header">
+              <div>
+                <h2>Draft history</h2>
+                <p>Every save is kept. Restore any version.</p>
+              </div>
+              <div className="history-actions">
+                <button
+                  className="secondary"
+                  type="button"
+                  onClick={loadDraftHistory}
+                  disabled={historyLoading}
+                >
+                  {historyLoading ? 'Refreshing...' : 'Refresh'}
+                </button>
+              </div>
+            </div>
+            {historyError && (
+              <div className="status error" role="status">
+                {historyError}
+              </div>
+            )}
+            {draftHistory.length === 0 ? (
+              <p className="empty-state">
+                {historyLoading ? 'Loading history...' : 'No draft history yet.'}
+              </p>
+            ) : (
+              <div className="history-list">
+                {draftHistory.map((item) => (
+                  <div className="history-item" key={item.id}>
+                    <div className="history-main">
+                      <span className="history-name">{item.profile?.name || 'Untitled'}</span>
+                      <span className="history-role">{item.profile?.title || 'No title'}</span>
+                    </div>
+                    <div className="history-meta">
+                      <span>{formatTimestamp(item.updatedAt)}</span>
+                      <div className="history-buttons">
+                        <button
+                          className="secondary"
+                          type="button"
+                          onClick={() => openHistoryPanel(item.id, 'preview')}
+                          disabled={historyPanelBusy}
+                        >
+                          Preview
+                        </button>
+                        <button
+                          className="secondary"
+                          type="button"
+                          onClick={() => openHistoryPanel(item.id, 'compare')}
+                          disabled={historyPanelBusy}
+                        >
+                          Compare
+                        </button>
+                        <button
+                          className="secondary"
+                          type="button"
+                          onClick={() => handleRestore(item.id)}
+                          disabled={busy || restoringId === item.id}
+                        >
+                          {restoringId === item.id ? 'Restoring...' : 'Restore'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {draftHistoryTotal > draftHistory.length && (
+              <p className="form-help">
+                Showing latest {draftHistory.length} of {draftHistoryTotal} drafts.
+              </p>
+            )}
           </div>
 
           <div className="editor">
@@ -1728,6 +1970,128 @@ export default function App() {
             )}
           </div>
         </section>
+      )}
+
+      {historyPanelMode && (
+        <div className="history-panel">
+          <div className="history-panel-card" role="dialog" aria-modal="true">
+            <div className="history-panel-header">
+              <div>
+                <p className="eyebrow">Draft history</p>
+                <h2>{historyPanelMode === 'compare' ? 'Compare drafts' : 'Draft preview'}</h2>
+              </div>
+              <div className="history-panel-actions">
+                <div className="mode-toggle" role="tablist" aria-label="History view">
+                  <button
+                    className={historyPanelMode === 'preview' ? 'active' : ''}
+                    type="button"
+                    onClick={() => setHistoryPanelMode('preview')}
+                    disabled={historyPanelBusy || !historyDetail}
+                  >
+                    Preview
+                  </button>
+                  <button
+                    className={historyPanelMode === 'compare' ? 'active' : ''}
+                    type="button"
+                    onClick={() => setHistoryPanelMode('compare')}
+                    disabled={historyPanelBusy || !historyDetail}
+                  >
+                    Compare
+                  </button>
+                </div>
+                <button className="ghost" type="button" onClick={closeHistoryPanel}>
+                  Close
+                </button>
+              </div>
+            </div>
+
+            {historyPanelBusy && <p className="empty-state">Loading history...</p>}
+            {!historyPanelBusy && historyPanelError && (
+              <div className="status error" role="status">
+                {historyPanelError}
+              </div>
+            )}
+
+            {!historyPanelBusy && historyDetail && historyPanelMode === 'preview' && (
+              <div className="history-preview">
+                <div className="history-summary">
+                  <div>
+                    <span className="meta-label">Name</span>
+                    <span className="meta-value">{formatSummaryValue(historySummary?.name)}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Title</span>
+                    <span className="meta-value">{formatSummaryValue(historySummary?.title)}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Updated</span>
+                    <span className="meta-value">{formatTimestamp(historyDetail.updatedAt)}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Location</span>
+                    <span className="meta-value">{formatSummaryValue(historySummary?.location)}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Email</span>
+                    <span className="meta-value">{formatSummaryValue(historySummary?.email)}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Site title</span>
+                    <span className="meta-value">{formatSummaryValue(historySummary?.siteTitle)}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Experience</span>
+                    <span className="meta-value">{historySummary?.experienceCount ?? 0}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Projects</span>
+                    <span className="meta-value">{historySummary?.projectCount ?? 0}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Skills</span>
+                    <span className="meta-value">{historySummary?.skillCount ?? 0}</span>
+                  </div>
+                  <div>
+                    <span className="meta-label">Education</span>
+                    <span className="meta-value">{historySummary?.educationCount ?? 0}</span>
+                  </div>
+                </div>
+                <textarea className="json-editor history-json" value={historyJson} readOnly />
+              </div>
+            )}
+
+            {!historyPanelBusy && historyDetail && historyPanelMode === 'compare' && (
+              <div className="history-compare">
+                <div className="history-diff">
+                  <h3>Summary</h3>
+                  {diffSummary.length === 0 ? (
+                    <p className="empty-state">No differences detected at summary level.</p>
+                  ) : (
+                    <ul className="history-diff-list">
+                      {diffSummary.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div className="history-compare-grid">
+                  <div className="history-compare-block">
+                    <h3>Selected draft</h3>
+                    <p className="form-help">Updated: {formatTimestamp(historyDetail.updatedAt)}</p>
+                    <textarea className="json-editor history-json" value={historyJson} readOnly />
+                  </div>
+                  <div className="history-compare-block">
+                    <h3>Current draft</h3>
+                    <p className="form-help">
+                      Updated: {draftUpdatedAt ? formatTimestamp(draftUpdatedAt) : 'N/A'}
+                    </p>
+                    <textarea className="json-editor history-json" value={currentJson} readOnly />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       )}
 
       {status && (
