@@ -79,7 +79,7 @@ const parseDataUrl = (dataUrl) => {
   return { mime, buffer };
 };
 
-app.post('/api/uploads/avatar', requireAuth, async (req, res) => {
+const handleImageUpload = async (req, res) => {
   const { dataUrl } = req.body || {};
   const parsed = parseDataUrl(dataUrl);
   if (!parsed) {
@@ -95,11 +95,14 @@ app.post('/api/uploads/avatar', requireAuth, async (req, res) => {
     return res.status(413).json({ error: 'Image exceeds 2MB limit' });
   }
 
-  const fileName = `avatar-${Date.now()}-${randomBytes(6).toString('hex')}${ext}`;
+  const fileName = `image-${Date.now()}-${randomBytes(6).toString('hex')}${ext}`;
   const filePath = join(uploadsDir, fileName);
   await fs.writeFile(filePath, parsed.buffer);
   return res.json({ path: `/uploads/${fileName}` });
-});
+};
+
+app.post('/api/uploads/avatar', requireAuth, handleImageUpload);
+app.post('/api/uploads/image', requireAuth, handleImageUpload);
 
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body || {};

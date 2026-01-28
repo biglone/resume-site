@@ -344,7 +344,7 @@ export default function App() {
   const [draftUpdatedAt, setDraftUpdatedAt] = useState('');
   const [publishedAt, setPublishedAt] = useState('');
   const [meta, setMeta] = useState({ appVersion: '', opsVersion: '' });
-  const [avatarUploading, setAvatarUploading] = useState(false);
+  const [uploading, setUploading] = useState({});
   const [draftHistory, setDraftHistory] = useState([]);
   const [draftHistoryTotal, setDraftHistoryTotal] = useState(0);
   const [historyLoading, setHistoryLoading] = useState(false);
@@ -560,7 +560,7 @@ export default function App() {
       setConfirmPassword('');
       setStatus(toStatus('success', isRegistering ? 'Account created.' : 'Signed in.'));
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Upload failed.';
+      const message = error instanceof Error ? error.message : 'Request failed.';
       setStatus(toStatus('error', message));
     } finally {
       setBusy(false);
@@ -686,36 +686,67 @@ export default function App() {
     }
   };
 
-  const handleAvatarUpload = async (event) => {
-    const file = event.target?.files?.[0];
+  const uploadMaxBytes = 2 * 1024 * 1024;
+  const uploadHint = 'Max 2MB · PNG/JPG/WebP/GIF';
+
+  const setUploadingState = (key, value) => {
+    setUploading((prev) => ({
+      ...prev,
+      [key]: value
+    }));
+  };
+
+  const isUploading = (key) => Boolean(uploading[key]);
+
+  const readFileAsDataUrl = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('Failed to read image.'));
+      reader.readAsDataURL(file);
+    });
+
+  const handleImageUpload = async (event, key, onUploaded) => {
+    const input = event.target;
+    const file = input?.files?.[0];
     if (!file) {
+      return;
+    }
+
+    if (!token) {
+      setStatus(toStatus('error', 'Sign in to upload images.'));
+      if (input) {
+        input.value = '';
+      }
       return;
     }
 
     if (!file.type.startsWith('image/')) {
       setStatus(toStatus('error', 'Only image files are supported.'));
-      event.target.value = '';
+      if (input) {
+        input.value = '';
+      }
       return;
     }
 
-    if (file.size > 2 * 1024 * 1024) {
+    if (file.size > uploadMaxBytes) {
       setStatus(toStatus('error', 'Image exceeds 2MB limit.'));
-      event.target.value = '';
+      if (input) {
+        input.value = '';
+      }
       return;
     }
 
-    setAvatarUploading(true);
+    setUploadingState(key, true);
     setStatus(null);
     try {
-      const dataUrl = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error('Failed to read image.'));
-        reader.readAsDataURL(file);
-      });
+      const dataUrl = await readFileAsDataUrl(file);
+      if (typeof dataUrl !== 'string') {
+        throw new Error('Failed to read image.');
+      }
 
       const payload = await fetchJson(
-        '/api/uploads/avatar',
+        '/api/uploads/image',
         {
           method: 'POST',
           body: JSON.stringify({ dataUrl })
@@ -727,14 +758,16 @@ export default function App() {
         throw new Error('Upload failed.');
       }
       const url = `${publicBase}${path}`;
-      updateProfileField('avatar', url);
-      setStatus(toStatus('success', 'Avatar uploaded.'));
+      onUploaded(url);
+      setStatus(toStatus('success', 'Image uploaded.'));
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Upload failed.';
       setStatus(toStatus('error', message));
     } finally {
-      setAvatarUploading(false);
-      event.target.value = '';
+      setUploadingState(key, false);
+      if (input) {
+        input.value = '';
+      }
     }
   };
 
@@ -1341,11 +1374,15 @@ export default function App() {
                           className="file-input"
                           type="file"
                           accept="image/*"
-                          onChange={handleAvatarUpload}
-                          disabled={avatarUploading}
+                          onChange={(event) =>
+                            handleImageUpload(event, 'profile-avatar', (url) =>
+                              updateProfileField('avatar', url)
+                            )
+                          }
+                          disabled={isUploading('profile-avatar')}
                         />
                         <span className="upload-hint">
-                          {avatarUploading ? 'Uploading...' : 'Max 2MB · PNG/JPG/WebP/GIF'}
+                          {isUploading('profile-avatar') ? 'Uploading...' : uploadHint}
                         </span>
                       </div>
                       {draft.profile.avatar && (
@@ -1510,6 +1547,27 @@ export default function App() {
                                 }
                                 placeholder="/images/company.png"
                               />
+                              <div className="upload-row">
+                                <input
+                                  className="file-input"
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(event) =>
+                                    handleImageUpload(event, `experience-${index}-logo`, (url) =>
+                                      updateExperienceField(index, 'logo', url)
+                                    )
+                                  }
+                                  disabled={isUploading(`experience-${index}-logo`)}
+                                />
+                                <span className="upload-hint">
+                                  {isUploading(`experience-${index}-logo`) ? 'Uploading...' : uploadHint}
+                                </span>
+                              </div>
+                              {item.logo && (
+                                <div className="image-preview image-preview--small image-preview--contain">
+                                  <img src={item.logo} alt="Logo preview" />
+                                </div>
+                              )}
                             </div>
                           </div>
                           <div className="field">
@@ -1646,6 +1704,27 @@ export default function App() {
                                 }
                                 placeholder="/images/projects/cover.png"
                               />
+                              <div className="upload-row">
+                                <input
+                                  className="file-input"
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(event) =>
+                                    handleImageUpload(event, `project-${index}-cover`, (url) =>
+                                      updateProjectField(index, 'image', url)
+                                    )
+                                  }
+                                  disabled={isUploading(`project-${index}-cover`)}
+                                />
+                                <span className="upload-hint">
+                                  {isUploading(`project-${index}-cover`) ? 'Uploading...' : uploadHint}
+                                </span>
+                              </div>
+                              {project.image && (
+                                <div className="image-preview image-preview--wide">
+                                  <img src={project.image} alt="Cover preview" />
+                                </div>
+                              )}
                             </div>
                             <div className="field">
                               <label>Highlights (one per line)</label>
@@ -1718,6 +1797,32 @@ export default function App() {
                                         />
                                       </div>
                                     </div>
+                                    <div className="upload-row">
+                                      <input
+                                        className="file-input"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(event) =>
+                                          handleImageUpload(
+                                            event,
+                                            `project-${index}-image-${imageIndex}`,
+                                            (url) =>
+                                              updateProjectImage(index, imageIndex, 'src', url)
+                                          )
+                                        }
+                                        disabled={isUploading(`project-${index}-image-${imageIndex}`)}
+                                      />
+                                      <span className="upload-hint">
+                                        {isUploading(`project-${index}-image-${imageIndex}`)
+                                          ? 'Uploading...'
+                                          : uploadHint}
+                                      </span>
+                                    </div>
+                                    {image.src && (
+                                      <div className="image-preview image-preview--wide">
+                                        <img src={image.src} alt={image.alt || 'Project image preview'} />
+                                      </div>
+                                    )}
                                     <button
                                       className="ghost-danger"
                                       type="button"

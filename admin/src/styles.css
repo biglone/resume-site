@@ -321,6 +321,38 @@ textarea {
   display: block;
 }
 
+.image-preview {
+  margin-top: 10px;
+  width: 140px;
+  height: 90px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(231, 221, 209, 0.9);
+  background: #ffffff;
+}
+
+.image-preview--small {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+}
+
+.image-preview--wide {
+  width: 180px;
+  height: 110px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image-preview--contain img {
+  object-fit: contain;
+}
+
 .history-panel {
   position: fixed;
   inset: 0;
