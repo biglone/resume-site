@@ -42,10 +42,15 @@ const metaPayload = await fetchMeta();
 if (metaPayload) {
   meta = metaPayload;
 }
+
+const profileName = resume?.profile?.name?.trim() || '';
+const siteTitle = site.title?.trim() || '';
+const autoTitle = profileName ? `${profileName}的简历` : siteTitle || fallbackSite.title;
+const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle : autoTitle;
 ---
 
 <Layout
-  title={site.title}
+  title={pageTitle}
   description={site.description}
   keywords={site.keywords}
   language={site.language}

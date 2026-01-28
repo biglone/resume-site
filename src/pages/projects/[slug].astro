@@ -25,6 +25,7 @@ const fallbackSite: SiteConfig = {
 let project: Project | null = null;
 let site: SiteConfig = fallbackSite;
 let errorMessage: string | null = null;
+let profileName = '';
 let meta = {
   appVersion: '',
   opsVersion: ''
@@ -38,6 +39,7 @@ try {
   } else {
     const resume = normalizeResume(data.resume, assetBaseUrl);
     site = resume.site;
+    profileName = resume.profile?.name?.trim() || '';
     project = resume.projects.find((item) => item.slug === Astro.params.slug) || null;
     if (!project) {
       errorMessage = 'Project not found.';
@@ -55,10 +57,13 @@ if (metaPayload) {
 }
 
 const detailHtml = project?.detail ? marked(project.detail) : '';
+const siteTitle = site.title?.trim() || '';
+const autoTitle = profileName ? `${profileName}的简历` : siteTitle || fallbackSite.title;
+const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle : autoTitle;
 ---
 
 <Layout
-  title={project ? `${project.name} - ${site.title}` : site.title}
+  title={project ? `${project.name} - ${pageTitle}` : pageTitle}
   description={project?.description || site.description}
   language={site.language}
   meta={meta}
