@@ -7,7 +7,7 @@ import Layout from '../../layouts/Layout.astro';
 import Badge from '../../components/common/Badge.astro';
 import ImageGallery from '../../components/projects/ImageGallery';
 import CommitHistory from '../../components/projects/CommitHistory.astro';
-import { fetchPublishedResume } from '../../lib/api';
+import { fetchMeta, fetchPublishedResume } from '../../lib/api';
 import { normalizeResume } from '../../lib/normalizeResume';
 
 const assetBaseUrl = import.meta.env.BASE_URL;
@@ -25,6 +25,10 @@ const fallbackSite: SiteConfig = {
 let project: Project | null = null;
 let site: SiteConfig = fallbackSite;
 let errorMessage: string | null = null;
+let meta = {
+  appVersion: '',
+  opsVersion: ''
+};
 
 try {
   const data = await fetchPublishedResume();
@@ -45,6 +49,11 @@ try {
   Astro.response.status = 500;
 }
 
+const metaPayload = await fetchMeta();
+if (metaPayload) {
+  meta = metaPayload;
+}
+
 const detailHtml = project?.detail ? marked(project.detail) : '';
 ---
 
@@ -52,6 +61,7 @@ const detailHtml = project?.detail ? marked(project.detail) : '';
   title={project ? `${project.name} - ${site.title}` : site.title}
   description={project?.description || site.description}
   language={site.language}
+  meta={meta}
 >
   {!project && (
     <section class="py-16">

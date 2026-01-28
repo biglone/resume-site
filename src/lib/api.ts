@@ -11,6 +11,11 @@ export type PublishedResumeResponse = {
   publishedAt?: string;
 };
 
+export type MetaResponse = {
+  appVersion?: string;
+  opsVersion?: string;
+};
+
 export const fetchPublishedResume = async (): Promise<PublishedResumeResponse | null> => {
   const response = await fetch(`${getApiBaseUrl()}/api/resume/published`, {
     headers: {
@@ -28,4 +33,21 @@ export const fetchPublishedResume = async (): Promise<PublishedResumeResponse | 
 
   const payload = (await response.json()) as PublishedResumeResponse;
   return payload;
+};
+
+export const fetchMeta = async (): Promise<MetaResponse | null> => {
+  try {
+    const response = await fetch(`${getApiBaseUrl()}/api/meta`, {
+      headers: {
+        accept: 'application/json'
+      }
+    });
+    if (!response.ok) {
+      return null;
+    }
+    const payload = (await response.json()) as MetaResponse;
+    return payload;
+  } catch {
+    return null;
+  }
 };

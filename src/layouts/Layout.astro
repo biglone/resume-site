@@ -8,13 +8,18 @@ interface Props {
   description?: string;
   keywords?: string;
   language?: string;
+  meta?: {
+    appVersion?: string;
+    opsVersion?: string;
+  };
 }
 
 const {
   title,
   description = 'Personal Resume Site',
   keywords = '',
-  language = 'zh-CN'
+  language = 'zh-CN',
+  meta = {}
 } = Astro.props;
 ---
 
@@ -61,7 +66,7 @@ const {
     <main class="flex-grow">
       <slot />
     </main>
-    <Footer />
+    <Footer meta={meta} />
 
     <!-- Netlify Identity redirect after login -->
     <script is:inline define:vars={{ baseUrl: import.meta.env.BASE_URL }}>

@@ -8,7 +8,7 @@ import Experience from '../components/Experience.astro';
 import Projects from '../components/Projects.astro';
 import Skills from '../components/Skills.astro';
 import Education from '../components/Education.astro';
-import { fetchPublishedResume } from '../lib/api';
+import { fetchMeta, fetchPublishedResume } from '../lib/api';
 import { normalizeResume } from '../lib/normalizeResume';
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -23,6 +23,10 @@ const fallbackSite: SiteConfig = {
 let resume: ResumeConfig | null = null;
 let site: SiteConfig = fallbackSite;
 let errorMessage: string | null = null;
+let meta = {
+  appVersion: '',
+  opsVersion: ''
+};
 
 try {
   const data = await fetchPublishedResume();
@@ -33,9 +37,20 @@ try {
 } catch (error) {
   errorMessage = error instanceof Error ? error.message : 'Unable to load resume.';
 }
+
+const metaPayload = await fetchMeta();
+if (metaPayload) {
+  meta = metaPayload;
+}
 ---
 
-<Layout title={site.title} description={site.description} keywords={site.keywords} language={site.language}>
+<Layout
+  title={site.title}
+  description={site.description}
+  keywords={site.keywords}
+  language={site.language}
+  meta={meta}
+>
   {errorMessage && (
     <section class="py-16">
       <div class="section-container">

@@ -1,5 +1,14 @@
 ---
 const currentYear = new Date().getFullYear();
+const { meta = {} } = Astro.props;
+const appVersion = meta?.appVersion || '';
+const opsVersion = meta?.opsVersion || '';
+const formatVersion = (value) => {
+  if (!value) {
+    return 'N/A';
+  }
+  return value.length > 12 ? `${value.slice(0, 12)}...` : value;
+};
 ---
 
 <footer class="py-10 border-t" style="border-color: var(--color-border);">
@@ -10,6 +19,9 @@ const currentYear = new Date().getFullYear();
         <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="link">
           Astro
         </a>
+      </p>
+      <p>
+        App v {formatVersion(appVersion)} · Ops v {formatVersion(opsVersion)}
       </p>
       <p>
         <a href="https://github.com/username/resume-site" target="_blank" rel="noopener noreferrer" class="link">
