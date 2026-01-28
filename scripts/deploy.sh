@@ -43,6 +43,10 @@ git fetch origin "$DEPLOY_BRANCH"
 log "Updating working tree..."
 git merge --ff-only "origin/$DEPLOY_BRANCH"
 
+APP_VERSION="$(git rev-parse --short HEAD)"
+export APP_VERSION
+log "App version: $APP_VERSION"
+
 log "Bumping ops version..."
 bump_ops_version
 
