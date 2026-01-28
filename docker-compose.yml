@@ -1,5 +1,6 @@
 services:
   api:
+    image: ghcr.io/biglone/resume-site-api:latest
     build:
       context: ./server
     ports:
@@ -13,8 +14,11 @@ services:
     volumes:
       - ./server/data:/app/data
       - ./src/config/resume.yaml:/app/seed/resume.yaml:ro
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   web:
+    image: ghcr.io/biglone/resume-site-web:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -32,8 +36,11 @@ services:
       ADMIN_URL: ${ADMIN_URL:-http://localhost:5173}
     depends_on:
       - api
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   admin:
+    image: ghcr.io/biglone/resume-site-admin:latest
     build:
       context: ./admin
       dockerfile: Dockerfile
@@ -44,3 +51,16 @@ services:
       - "${ADMIN_PORT:-5173}:80"
     depends_on:
       - api
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  watchtower:
+    image: containrrr/watchtower:1.7.1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --label-enable --cleanup --interval 300
+    environment:
+      WATCHTOWER_LABEL_ENABLE: "true"
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_POLL_INTERVAL: "300"
+    restart: unless-stopped

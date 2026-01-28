@@ -1,0 +1,68 @@
+name: Publish Docker images
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  ASTRO_SITE: https://resume.biglone.tech
+  ASTRO_BASE: /
+  VITE_API_BASE_URL: https://resume-admin.biglone.tech
+  VITE_PUBLIC_SITE_URL: https://resume.biglone.tech
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: web
+            context: .
+            dockerfile: Dockerfile
+            image: ghcr.io/biglone/resume-site-web
+            build_args: |
+              ASTRO_SITE=${{ env.ASTRO_SITE }}
+              ASTRO_BASE=${{ env.ASTRO_BASE }}
+          - name: admin
+            context: ./admin
+            dockerfile: ./admin/Dockerfile
+            image: ghcr.io/biglone/resume-site-admin
+            build_args: |
+              VITE_API_BASE_URL=${{ env.VITE_API_BASE_URL }}
+              VITE_PUBLIC_SITE_URL=${{ env.VITE_PUBLIC_SITE_URL }}
+          - name: api
+            context: ./server
+            dockerfile: ./server/Dockerfile
+            image: ghcr.io/biglone/resume-site-api
+            build_args: ""
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ${{ matrix.image }}
+          tags: |
+            type=raw,value=latest
+            type=sha
+      - uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: ${{ matrix.build_args }}
+          platforms: linux/amd64
