@@ -23,6 +23,7 @@ const parseBoolean = (value, fallback = false) => {
 
 export const config = {
   port: Number(process.env.PORT || 4000),
+  appVersion: process.env.APP_VERSION || 'dev',
   jwtSecret: process.env.JWT_SECRET || 'change-me',
   adminEmail: process.env.ADMIN_EMAIL || 'admin@example.com',
   adminPassword: process.env.ADMIN_PASSWORD || 'admin123',
@@ -31,6 +32,9 @@ export const config = {
   dataDir: process.env.DATA_DIR
     ? resolve(process.env.DATA_DIR)
     : resolve(serverRoot, 'data'),
+  opsVersionPath: process.env.OPS_VERSION_PATH
+    ? resolve(process.env.OPS_VERSION_PATH)
+    : '/app/ops-version',
   seedResumePath: process.env.SEED_RESUME_PATH
     ? resolve(process.env.SEED_RESUME_PATH)
     : resolve(repoRoot, 'src', 'config', 'resume.yaml'),

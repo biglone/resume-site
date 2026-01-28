@@ -1,4 +1,5 @@
 import express from 'express';
+import { promises as fs } from 'fs';
 import cors from 'cors';
 import { config } from './config.js';
 import {
@@ -27,6 +28,26 @@ app.use(
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+const readOpsVersion = async () => {
+  if (!config.opsVersionPath) {
+    return null;
+  }
+  try {
+    const value = await fs.readFile(config.opsVersionPath, 'utf-8');
+    return value.trim() || null;
+  } catch {
+    return null;
+  }
+};
+
+app.get('/api/meta', async (req, res) => {
+  const opsVersion = await readOpsVersion();
+  res.json({
+    appVersion: config.appVersion,
+    opsVersion
+  });
 });
 
 app.post('/api/auth/login', async (req, res) => {

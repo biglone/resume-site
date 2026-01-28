@@ -66,6 +66,13 @@ const formatTimestamp = (value) => {
   return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
 };
 
+const formatVersion = (value) => {
+  if (!value) {
+    return 'N/A';
+  }
+  return value.length > 12 ? `${value.slice(0, 12)}…` : value;
+};
+
 const toStatus = (type, message) => ({
   type,
   message
@@ -336,6 +343,7 @@ export default function App() {
   const [draftText, setDraftText] = useState('');
   const [draftUpdatedAt, setDraftUpdatedAt] = useState('');
   const [publishedAt, setPublishedAt] = useState('');
+  const [meta, setMeta] = useState({ appVersion: '', opsVersion: '' });
   const [draftHistory, setDraftHistory] = useState([]);
   const [draftHistoryTotal, setDraftHistoryTotal] = useState(0);
   const [historyLoading, setHistoryLoading] = useState(false);
@@ -432,6 +440,18 @@ export default function App() {
     setPublishedAt(payload?.publishedAt || '');
   };
 
+  const loadMeta = async () => {
+    try {
+      const payload = await fetchJson('/api/meta');
+      setMeta({
+        appVersion: payload?.appVersion || '',
+        opsVersion: payload?.opsVersion || ''
+      });
+    } catch {
+      setMeta({ appVersion: '', opsVersion: '' });
+    }
+  };
+
   const loadDraftHistory = async () => {
     setHistoryLoading(true);
     setHistoryError('');
@@ -484,6 +504,10 @@ export default function App() {
       });
     loadDraftHistory();
   }, [authenticated]);
+
+  useEffect(() => {
+    loadMeta();
+  }, [apiBase]);
 
   useEffect(() => {
     if (!authenticated || isJsonMode) {
@@ -1020,6 +1044,18 @@ export default function App() {
           <div>
             <span className="meta-label">Draft Updated</span>
             <span className="meta-value">{draftUpdatedAt ? formatTimestamp(draftUpdatedAt) : 'N/A'}</span>
+          </div>
+          <div>
+            <span className="meta-label">App Version</span>
+            <span className="meta-value" title={meta.appVersion || 'N/A'}>
+              {formatVersion(meta.appVersion)}
+            </span>
+          </div>
+          <div>
+            <span className="meta-label">Ops Version</span>
+            <span className="meta-value" title={meta.opsVersion || 'N/A'}>
+              {formatVersion(meta.opsVersion)}
+            </span>
           </div>
         </div>
       </header>
