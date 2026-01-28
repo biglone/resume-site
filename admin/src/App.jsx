@@ -344,6 +344,7 @@ export default function App() {
   const [draftUpdatedAt, setDraftUpdatedAt] = useState('');
   const [publishedAt, setPublishedAt] = useState('');
   const [meta, setMeta] = useState({ appVersion: '', opsVersion: '' });
+  const [avatarUploading, setAvatarUploading] = useState(false);
   const [draftHistory, setDraftHistory] = useState([]);
   const [draftHistoryTotal, setDraftHistoryTotal] = useState(0);
   const [historyLoading, setHistoryLoading] = useState(false);
@@ -357,6 +358,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
 
   const apiBase = useMemo(() => API_BASE_URL.replace(/\/$/, ''), []);
+  const publicBase = useMemo(() => PUBLIC_SITE_URL.replace(/\/$/, ''), []);
   const authenticated = Boolean(token);
   const isRegistering = authMode === 'register';
   const isJsonMode = editMode === 'json';
@@ -558,7 +560,8 @@ export default function App() {
       setConfirmPassword('');
       setStatus(toStatus('success', isRegistering ? 'Account created.' : 'Signed in.'));
     } catch (error) {
-      setStatus(toStatus('error', error.message));
+      const message = error instanceof Error ? error.message : 'Upload failed.';
+      setStatus(toStatus('error', message));
     } finally {
       setBusy(false);
     }
@@ -680,6 +683,58 @@ export default function App() {
     } finally {
       setBusy(false);
       setRestoringId('');
+    }
+  };
+
+  const handleAvatarUpload = async (event) => {
+    const file = event.target?.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setStatus(toStatus('error', 'Only image files are supported.'));
+      event.target.value = '';
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      setStatus(toStatus('error', 'Image exceeds 2MB limit.'));
+      event.target.value = '';
+      return;
+    }
+
+    setAvatarUploading(true);
+    setStatus(null);
+    try {
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('Failed to read image.'));
+        reader.readAsDataURL(file);
+      });
+
+      const payload = await fetchJson(
+        '/api/uploads/avatar',
+        {
+          method: 'POST',
+          body: JSON.stringify({ dataUrl })
+        },
+        true
+      );
+      const path = payload?.path || '';
+      if (!path) {
+        throw new Error('Upload failed.');
+      }
+      const url = `${publicBase}${path}`;
+      updateProfileField('avatar', url);
+      setStatus(toStatus('success', 'Avatar uploaded.'));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Upload failed.';
+      setStatus(toStatus('error', message));
+    } finally {
+      setAvatarUploading(false);
+      event.target.value = '';
     }
   };
 
@@ -1281,6 +1336,23 @@ export default function App() {
                         onChange={(event) => updateProfileField('avatar', event.target.value)}
                         placeholder="/images/avatar.jpg"
                       />
+                      <div className="upload-row">
+                        <input
+                          className="file-input"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleAvatarUpload}
+                          disabled={avatarUploading}
+                        />
+                        <span className="upload-hint">
+                          {avatarUploading ? 'Uploading...' : 'Max 2MB · PNG/JPG/WebP/GIF'}
+                        </span>
+                      </div>
+                      {draft.profile.avatar && (
+                        <div className="avatar-preview">
+                          <img src={draft.profile.avatar} alt="Avatar preview" />
+                        </div>
+                      )}
                     </div>
                     <div className="field">
                       <label>Location</label>

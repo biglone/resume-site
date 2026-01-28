@@ -7,6 +7,7 @@ import { resumeSchema } from './schema/resumeSchema.js';
 const draftPath = join(config.dataDir, 'draft.json');
 const publishedPath = join(config.dataDir, 'published.json');
 const draftHistoryDir = join(config.dataDir, 'draft-history');
+const uploadsDir = join(config.dataDir, 'uploads');
 const historyFilePattern = /^[A-Za-z0-9-]+\.json$/;
 
 const fileExists = async (path) => {
@@ -59,6 +60,7 @@ const loadSeedResume = async () => {
 export const ensureDataFiles = async () => {
   await fs.mkdir(config.dataDir, { recursive: true });
   await fs.mkdir(draftHistoryDir, { recursive: true });
+  await fs.mkdir(uploadsDir, { recursive: true });
 
   if (!(await fileExists(draftPath))) {
     const resume = await loadSeedResume();

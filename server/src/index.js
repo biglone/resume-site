@@ -1,5 +1,7 @@
 import express from 'express';
+import { randomBytes } from 'crypto';
 import { promises as fs } from 'fs';
+import { join } from 'path';
 import cors from 'cors';
 import { config } from './config.js';
 import {
@@ -17,8 +19,17 @@ import { hashPassword, requireAuth, signToken, verifyCredentials } from './auth.
 import { countUsers, createUser, ensureUsersFile, findUserByEmail } from './users.js';
 
 const app = express();
+const uploadsDir = join(config.dataDir, 'uploads');
+const uploadMimeMap = {
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  'image/webp': '.webp',
+  'image/gif': '.gif'
+};
+const maxUploadBytes = 2 * 1024 * 1024;
 
-app.use(express.json({ limit: '2mb' }));
+app.use(express.json({ limit: '8mb' }));
+app.use('/uploads', express.static(uploadsDir));
 
 app.use(
   cors({
@@ -48,6 +59,46 @@ app.get('/api/meta', async (req, res) => {
     appVersion: config.appVersion,
     opsVersion
   });
+});
+
+const parseDataUrl = (dataUrl) => {
+  if (typeof dataUrl !== 'string') {
+    return null;
+  }
+  const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+  if (!match) {
+    return null;
+  }
+  const mime = match[1].toLowerCase();
+  let buffer = null;
+  try {
+    buffer = Buffer.from(match[2], 'base64');
+  } catch {
+    return null;
+  }
+  return { mime, buffer };
+};
+
+app.post('/api/uploads/avatar', requireAuth, async (req, res) => {
+  const { dataUrl } = req.body || {};
+  const parsed = parseDataUrl(dataUrl);
+  if (!parsed) {
+    return res.status(400).json({ error: 'Invalid image payload' });
+  }
+
+  const ext = uploadMimeMap[parsed.mime];
+  if (!ext) {
+    return res.status(400).json({ error: 'Unsupported image type' });
+  }
+
+  if (parsed.buffer.length > maxUploadBytes) {
+    return res.status(413).json({ error: 'Image exceeds 2MB limit' });
+  }
+
+  const fileName = `avatar-${Date.now()}-${randomBytes(6).toString('hex')}${ext}`;
+  const filePath = join(uploadsDir, fileName);
+  await fs.writeFile(filePath, parsed.buffer);
+  return res.json({ path: `/uploads/${fileName}` });
 });
 
 app.post('/api/auth/login', async (req, res) => {
