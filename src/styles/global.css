@@ -1,30 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;500;600;700&family=Public+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* Custom theme variables */
 :root {
-  --font-display: 'Libre Bodoni', 'Times New Roman', serif;
-  --font-body: 'Public Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Syne', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-body: 'Manrope', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 
-  --color-bg: #f7f2eb;
-  --color-bg-rgb: 247 242 235;
-  --color-bg-secondary: #fffaf4;
+  --color-bg: #edf5f4;
+  --color-bg-rgb: 237 245 244;
+  --color-bg-secondary: #f7fbfa;
   --color-surface: #ffffff;
-  --color-text: #121212;
-  --color-text-secondary: #545b63;
-  --color-border: #e5ded4;
-  --color-primary: #1d4ed8;
-  --color-primary-hover: #1e40af;
-  --color-accent: #f97316;
-  --color-accent-soft: #ffe3cc;
-  --color-warm: #b78742;
-  --color-sage: #78977e;
-  --color-ink: #18343a;
-  --color-panel: #28545a;
-  --font-mono: 'SFMono-Regular', 'Roboto Mono', Consolas, monospace;
-  --color-glow-1: rgba(29, 78, 216, 0.14);
-  --color-glow-2: rgba(249, 115, 22, 0.16);
-  --color-grid: rgba(18, 18, 18, 0.05);
+  --color-text: #0a2028;
+  --color-text-secondary: #557079;
+  --color-border: #c9dcdd;
+  --color-primary: #007f86;
+  --color-primary-hover: #005e68;
+  --color-accent: #d4f34a;
+  --color-accent-soft: #eaf9a5;
+  --color-warm: #ef9f52;
+  --color-sage: #4ea897;
+  --color-ink: #071b25;
+  --color-panel: #0b3542;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  --color-glow-1: rgba(0, 127, 134, 0.16);
+  --color-glow-2: rgba(212, 243, 74, 0.18);
+  --color-grid: rgba(10, 32, 40, 0.07);
 
   --shadow-soft: 0 12px 30px -24px rgba(18, 18, 18, 0.4);
   --shadow-elevated: 0 24px 46px -30px rgba(18, 18, 18, 0.5);
@@ -32,24 +32,24 @@
 }
 
 .dark {
-  --color-bg: #0d1115;
-  --color-bg-rgb: 13 17 21;
-  --color-bg-secondary: #12171c;
-  --color-surface: #151b21;
-  --color-text: #f5f5f0;
-  --color-text-secondary: #a4adb6;
-  --color-border: #23303b;
-  --color-primary: #7aa2ff;
-  --color-primary-hover: #9bb9ff;
-  --color-accent: #fbbf24;
-  --color-accent-soft: #3a2a10;
-  --color-warm: #d8ad63;
-  --color-sage: #9bbda0;
-  --color-ink: #09181c;
-  --color-panel: #163c42;
-  --color-glow-1: rgba(122, 162, 255, 0.2);
-  --color-glow-2: rgba(251, 191, 36, 0.16);
-  --color-grid: rgba(255, 255, 255, 0.06);
+  --color-bg: #071117;
+  --color-bg-rgb: 7 17 23;
+  --color-bg-secondary: #0b1a22;
+  --color-surface: #102630;
+  --color-text: #e7f8f5;
+  --color-text-secondary: #91adb1;
+  --color-border: #1b414b;
+  --color-primary: #53e1d0;
+  --color-primary-hover: #8af5e6;
+  --color-accent: #d4f34a;
+  --color-accent-soft: #2b3b2b;
+  --color-warm: #ffb86b;
+  --color-sage: #76d2af;
+  --color-ink: #041116;
+  --color-panel: #0b3542;
+  --color-glow-1: rgba(83, 225, 208, 0.18);
+  --color-glow-2: rgba(212, 243, 74, 0.12);
+  --color-grid: rgba(182, 237, 231, 0.07);
 
   --shadow-soft: 0 16px 32px -28px rgba(0, 0, 0, 0.7);
   --shadow-elevated: 0 28px 52px -32px rgba(0, 0, 0, 0.7);
@@ -74,6 +74,31 @@ body {
   position: relative;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  opacity: .2;
+  background: repeating-linear-gradient(180deg, transparent 0, transparent 3px, rgba(0, 127, 134, .035) 4px);
+  mix-blend-mode: multiply;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  width: 38rem;
+  height: 38rem;
+  right: -18rem;
+  bottom: -20rem;
+  border: 1px solid color-mix(in srgb, var(--color-primary), transparent 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2rem color-mix(in srgb, var(--color-primary), transparent 94%), 0 0 0 5rem color-mix(in srgb, var(--color-primary), transparent 97%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 main {
@@ -242,6 +267,8 @@ a {
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-soft);
   @apply flex items-center justify-between gap-4 px-5 py-3 rounded-full backdrop-blur;
+  border-color: color-mix(in srgb, var(--color-primary), var(--color-border) 55%);
+  box-shadow: 0 12px 40px rgba(0, 35, 43, .1), inset 0 1px 0 rgba(255,255,255,.6);
 }
 
 .nav-link {
@@ -256,6 +283,8 @@ a {
 .hero-title {
   @apply text-4xl sm:text-5xl lg:text-6xl;
   line-height: 1.05;
+  font-weight: 800;
+  max-width: 12ch;
 }
 
 .hero-role {
@@ -278,6 +307,32 @@ a {
   border-radius: calc(var(--radius-card) + 8px);
   box-shadow: var(--shadow-elevated);
   @apply p-6 sm:p-8 space-y-6;
+  position: relative;
+  overflow: hidden;
+  background-image: linear-gradient(145deg, rgba(var(--color-bg-rgb), .74), var(--color-surface)), linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: auto, 28px 28px, 28px 28px;
+}
+
+.hero-card::before {
+  content: 'SYS / PROFILE 01';
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  color: var(--color-primary);
+  font: 500 .62rem var(--font-mono);
+  letter-spacing: .12em;
+}
+
+.hero-card::after {
+  content: '';
+  position: absolute;
+  width: 9rem;
+  height: 9rem;
+  right: -4rem;
+  bottom: -4rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent), transparent 30%);
+  border-radius: 50%;
+}
 }
 
 .hero-avatar {
@@ -303,6 +358,85 @@ a {
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
   height: 100%;
   animation: progressFill 1s ease-out forwards;
+}
+
+.project-overview,
+.projects-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-overview::before,
+.projects-section::before {
+  content: 'CAPABILITY / SIGNAL / DELIVERY';
+  position: absolute;
+  top: 1.2rem;
+  right: max(1rem, calc((100vw - 72rem) / 2));
+  color: color-mix(in srgb, var(--color-primary), transparent 40%);
+  font: 500 .58rem var(--font-mono);
+  letter-spacing: .18em;
+}
+
+.project-card,
+.signal-card,
+.lane,
+.card {
+  border-radius: .35rem;
+}
+
+.project-card,
+.signal-card,
+.lane {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 16px 42px rgba(0, 38, 48, .06);
+}
+
+.project-card-featured {
+  box-shadow: inset 3px 0 0 var(--color-accent), inset 0 1px 0 rgba(255,255,255,.45), 0 16px 42px rgba(0, 38, 48, .08);
+}
+
+.section-title {
+  font-weight: 800;
+}
+
+#about {
+  min-height: min(47rem, calc(100vh - 4rem));
+  display: grid;
+  align-items: center;
+  position: relative;
+}
+
+#about::before {
+  content: 'C++  /  QT  /  AUDIO  /  DEVICES  /  AI';
+  position: absolute;
+  left: max(1rem, calc((100vw - 72rem) / 2));
+  bottom: 1.5rem;
+  color: color-mix(in srgb, var(--color-text-secondary), transparent 18%);
+  font: 500 .62rem var(--font-mono);
+  letter-spacing: .16em;
+}
+
+.btn-primary {
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent), transparent 20%), 0 10px 30px color-mix(in srgb, var(--color-accent), transparent 70%);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.15) brightness(1.04);
+}
+
+.btn-secondary {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+}
+
+@media (max-width: 640px) {
+  #about { min-height: auto; }
+  #about::before { position: static; margin: 2rem 1rem 0; }
+  .brand-copy small { display: none; }
 }
 
 .timeline-line {

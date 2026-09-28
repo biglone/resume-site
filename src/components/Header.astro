@@ -7,9 +7,10 @@ import ThemeToggle from './ThemeToggle';
     <div class="nav-shell">
       <a
         href={import.meta.env.BASE_URL}
-        class="text-lg sm:text-xl font-semibold tracking-tight font-display"
+        class="brand-mark"
       >
-        Resume
+        <span class="brand-glyph">LY</span>
+        <span class="brand-copy"><strong>LIU YUANLONG</strong><small>ENGINEERING PORTFOLIO</small></span>
       </a>
 
       <div class="flex items-center gap-4">
@@ -41,3 +42,11 @@ import ThemeToggle from './ThemeToggle';
     </div>
   </nav>
 </header>
+
+<style>
+  .brand-mark { display: inline-flex; align-items: center; gap: .7rem; }
+  .brand-glyph { display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-primary); color: var(--color-bg); font: 800 .78rem var(--font-mono); transform: rotate(-8deg); }
+  .brand-copy { display: grid; gap: .05rem; line-height: 1; }
+  .brand-copy strong { font: 700 .78rem var(--font-mono); letter-spacing: .08em; }
+  .brand-copy small { color: var(--color-text-secondary); font: 500 .52rem var(--font-mono); letter-spacing: .12em; }
+</style>
