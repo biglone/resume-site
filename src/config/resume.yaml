@@ -64,12 +64,13 @@ projects:
       - { label: "工程重点", value: "实时性 / 可诊断 / 可发布" }
     detail: |
       ## 项目定位
-      Whistle 连接音频采集、声源定位、摄像头、识别算法、设备管理和证据输出等模块。
+      Whistle 是一套面向现场声学事件监控的跨平台系统，连接音频/视频采集、解码、时间同步、声源定位、识别算法、摄像头和证据输出。项目要求短促事件在 2 秒内、持续事件在 5 秒内完成证据闭环，因此重点不是单一算法，而是实时管线的可预测性。
 
       ## 我的工作
-      - 参与 C++/Qt/QML 应用和设备状态链路设计与实现。
-      - 参与 WebSocket/WebRTC 预览、帧时间戳、传输节流和诊断信息导出。
-      - 参与 Windows/Linux 构建、依赖缓存、安装包和 CI 失败诊断。
+      - 将采集、预处理、识别和证据生成拆成队列化模块，降低算法耗时对采集线程的反压；音频按 1024 samples 分帧，并在音视频链路中保留时间戳。
+      - 针对车牌识别第三方组件“单进程单路”的约束，参与多进程并行方案，避免单路识别成为多路监控的吞吐瓶颈。
+      - 排查麦克风阵列偶发断连：定位到 XMOS 固件中 UDP 反射忙等阻塞 uIP 处理循环，并推动从现场重启规避转向固件侧根因修复。
+      - 参与 WebSocket/WebRTC 预览、诊断信息导出、Windows/Linux 构建与 GitLab CI 失败定位，让现场问题可以复现和追踪。
   - name: "Acoustic Camera 声学成像平台"
     slug: "acoustic-camera-platform"
     category: "company"
@@ -86,12 +87,12 @@ projects:
       - { label: "部署形态", value: "桌面端 + 云端管理" }
     detail: |
       ## 项目定位
-      Acoustic Camera 负责设备采集、声学分析、可视化、报告输出和设备生命周期管理。
+      Acoustic Camera 将麦克风阵列采集结果转换为声源图、频谱和 PRPD 等分析结果，同时联动红外摄像头、PTZ 云台和设备管理服务，最终输出可复核的音视频数据包和报告。
 
       ## 我的工作
-      - 参与红外摄像头、PTZ、麦克风和设备状态相关功能。
-      - 处理抗闪烁、线程安全、设备查询时序和兼容版本等现场问题。
-      - 参与 Qt/QML 桌面端、React 管理端和独立部署升级链路。
+      - 参与红外摄像头、PTZ、麦克风和设备状态功能，处理设备查询时序、兼容版本和线程安全问题。
+      - 参与 CUDA 热点优化：声源图矩阵生成约 35ms 降至 16ms，定位矩阵移动约 25ms 降至 3ms，归一化约 30ms 降至 4ms；同时清理不必要的 `cudaDeviceSynchronize`，减少同步开销。
+      - 参与 Qt/QML 可视化、FFmpeg 数据处理、MQTT/SQLite 设备链路和 React 管理端之间的协作，把算法结果、设备状态和报告流程串起来。
   - name: "Focusound Screen Electron"
     slug: "focusound-screen-electron"
     category: "company"
@@ -107,10 +108,13 @@ projects:
       - { label: "设备能力", value: "串口协议 + CRC16" }
       - { label: "交互能力", value: "角度 / 增益 / 音频输出" }
     detail: |
+      ## 项目难点
+      桌面 UI、串口设备和音频输出都有独立生命周期，启动顺序、设备热插拔和部分写入失败会直接影响演示现场的稳定性。
+
       ## 我的工作
-      - 设计 Electron 主进程、Preload 和 React UI 之间的通信边界。
-      - 实现串口连接管理、自定义协议解析、CRC16 校验、失败重试和启动门控。
-      - 实现角度跟踪、手动角度、8 通道增益、输出设备切换和 Web Audio 可视化。
+      - 设计 Electron 主进程、Preload 和 React UI 的通信边界，避免渲染层直接持有设备权限。
+      - 实现自定义串口协议、CRC16 校验、忙碌重试、连接启动门控和状态回传；将“设备未就绪”变成可解释的 UI 状态，而不是静默失败。
+      - 实现角度跟踪、手动角度、8 通道增益、输出设备切换和 Web Audio 可视化，并兼顾 Windows/macOS/Linux 打包差异。
   - name: "Dance 多端设备管理平台"
     slug: "dance-device-platform"
     category: "company"
@@ -126,10 +130,13 @@ projects:
       - { label: "设备控制", value: "ADB + Device Owner" }
       - { label: "业务流程", value: "预约 / 锁定 / 升级" }
     detail: |
+      ## 项目难点
+      设备管理不是简单的 CRUD：预约、占用、远程升级和管理员操作必须共享同一套状态语义，否则会出现“后台显示可用但设备已被占用”的竞态。
+
       ## 我的工作
-      - 参与后端、管理后台和 Android 设备端的跨端协作。
-      - 完善 ADB 工作流、设备就绪检查、目标设备锁定和失败诊断。
-      - 参与预约语义、会话占用、超时释放和管理员权限流程。
+      - 参与 Go/Gin/GORM 后端、React 管理端和 Kotlin Android 端的跨端协作，梳理预约、设备占用、会话超时和释放流程。
+      - 基于 ADB 与 Android Device Owner 完善设备探测、就绪检查、目标设备锁定、权限确认和应用升级工作流。
+      - 参与 Casbin HRBAC 权限模型：区分组织层级、角色继承和设备/场地数据权限，并为失败路径补充可定位的诊断信息。
   - name: "Audfly Recording Agent 录音代理"
     slug: "audfly-recording-agent"
     category: "company"
@@ -145,10 +152,13 @@ projects:
       - { label: "发布能力", value: "安装 / 更新 / 渠道" }
       - { label: "运行保障", value: "授权 / 日志 / 配置" }
     detail: |
+      ## 项目难点
+      录音代理需要在现场长期运行，授权过期、配置损坏、升级中断和多语言资源缺失都可能变成现场不可恢复的问题。
+
       ## 我的工作
-      - 参与 WPF 录音代理客户端的功能开发和现场问题修复。
-      - 完善授权有效期检查、版本信息、日志记录和配置管理。
-      - 维护 Velopack 打包、自动更新和多语言资源发布流程。
+      - 参与 .NET 8/WPF 客户端功能开发，使用 CommunityToolkit.Mvvm 组织状态和命令，保持界面状态与代理运行状态一致。
+      - 完善授权有效期检查、版本信息、日志和配置管理，让问题可以通过日志和版本信息回溯。
+      - 维护 Velopack 安装/自动更新与 beta/release 发布脚本，并处理中文、繁体中文和英文资源的交付。
   - name: "AC Viewer 声像仪分析软件"
     slug: "ac-viewer-analysis"
     category: "company"
@@ -165,12 +175,12 @@ projects:
       - { label: "输出能力", value: "报告 / 数据包" }
     detail: |
       ## 项目定位
-      AC Viewer 负责对声像仪导出的数据进行管理、分析和可视化展示。
+      AC Viewer 不是单纯的播放器，而是对声像仪导出的音视频数据包进行导入、校验、分析、回看和报告输出的桌面工具。
 
       ## 我的工作
-      - 参与音视频数据包、声学分析和报告导出相关模块。
-      - 修复云端文件校验、导入流程、交互状态和多语言显示问题。
-      - 参与 Qt/CMake 工程维护和第三方依赖集成。
+      - 参与数据包导入、声源图/频谱/PRPD 分析和报告页面相关模块，处理大数据包在界面交互中的状态切换。
+      - 在导入前增加云端图片有效性检查，避免无效资源进入分析流程；补充鼠标滚轮浏览、MouseArea 事件和图像叠加交互。
+      - 参与 Qt 5.15.2/CMake 工程维护、第三方定位库版本升级和多语言文本交付。
   - name: "ACMS 声像仪管理平台"
     slug: "acms-device-management"
     category: "company"
@@ -186,10 +196,13 @@ projects:
       - { label: "业务能力", value: "设备 / 配置 / 用户" }
       - { label: "工程实践", value: "API / i18n / Test" }
     detail: |
+      ## 项目难点
+      管理端配置会影响设备端行为，页面不仅要提交表单，还要明确设备能力、当前语言和识别开关的生效边界。
+
       ## 我的工作
-      - 参与声像仪管理平台的设备配置和管理页面开发。
-      - 实现设备语言切换、声纹识别开关等业务功能。
-      - 配合 API 定义、国际化和前端质量检查流程推进版本交付。
+      - 参与 Ant Design Pro/React/TypeScript 管理端的设备配置页面和业务流程。
+      - 实现设备语言切换、声纹识别开关等配置能力，补充 API 定义和中英文/多语言文案。
+      - 配合 OpenAPI、lint、Jest 和版本流程完成前端交付，减少页面字段与后端接口不一致的问题。
   - name: "聚音屏演示软件"
     slug: "focusound-demonstration-app"
     category: "company"
@@ -205,10 +218,13 @@ projects:
       - { label: "内容能力", value: "分类 / 播放 / 管理" }
       - { label: "交互能力", value: "表单 / 校验 / 刷新" }
     detail: |
+      ## 项目难点
+      演示软件的核心是“现场可控”：媒体文件位置、分类选择、传输状态和播放列表刷新必须保持一致，不能因为一次文件操作让演示内容失联。
+
       ## 我的工作
-      - 参与聚音屏演示软件的媒体库和视频信息管理功能。
-      - 完善视频新增、编辑、删除、文件传输和内容刷新流程。
-      - 使用 Electron、UmiJS、Ant Design 和 ECharts 支撑演示端交互。
+      - 参与 Electron/UmiJS/Ant Design 媒体库和视频信息管理功能，处理视频分类自动选择与表单校验。
+      - 完善相对路径存储、文件传输、删除、库刷新和错误反馈，避免绝对路径导致换机器后内容失效。
+      - 使用 ECharts 支撑演示数据可视化，并针对演示流程做交互状态收敛。
   - name: "SCADA 图形组态子系统"
     slug: "scada-graphic-configuration"
     category: "company"
@@ -228,9 +244,9 @@ projects:
       SCADA 图形组态子系统用于搭建工业监控界面，是监控系统中连接数据对象与可视化交互的重要模块。
 
       ## 我的工作
-      - 参与属性子系统的模块边界、对象模型和交互流程设计。
-      - 基于 Qt Graphics Framework 实现自定义图元及其编辑行为。
-      - 参与需求文档、概要设计文档和关键模块的编码实现。
+      - 参与属性子系统的模块边界、对象模型和交互流程设计，把图元属性编辑与组态对象解耦。
+      - 基于 Qt Graphics Framework 实现自定义图元及其编辑行为，处理选中、移动、属性同步等桌面编辑器交互。
+      - 参与需求文档、概要设计文档和关键模块编码，积累工业监控软件从预研到落地的完整经验。
   - name: "企讯通即时通讯客户端"
     slug: "qixuntong-desktop-client"
     category: "company"
@@ -246,10 +262,13 @@ projects:
       - { label: "独立模块", value: "截图 / 图片 / 文件" }
       - { label: "工程重点", value: "稳定性 / 易用性" }
     detail: |
+      ## 项目难点
+      企讯通是在存量客户端上持续演进，既要兼容已有消息和数据模型，又要把截图、图片浏览、文件管理等体验型功能做得足够稳定。
+
       ## 我的工作
-      - 负责 Qt 客户端的日常维护、需求开发和版本迭代。
-      - 独立完成截图工具、图片浏览器、文件管理器和上线提醒等功能。
-      - 处理网络通信、数据库读写和桌面交互相关问题。
+      - 负责 Qt 客户端日常维护、需求开发和版本迭代，处理 TCP/IP 通信、SQLite/MySQL 数据读写和桌面交互。
+      - 独立完成截图工具、图片浏览器、文件管理器和上线提醒等模块，关注剪贴板、文件生命周期和异常状态。
+      - 在既有框架中拆分可复用的界面和功能模块，兼顾老版本兼容与后续扩展。
   - name: "吴江智慧校园客户端"
     slug: "wujiang-smart-campus"
     category: "company"
@@ -269,9 +288,9 @@ projects:
       吴江智慧校园以即时通讯为基础，将校园管理和消息处理能力整合到桌面客户端中。
 
       ## 我的工作
-      - 负责班级管理、事务管理和应急消息处理等模块。
-      - 参与业务流程、消息交互和客户端界面实现。
-      - 配合版本迭代持续维护既有 Qt 客户端框架。
+      - 负责班级管理、事务管理和应急消息处理等模块，从业务流程拆解到 Qt 界面和消息交互实现。
+      - 将即时通讯中的消息通道与校园业务状态结合，处理通知、确认和异常情况下的用户反馈。
+      - 配合版本迭代持续维护既有 Qt 客户端框架，积累多角色、多业务模块桌面系统的交付经验。
   - name: "梦想编辑器"
     slug: "dream-editor"
     category: "company"
@@ -287,10 +306,13 @@ projects:
       - { label: "负责方向", value: "维护 / 定制 / 重构" }
       - { label: "优化重点", value: "稳定性 / 易用性" }
     detail: |
+      ## 项目难点
+      编辑器长期迭代后功能耦合和定制版本差异会不断放大，维护重点不是“继续堆功能”，而是先恢复边界、降低修改风险。
+
       ## 我的工作
-      - 主导梦想编辑器的维护和定制化版本开发。
-      - 持续进行代码重构和性能优化，改善编辑器稳定性与易用性。
-      - 围绕图书制作流程完善功能，提升内容制作效率。
+      - 主导梦想编辑器维护和定制化版本开发，围绕图书制作流程梳理模块职责和公共能力。
+      - 通过代码重构、异常路径修复和性能优化改善稳定性与易用性，减少定制版本之间的重复修改。
+      - 将实际制作反馈转化为编辑器交互改进，提升内容制作效率。
   - name: "AR SDK 图像识别与跟踪优化"
     slug: "ar-sdk-recognition-tracking"
     category: "company"
@@ -306,10 +328,13 @@ projects:
       - { label: "核心算法", value: "ORB 特征" }
       - { label: "优化方向", value: "识别 / 跟踪成功率" }
     detail: |
+      ## 项目难点
+      图书页识别同时受到光照、运动模糊、视角变化和纹理分布影响，单独调整特征点数量无法稳定解决现场问题。
+
       ## 我的工作
-      - 负责 AR SDK 底层识别与跟踪算法的优化。
-      - 通过图像预处理和 ORB 参数调整改善识别与跟踪表现。
-      - 根据采集场景和实际反馈持续定位问题并验证调整效果。
+      - 负责 AR SDK 底层识别与跟踪算法优化，先改善采集图像质量，再调整 ORB 特征提取参数。
+      - 围绕特征点分布、匹配稳定性和跟踪连续性分析失败样本，避免只用单一阈值掩盖问题。
+      - 根据实际采集场景持续定位、验证和回归，提升图书页识别与跟踪成功率。
   - name: "CodeHarbor AI 多模型 Matrix 网关"
     slug: "codeharbor"
     category: "personal"
@@ -325,15 +350,18 @@ projects:
       - { label: "工程闭环", value: "测试 / CI / NPM" }
     link: "https://github.com/biglone/CodeHarbor"
     detail: |
+      ## 项目难点
+      Matrix 房间消息天然是异步的，而 CLI 任务可能运行数分钟并产生附件、进度和交互式输出，因此需要把“消息回复”提升为可恢复的任务状态机。
+
       ## 架构
       Matrix Room → Channel Adapter → Orchestrator → AI CLI Executor
                                       ↓
                                   SQLite StateStore
 
-      ## 关键设计
-      - 用持久化状态管理房间、用户和 AI 会话映射。
-      - 用限流、并发闸门和取消机制控制长时间运行的 CLI 任务。
-      - 对图片、语音、生成文件和进度消息提供统一消息适配。
+      ## 我的贡献与技术亮点
+      - 用 SQLite 持久化房间、用户、任务和 AI 会话映射，使机器人重启后可以继续识别上下文。
+      - 用限流、并发闸门、取消机制和任务进度事件控制长时间 CLI 任务，避免一个房间拖垮整个网关。
+      - 抽象图片、语音、生成文件和进度消息适配，并用 Vitest/Playwright 覆盖协议与端到端行为。
   - name: "Plover 计划驱动 GUI 自动化"
     slug: "plover"
     category: "personal"
@@ -349,10 +377,13 @@ projects:
       - { label: "验证方式", value: "Unit + E2E + Smoke" }
     link: "https://github.com/biglone/Plover"
     detail: |
+      ## 项目难点
+      GUI 自动化最难处理的不是点击本身，而是失败后如何知道失败在哪里、能否安全修复，以及修复是否改变了原计划意图。
+
       ## 关键设计
-      - Planner 负责生成和修复计划。
-      - Executor 负责与真实桌面或 Mock 环境交互。
-      - Frontend 负责计划审核、运行状态和时间线展示。
+      - Planner 生成带版本的计划，Executor 只执行经过审核的步骤，并保留步骤级结果和时间线。
+      - 通过 gRPC/WebSocket 传递计划、运行事件和人工干预，支持失败检测、局部修复和待执行步骤编辑。
+      - Frontend 将计划审核、运行状态、失败原因和回放信息集中呈现，并用 Docker、Playwright 和 smoke test 验证真实链路。
   - name: "Bookwise AI 图书学习平台"
     slug: "bookwise"
     category: "personal"
@@ -371,7 +402,10 @@ projects:
       ## 项目链路
       文件上传 → 文本/章节抽取 → 章节任务 → AI/启发式生成 → 学习内容查看
 
-      项目将文件解析、任务状态、缓存复用、provider 路由和失败回退组织成可运行的产品流程。
+      ## 技术难点与我的贡献
+      - 对 PDF、EPUB、Markdown 和纯文本做统一的章节抽取，避免不同格式把后续学习任务变成多套逻辑。
+      - 将 Codex CLI 与本地启发式生成器抽象成 provider，增加缓存复用和失败回退，让长任务不会因为一次模型调用失败而丢失。
+      - 组织文件解析、任务状态、学习内容和 Docker/Cloudflare Tunnel 部署，形成可实际使用的端到端产品流程。
   - name: "SharePier 文件上传与分享平台"
     slug: "sharepier"
     category: "personal"
@@ -387,10 +421,10 @@ projects:
       - { label: "安全控制", value: "密码 / 过期 / 次数" }
     link: "https://github.com/biglone/sharepier"
     detail: |
-      ## 设计重点
-      - 抽象存储后端，支持本地磁盘和 S3 兼容对象存储。
-      - 分片会话具有过期清理和配额拦截，减少临时文件残留。
-      - 分享链接支持密码、过期时间和最大下载次数等策略。
+      ## 技术难点与我的贡献
+      - 抽象存储后端，统一本地磁盘和 S3-compatible 对象存储，业务层不依赖具体部署环境。
+      - 将大文件上传拆成可恢复的分片会话，配合过期清理、配额拦截和校验，减少临时文件残留与重复上传。
+      - 为分享链接设计密码、过期时间、最大下载次数和审计日志等策略，并用 Go/React/PostgreSQL、Docker 完成可部署闭环。
   - name: "Codex History Viewer"
     slug: "codex-history-viewer"
     category: "personal"
@@ -407,7 +441,12 @@ projects:
     link: "https://github.com/biglone/codex-history-viewer"
     detail: |
       ## 项目定位
-      通过 Rust/Tauri 直接读取本地 Codex 数据，提供检索、回顾、导入和跨设备同步能力。
+      通过 Rust/Tauri 直接读取本地 Codex 的 SQLite/JSONL 数据，提供检索、回顾、导入和跨设备同步能力。
+
+      ## 技术难点与我的贡献
+      - 在桌面端处理本地数据库和 JSONL 增量数据，避免把完整会话一次性加载到前端；以项目分组和全文检索组织历史内容。
+      - 配套 Fastify/PostgreSQL 服务端实现增量同步，并兼容 Gemini/Agy 历史导入和 Headless CLI 场景。
+      - 通过 GitHub Actions 构建 Linux ARM64 发布包，使工具可以在 Jetson 等 ARM 设备环境中运行。
   - name: "StrawBerry Jetson 语音硬件平台"
     slug: "strawberry-voice-platform"
     category: "personal"
@@ -425,6 +464,11 @@ projects:
     detail: |
       ## 项目定位
       StrawBerry 关注语音硬件产品从样机接入到部署验收的工程闭环。
+
+      ## 技术难点与我的贡献
+      - 围绕 Jetson、ReSpeaker、WebSocket 和设备 Token 设计接入协议，明确在线、鉴权、断线和重连状态。
+      - 设计 Jetson 不可达时的离线提示、降级和回切演练，把网络故障从“现场不可用”转化为可观察、可恢复的状态。
+      - 提供 Docker Compose、采购前自检脚本和虚拟终端压测脚手架，提前验证设备数量、延迟和部署依赖。
   - name: "Todo Harbor 待办与专注管理平台"
     slug: "todo-harbor"
     category: "personal"
@@ -443,10 +487,11 @@ projects:
       ## 项目定位
       Todo Harbor 是一个面向个人和小团队的自托管待办与专注管理平台。
 
-      ## 关键设计
-      - 使用 SQLite 持久化任务、账号、番茄钟和操作历史。
-      - 支持父子任务、项目分组、到期日分组、周期任务和服务端分页。
-      - 通过 Docker 和 Cloudflare Tunnel 部署，并用测试和 CI 保证迭代质量。
+      ## 技术难点与我的贡献
+      - 使用 SQLite 持久化账号、任务、番茄钟和操作历史，并在服务端按账号隔离数据。
+      - 将父子任务、项目/标签、到期日、优先级、周期任务、批量编辑和服务端分页组织为同一套任务模型。
+      - 实现每日/每周/月度周期任务生成、JSON 导入导出、多步撤销和提醒，重点处理重复操作与历史状态恢复。
+      - 通过 Docker、Cloudflare Tunnel、lint/test 和 CI 形成自托管部署闭环。
 
 skills:
   - category: "核心开发"
