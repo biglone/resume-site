@@ -103,11 +103,17 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
         </a>
 
         <!-- Header -->
-        <header class="mb-8">
-          <p class="section-kicker mb-3">PROJECT</p>
+        <header class="project-detail-header mb-8">
+          <div class="project-header-kicker">
+            <p class="section-kicker">{project.category === 'company' ? 'COMPANY CASE / PROJECT' : 'PERSONAL CASE / PROJECT'}</p>
+            <span class="case-index">CASE FILE · {project.slug}</span>
+          </div>
           <h1 class="text-3xl sm:text-4xl font-semibold mb-4">{project.name}</h1>
 
           <div class="flex flex-wrap items-center gap-4 text-sm" style="color: var(--color-text-secondary);">
+            {project.employer && (
+              <span class="project-employer">{project.employer}</span>
+            )}
             {project.role && (
               <span class="flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -147,21 +153,43 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           </section>
         )}
 
-        <!-- Description -->
-        <p class="text-lg mb-8" style="color: var(--color-text-secondary);">
-          {project.description}
-        </p>
+        <section class="project-intro mb-10">
+          <p class="text-lg" style="color: var(--color-text-secondary);">
+            {project.description}
+          </p>
+          <div class="project-intro-line"></div>
+          <p class="project-intro-label">PROJECT BRIEF / ENGINEERING DELIVERY</p>
+        </section>
+
+        {project.metrics && project.metrics.length > 0 && (
+          <section class="project-metrics mb-10" aria-label="项目概览">
+            <div class="subsection-heading">
+              <span class="section-kicker">AT A GLANCE</span>
+              <h2>项目概览</h2>
+            </div>
+            <div class="metric-detail-grid">
+              {project.metrics.map((metric, index) => (
+                <div class="metric-detail-card">
+                  <span class="metric-detail-index">0{index + 1}</span>
+                  <strong>{metric.value}</strong>
+                  <span>{metric.label}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <!-- Highlights -->
         {project.highlights && project.highlights.length > 0 && (
-          <section class="mb-8">
-            <h2 class="text-xl font-semibold mb-4">项目亮点</h2>
+          <section class="project-highlights mb-10">
+            <div class="subsection-heading">
+              <span class="section-kicker">MY CONTRIBUTION</span>
+              <h2>我的贡献</h2>
+            </div>
             <ul class="grid gap-3 sm:grid-cols-2">
-              {project.highlights.map((highlight) => (
-                <li class="flex items-start gap-2">
-                  <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: var(--color-accent);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
+              {project.highlights.map((highlight, index) => (
+                <li class="contribution-card">
+                  <span class="contribution-index">0{index + 1}</span>
                   <span>{highlight}</span>
                 </li>
               ))}
@@ -170,8 +198,11 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
         )}
 
         <!-- Tech Stack -->
-        <section class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">技术栈</h2>
+        <section class="project-stack mb-10">
+          <div class="subsection-heading">
+            <span class="section-kicker">TOOLCHAIN</span>
+            <h2>技术与工程关键词</h2>
+          </div>
           <div class="flex flex-wrap gap-2">
             {project.tags.map((tag) => (
               <Badge text={tag} />
@@ -216,6 +247,147 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
 </Layout>
 
 <style is:global>
+  .project-detail-header {
+    position: relative;
+    padding: 2.5rem 2.25rem 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: .45rem;
+    overflow: hidden;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--color-primary), transparent 94%), transparent 55%),
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
+      var(--color-bg-secondary);
+    background-size: auto, 30px 30px, 30px 30px, auto;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 18px 50px rgba(0, 38, 48, .07);
+  }
+
+  .project-detail-header::after {
+    content: '';
+    position: absolute;
+    right: -5rem;
+    top: -6rem;
+    width: 15rem;
+    height: 15rem;
+    border: 1px solid color-mix(in srgb, var(--color-primary), transparent 55%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.5rem color-mix(in srgb, var(--color-primary), transparent 94%);
+    pointer-events: none;
+  }
+
+  .project-header-kicker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .case-index,
+  .project-intro-label,
+  .metric-detail-index {
+    color: var(--color-primary);
+    font: 500 .64rem var(--font-mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .project-detail-header h1 {
+    position: relative;
+    z-index: 1;
+    max-width: 16ch;
+    font-weight: 800;
+  }
+
+  .project-employer {
+    color: var(--color-text);
+    font: 600 .72rem var(--font-mono);
+  }
+
+  .project-intro {
+    max-width: 54rem;
+  }
+
+  .project-intro p:first-child {
+    max-width: 48rem;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1.7;
+  }
+
+  .project-intro-line {
+    width: 4rem;
+    height: 2px;
+    margin: 1.5rem 0 .65rem;
+    background: var(--color-accent);
+  }
+
+  .subsection-heading {
+    display: flex;
+    align-items: baseline;
+    gap: .9rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .subsection-heading h2 {
+    margin: 0;
+    font: 700 1.35rem var(--font-display);
+  }
+
+  .metric-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .75rem;
+  }
+
+  .metric-detail-card {
+    display: grid;
+    gap: .45rem;
+    min-height: 7.5rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-primary);
+    background: var(--color-bg-secondary);
+  }
+
+  .metric-detail-card strong {
+    color: var(--color-text);
+    font: 700 1rem var(--font-display);
+    line-height: 1.35;
+  }
+
+  .metric-detail-card > span:last-child {
+    color: var(--color-text-secondary);
+    font-size: .72rem;
+  }
+
+  .contribution-card {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    font-size: .88rem;
+    line-height: 1.65;
+  }
+
+  .contribution-index {
+    flex: 0 0 auto;
+    color: var(--color-accent);
+    font: 600 .7rem var(--font-mono);
+  }
+
+  .project-stack {
+    padding: 1.25rem 1.35rem;
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-bg-secondary), transparent 12%);
+  }
+
+  .project-stack .subsection-heading {
+    margin-bottom: .85rem;
+  }
+
   /* Prose styles for markdown content */
   .prose {
     color: var(--color-text);
@@ -231,6 +403,21 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--color-border);
     font-family: var(--font-display);
+  }
+
+  .prose {
+    max-width: 52rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .prose::before {
+    content: 'CASE NOTES / ENGINEERING DETAIL';
+    display: block;
+    color: var(--color-primary);
+    font: 500 .64rem var(--font-mono);
+    letter-spacing: .14em;
+    margin-bottom: 1.5rem;
   }
 
   .prose h3 {
@@ -291,5 +478,14 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
 
   .prose a:hover {
     color: var(--color-primary-hover);
+  }
+
+  @media (max-width: 640px) {
+    .project-detail-header { padding: 1.5rem 1.15rem; }
+    .project-header-kicker { display: block; }
+    .case-index { display: block; margin-top: .65rem; }
+    .metric-detail-grid { grid-template-columns: 1fr; }
+    .subsection-heading { display: block; }
+    .subsection-heading h2 { margin-top: .35rem; }
   }
 </style>
