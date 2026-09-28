@@ -130,6 +130,85 @@ projects:
       - 参与后端、管理后台和 Android 设备端的跨端协作。
       - 完善 ADB 工作流、设备就绪检查、目标设备锁定和失败诊断。
       - 参与预约语义、会话占用、超时释放和管理员权限流程。
+  - name: "Audfly Recording Agent 录音代理"
+    slug: "audfly-recording-agent"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: true
+    period: "2022.10 - 至今"
+    role: "C# / WPF 开发 · 客户端与发布维护"
+    description: "面向录音采集与设备现场运行的 Windows 客户端，覆盖配置、授权、自动更新和多语言发布。"
+    highlights: ["基于 .NET 8、WPF UI 和 CommunityToolkit.Mvvm 完成桌面客户端开发。", "参与授权有效期校验、运行状态检查、配置持久化和异常处理。", "使用 Velopack 和发布脚本实现安装包、自动更新与 beta/release 渠道交付。"]
+    tags: ["C#", ".NET 8", "WPF", "MVVM", "Velopack", "NLog", "国际化"]
+    metrics:
+      - { label: "客户端", value: "Windows / WPF" }
+      - { label: "发布能力", value: "安装 / 更新 / 渠道" }
+      - { label: "运行保障", value: "授权 / 日志 / 配置" }
+    detail: |
+      ## 我的工作
+      - 参与 WPF 录音代理客户端的功能开发和现场问题修复。
+      - 完善授权有效期检查、版本信息、日志记录和配置管理。
+      - 维护 Velopack 打包、自动更新和多语言资源发布流程。
+  - name: "AC Viewer 声像仪分析软件"
+    slug: "ac-viewer-analysis"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: true
+    period: "2022.10 - 至今"
+    role: "C++/Qt 开发 · 音视频分析与报告模块参与者"
+    description: "用于管理、分析声像仪导出的音视频数据包，并提供声学信息分析、可视化和报告输出能力。"
+    highlights: ["基于 Qt 5.15.2 和 CMake 参与分析软件功能开发与维护。", "参与声源图、频谱、PRPD、音视频数据包和报告导出相关功能。", "处理云端文件有效性、导入流程、界面交互和多语言显示等问题。"]
+    tags: ["C++", "Qt 5", "CMake", "音视频分析", "PRPD", "频谱", "报告生成"]
+    metrics:
+      - { label: "输入数据", value: "音频 / 视频数据包" }
+      - { label: "分析能力", value: "声源图 / 频谱 / PRPD" }
+      - { label: "输出能力", value: "报告 / 数据包" }
+    detail: |
+      ## 项目定位
+      AC Viewer 负责对声像仪导出的数据进行管理、分析和可视化展示。
+
+      ## 我的工作
+      - 参与音视频数据包、声学分析和报告导出相关模块。
+      - 修复云端文件校验、导入流程、交互状态和多语言显示问题。
+      - 参与 Qt/CMake 工程维护和第三方依赖集成。
+  - name: "ACMS 声像仪管理平台"
+    slug: "acms-device-management"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: false
+    period: "2022.10 - 至今"
+    role: "React/TypeScript 开发 · Web 管理端参与者"
+    description: "面向声像仪设备、用户和业务配置的 Web 管理平台，提供设备管理、配置切换和后台运营能力。"
+    highlights: ["基于 Ant Design Pro、React 和 TypeScript 参与管理端页面与业务流程开发。", "参与设备语言配置、声纹识别开关和 API 定义更新。", "配合 OpenAPI、国际化、版本管理和 lint/test 流程完成前端交付。"]
+    tags: ["React", "TypeScript", "Ant Design Pro", "OpenAPI", "国际化", "Jest"]
+    metrics:
+      - { label: "产品形态", value: "Web 管理平台" }
+      - { label: "业务能力", value: "设备 / 配置 / 用户" }
+      - { label: "工程实践", value: "API / i18n / Test" }
+    detail: |
+      ## 我的工作
+      - 参与声像仪管理平台的设备配置和管理页面开发。
+      - 实现设备语言切换、声纹识别开关等业务功能。
+      - 配合 API 定义、国际化和前端质量检查流程推进版本交付。
+  - name: "聚音屏演示软件"
+    slug: "focusound-demonstration-app"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: false
+    period: "2022.10 - 至今"
+    role: "Electron/React 开发 · 演示内容管理参与者"
+    description: "面向聚音屏产品演示的桌面应用，用于管理演示视频、分类内容和可视化播放流程。"
+    highlights: ["基于 Electron、UmiJS、Ant Design 和 ECharts 开发跨平台演示应用。", "参与视频分类、视频信息维护、文件传输和媒体库刷新流程。", "处理相对路径、表单校验、交互反馈和演示内容管理问题。"]
+    tags: ["Electron", "React", "UmiJS", "Ant Design", "ECharts", "视频管理"]
+    metrics:
+      - { label: "应用形态", value: "Electron 桌面端" }
+      - { label: "内容能力", value: "分类 / 播放 / 管理" }
+      - { label: "交互能力", value: "表单 / 校验 / 刷新" }
+    detail: |
+      ## 我的工作
+      - 参与聚音屏演示软件的媒体库和视频信息管理功能。
+      - 完善视频新增、编辑、删除、文件传输和内容刷新流程。
+      - 使用 Electron、UmiJS、Ant Design 和 ECharts 支撑演示端交互。
   - name: "SCADA 图形组态子系统"
     slug: "scada-graphic-configuration"
     category: "company"
