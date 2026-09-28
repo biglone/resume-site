@@ -7,6 +7,7 @@ import Layout from '../../layouts/Layout.astro';
 import ImageGallery from '../../components/projects/ImageGallery';
 import CommitHistory from '../../components/projects/CommitHistory.astro';
 import ProjectArchitecture from '../../components/projects/ProjectArchitecture.astro';
+import ProjectCaseNotes from '../../components/projects/ProjectCaseNotes.astro';
 import { fetchMeta, fetchPublishedResume } from '../../lib/api';
 import { normalizeResume } from '../../lib/normalizeResume';
 
@@ -154,6 +155,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
         )}
 
         <ProjectArchitecture project={project} />
+        <ProjectCaseNotes project={project} />
 
         <section class="project-intro mb-10">
           <p class="text-lg" style="color: var(--color-text-secondary);">

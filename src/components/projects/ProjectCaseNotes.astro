@@ -1,0 +1,166 @@
+---
+import type { Project } from '../../types/resume';
+
+interface CaseNote {
+  context: string;
+  architecture: string;
+  implementation: string;
+  delivery: string;
+}
+
+interface Props { project: Project; }
+const { project } = Astro.props;
+
+const notes: Record<string, CaseNote> = {
+  'whistle-platform': {
+    context: '系统需要把音频采集、视频预览、鸣笛识别、声源定位和违法证据组织成一条可持续运行的现场业务链路。',
+    architecture: '以音频/视频预处理为入口，将接收、解码、分帧、时间同步和存储拆成独立阶段，再由识别、定位、取证和上报模块消费处理结果。',
+    implementation: '重点关注帧时间戳、音视频同步、WebSocket/WebRTC 预览节流、设备状态和诊断信息导出，避免实时链路中的局部阻塞扩散到界面。',
+    delivery: '围绕 Windows/Linux 构建、vcpkg 依赖、Docker 和 GitLab CI 维护可重复构建，并让现场问题可以通过日志和诊断信息回溯。'
+  },
+  'acoustic-camera-platform': {
+    context: '声学成像平台需要同时处理麦克风阵列、红外摄像头、PTZ 和分析结果，既要展示图像，也要保证设备状态和分析结果一致。',
+    architecture: '设备通信、采集处理、声学算法、Qt/QML 展示和报告输出分别承担边界清晰的职责，SQLite 用于本地数据和设备配置持久化。',
+    implementation: '参与抗闪烁、线程安全、增益控制、设备查询时序和版本兼容等现场问题，重点处理硬件时序与 UI 状态之间的同步。',
+    delivery: '配合独立部署前端、安装包校验、升级和校准流程，保证桌面端不仅能运行，也能完成设备交付和后续维护。'
+  },
+  'focusound-screen-electron': {
+    context: '空间音频产品需要一个跨平台桌面控制台，将角度、通道增益和音频输出操作映射到真实设备。',
+    architecture: 'React 页面负责交互，Preload 负责安全边界，Electron 主进程负责串口和设备通信，消息通过 IPC 在 UI 与设备层之间传递。',
+    implementation: '自定义协议解析包含 CRC16 校验、连接启动门控、忙碌重试和状态回传；同时处理 Web Audio 可视化与设备控制状态的一致性。',
+    delivery: '使用 Vite 和 electron-builder 组织 Windows、macOS、Linux 多平台打包，关注串口权限、设备断开和异常恢复等真实使用场景。'
+  },
+  'dance-device-platform': {
+    context: '设备管理平台需要协调预约、占用、超时释放和 Android 设备控制，业务状态与设备实际状态不能长期脱节。',
+    architecture: 'Web/小程序负责业务入口，Go 服务负责会话和权限，MySQL 持久化预约状态，Android 端通过 Device Owner 和 ADB 执行设备动作。',
+    implementation: '重点处理设备就绪检查、目标设备锁定、失败诊断、会话超时和管理员权限，避免重复预约或设备状态悬挂。',
+    delivery: '将多端业务流程拆成可观察的状态变化，配合 Docker 部署和日志定位，让运营人员能够判断问题出在业务、接口还是设备端。'
+  },
+  'audfly-recording-agent': {
+    context: '录音代理面向现场 Windows 环境运行，需要兼顾简单操作、长期运行、授权有效期和版本升级。',
+    architecture: 'WPF UI 通过 MVVM 连接配置、录音状态、授权和更新服务，NLog 记录运行过程，Velopack 负责安装与升级。',
+    implementation: '参与授权过期检查、版本信息、配置持久化和异常处理，重点把现场不可见的后台状态转化为可操作的提示。',
+    delivery: '维护 release/beta 渠道和自动更新脚本，结合多语言资源和安装目录约定，降低现场升级和回滚成本。'
+  },
+  'ac-viewer-analysis': {
+    context: '声像仪导出的数据包包含音频、视频和分析信息，用户需要在桌面端完成导入、分析、查看和报告输出。',
+    architecture: '数据包解析和校验位于输入层，频谱、PRPD、声源图和报告生成作为分析模块，Qt 界面负责统一组织分析过程。',
+    implementation: '处理云端文件有效性、导入状态、报告页面关闭后的初始状态、多语言文本和鼠标交互等容易被忽略的细节。',
+    delivery: '使用 Qt 5.15.2、CMake 和第三方依赖管理维持分析软件的可构建性，并让数据导入错误能够在界面上明确反馈。'
+  },
+  'acms-device-management': {
+    context: '声像仪产品需要一个 Web 控制台管理设备配置、语言、用户和识别能力开关，减少现场直接改配置的成本。',
+    architecture: 'React/Ant Design Pro 负责管理界面，OpenAPI 定义前后端边界，设备和业务配置通过 API 统一读写。',
+    implementation: '参与设备语言切换、声纹识别开关、API 定义和版本上下文更新，关注表单状态、权限和配置反馈的一致性。',
+    delivery: '结合国际化、TypeScript 类型检查、Jest 和 lint 流程，使管理端功能能够随设备版本一起迭代发布。'
+  },
+  'focusound-demonstration-app': {
+    context: '产品演示需要快速切换不同视频和场景，演示素材管理不能依赖手工复制文件或临时修改配置。',
+    architecture: 'Electron 提供桌面文件能力，UmiJS/React 承载页面，Ant Design 负责表单和交互，ECharts 用于演示数据可视化。',
+    implementation: '参与视频新增、编辑、删除、相对路径、文件传输和媒体库即时刷新，重点保证内容变化后页面状态及时同步。',
+    delivery: '将演示内容维护流程收敛到应用内，降低现场演示前准备成本，并通过表单校验减少无效素材进入播放列表。'
+  },
+  'scada-graphic-configuration': {
+    context: 'SCADA 系统需要让工程人员以图形化方式组织监控对象，属性模型和画布交互是组态体验的核心。',
+    architecture: '属性子系统提供对象模型和编辑数据，Qt Graphics Framework 承载图元、画布和交互，组态结果再进入监控界面。',
+    implementation: '参与模块边界、属性面板、自定义图元和编辑行为设计，重点处理图元状态、属性变化和画布交互之间的同步。',
+    delivery: '从需求文档和概要设计开始参与，逐步落到架构设计和编码实现，形成从预研到模块交付的完整经历。'
+  },
+  'qixuntong-desktop-client': {
+    context: '企业即时通讯客户端不仅承载消息，还需要提供截图、图片浏览和文件管理等高频桌面能力。',
+    architecture: 'Qt 客户端作为统一外壳，TCP/IP 负责通信，SQLite/MySQL 负责本地或业务数据，功能工具以独立模块接入。',
+    implementation: '独立完成截图工具、图片浏览器、文件管理器和上线提醒，关注桌面窗口、文件路径、图片展示和消息状态的交互细节。',
+    delivery: '在既有客户端中持续维护和迭代，积累了中等规模 Qt 软件的模块拆分、兼容性修复和版本交付经验。'
+  },
+  'wujiang-smart-campus': {
+    context: '智慧校园项目将即时通讯能力延伸到班级管理、事务管理和应急消息处理，需要把通用通信和校园业务结合。',
+    architecture: '消息基础设施提供人员和通知通道，Qt PC 客户端组织班级、事务和应急场景，业务模块共享统一的交互和状态模型。',
+    implementation: '负责业务模块开发和客户端交互，处理消息触达、业务状态变化和异常场景下的用户反馈。',
+    delivery: '通过需求拆解、功能实现和版本维护将校园业务落到可交付的 PC 客户端中。'
+  },
+  'dream-editor': {
+    context: '图书制作编辑器功能不断定制化，旧代码的耦合和性能问题会直接影响内容制作效率。',
+    architecture: '以 Qt 桌面编辑器为核心，围绕图书制作流程拆分编辑、资源和输出相关模块，定制版本在同一基础能力上演进。',
+    implementation: '主导维护、定制版本和代码重构，优先处理影响稳定性、易用性和制作效率的模块与交互。',
+    delivery: '通过持续重构和性能优化改善产品质量，形成了从问题定位、设计调整到版本验证的完整闭环。'
+  },
+  'ar-sdk-recognition-tracking': {
+    context: 'AR 图书页识别需要在不同采集条件下稳定找到目标页面，并持续跟踪页面特征。',
+    architecture: '采集图像先经过预处理，再进入 ORB 特征提取、匹配和跟踪流程，识别结果由 SDK 提供给上层应用。',
+    implementation: '围绕图像预处理和 ORB 参数调整进行实验与验证，结合实际采集场景定位识别失败和跟踪不稳定问题。',
+    delivery: '以识别和跟踪成功率为方向迭代底层算法，为 Qt 编辑器和 AR 图书产品提供更稳定的视觉能力。'
+  },
+  codeharbor: {
+    context: '多个 AI CLI 的输入输出、会话和附件处理方式不同，需要一个统一入口把它们接入 Matrix 房间。',
+    architecture: 'Matrix Adapter 接收消息，Orchestrator 管理任务和并发，CLI Executor 连接不同后端，SQLite 保存房间和会话状态。',
+    implementation: '重点实现限流、取消、进度通知、附件适配和跨后端上下文衔接，并用边界清晰的状态模型避免长任务失控。',
+    delivery: '通过 Vitest、Playwright、GitHub Actions 和 NPM 发布建立从代码验证到可安装交付的工程闭环。'
+  },
+  plover: {
+    context: 'GUI 自动化脚本难以审查、修复和回放，项目将一次性脚本转化为可版本化的执行计划。',
+    architecture: 'Planner 生成和修复计划，Executor 与真实桌面或 Mock 环境交互，Frontend 负责审核、运行状态和时间线。',
+    implementation: '围绕失败检测、局部修复、人工审核和待执行步骤编辑设计服务边界，并用 gRPC/WebSocket 连接运行链路。',
+    delivery: '同时提供 Docker、macOS 宿主执行器、浏览器 E2E 和 smoke 检查，验证计划系统在真实执行前后的可观测性。'
+  },
+  bookwise: {
+    context: '长文档学习过程需要把文件、章节、生成任务和学习内容串起来，避免一次性生成失败后只能重新开始。',
+    architecture: '文件解析层抽取文本和章节，任务层管理生成状态，Provider 层在 Codex CLI 与启发式方案之间路由，前端呈现学习内容。',
+    implementation: '处理 PDF/EPUB/Markdown 输入、缓存复用、失败回退和章节任务状态，使内容生成可以增量推进。',
+    delivery: '通过 Docker Compose 和 Cloudflare Tunnel 部署完整前后端，形成从上传、处理到阅读的可运行产品链路。'
+  },
+  sharepier: {
+    context: '文件分享服务需要同时满足大文件上传、断点续传、临时文件清理和分享安全策略。',
+    architecture: 'React 管理端调用 Go API，上传会话抽象屏蔽本地磁盘与 S3-compatible 存储，分享策略由服务端统一校验。',
+    implementation: '围绕分片会话过期、配额拦截、密码、过期时间、下载次数和审计日志设计边界条件。',
+    delivery: '用 Docker 和 Cloudflare Tunnel 提供自托管部署方式，支持从本地存储平滑切换到对象存储。'
+  },
+  'codex-history-viewer': {
+    context: '本地 Codex 会话分散在 SQLite 和 JSONL 文件中，检索、导入和跨设备回顾需要一个统一客户端。',
+    architecture: 'Rust/Tauri 负责本地数据访问和桌面能力，JavaScript UI 负责检索展示，Fastify/PostgreSQL 服务负责增量同步。',
+    implementation: '处理项目分组、全文搜索、多来源历史导入、Headless CLI 和本地数据读取边界，减少对外部工具的耦合。',
+    delivery: '通过 GitHub Actions 和 Linux ARM64 发布验证桌面客户端与服务端的跨平台交付。'
+  },
+  'strawberry-voice-platform': {
+    context: 'Jetson 和 ReSpeaker 设备在网络不稳定、服务不可达时仍需要可诊断、可降级和可恢复。',
+    architecture: '设备端通过 WebSocket 接入语音服务，Token 管理设备身份，Docker Compose 和 Tunnel 负责部署与公网连接。',
+    implementation: '设计离线提示、回切演练、虚拟终端压测和采购前自检，将硬件接入问题提前暴露在验收前。',
+    delivery: '关注设备部署、通信验证、压测和故障恢复，而不仅是单次 Demo 能否运行。'
+  },
+  'todo-harbor': {
+    context: '待办系统需要处理周期任务、层级任务、提醒、番茄钟和历史恢复，简单的任务表无法覆盖完整使用过程。',
+    architecture: 'Express API 负责账号和任务业务，SQLite 持久化任务与操作历史，前端通过分页、分组和筛选组织工作台。',
+    implementation: '实现周期任务自动生成、批量修改、JSON 导入导出、多步 Undo、番茄钟统计和外部 Token 同步边界。',
+    delivery: '通过 Docker、健康检查、CI 测试和 Cloudflare Tunnel 部署为可长期运行的自托管应用。'
+  }
+};
+
+const caseNote = notes[project.slug];
+---
+
+{caseNote && (
+  <section class="case-notes" aria-label={`${project.name} 项目案例说明`}>
+    <div class="case-notes-heading">
+      <span class="section-kicker">CASE STUDY / DEEP DIVE</span>
+      <h2>从问题到交付</h2>
+    </div>
+    <div class="case-notes-grid">
+      <article><span>01 / CONTEXT</span><h3>项目背景</h3><p>{caseNote.context}</p></article>
+      <article><span>02 / ARCHITECTURE</span><h3>系统结构</h3><p>{caseNote.architecture}</p></article>
+      <article><span>03 / IMPLEMENTATION</span><h3>关键实现</h3><p>{caseNote.implementation}</p></article>
+      <article><span>04 / DELIVERY</span><h3>交付关注点</h3><p>{caseNote.delivery}</p></article>
+    </div>
+  </section>
+)}
+
+<style>
+  .case-notes { margin-bottom: 2.75rem; }
+  .case-notes-heading { display: flex; align-items: baseline; gap: .9rem; margin-bottom: 1.1rem; }
+  .case-notes-heading h2 { margin: .35rem 0 0; font: 700 1.45rem var(--font-display); }
+  .case-notes-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+  .case-notes-grid article { min-height: 10rem; padding: 1.15rem; border: 1px solid var(--color-border); border-left: 2px solid var(--color-primary); background: var(--color-bg-secondary); }
+  .case-notes-grid article:nth-child(2n) { border-left-color: var(--color-accent); }
+  .case-notes-grid span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
+  .case-notes-grid h3 { margin: .65rem 0 .45rem; font: 700 1rem var(--font-display); }
+  .case-notes-grid p { color: var(--color-text-secondary); font-size: .84rem; line-height: 1.7; }
+  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-top: .4rem; } .case-notes-grid { grid-template-columns: 1fr; } }
+</style>
