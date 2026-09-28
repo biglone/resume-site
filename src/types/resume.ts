@@ -60,6 +60,7 @@ export interface Project {
   commits?: ProjectCommit[];  // Git commit examples
   period?: string;  // Project timeline
   role?: string;  // Your role in the project
+  employer?: string;  // Company associated with the project
   category?: 'company' | 'personal';
   featured?: boolean;
   metrics?: ProjectMetric[];

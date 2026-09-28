@@ -12,15 +12,24 @@ profile:
     blog: "https://biglone.github.io"
 
 experience:
-  - company: "苏州汇川技术有限公司"
-    position: "软件开发工程师 · 研发管理部"
-    period: "2021.04 - 至今"
+  - company: "苏州清声学科技有限公司"
+    position: "软件开发工程师 · 研发部"
+    period: "2022.10 - 至今"
     location: "苏州"
     description:
-      - "参与声学监控、图形组态和设备管理产品的技术预研、选型、概要设计与模块实现。"
-      - "负责 C++/Qt/QML 图形界面、设备状态、WebSocket/WebRTC 预览和跨平台构建发布相关工作。"
+      - "参与声学监控、声学成像、空间音频和多端设备管理产品的开发与迭代。"
+      - "负责 C++/Qt/QML、Electron/React 桌面应用、设备通信和跨平台构建发布相关工作。"
       - "参与从设备接入、音视频处理、实时通信到 Web 管理端的完整产品链路。"
-    tags: ["C++", "Qt/QML", "OpenCV", "FFmpeg", "Electron", "C#", "Docker"]
+    tags: ["C++", "Qt/QML", "OpenCV", "FFmpeg", "Electron", "React", "Docker"]
+  - company: "苏州汇川技术有限公司"
+    position: "软件开发工程师 · 研发管理部"
+    period: "2021.04 - 2022.10"
+    location: "苏州"
+    description:
+      - "参与监控系统图形组态子系统的技术预研、选型、概要设计和模块实现。"
+      - "负责属性子系统架构设计，以及基于 Qt Graphics Framework 的自定义图元开发。"
+      - "参与需求文档和概要设计文档编撰，积累工业监控桌面软件开发经验。"
+    tags: ["C++", "Qt", "Qt Graphics", "SCADA", "图形组态", "设计模式"]
   - company: "苏州梦想人软件科技有限公司"
     position: "C++开发工程师"
     period: "2019.08 - 2021.03"
@@ -42,8 +51,9 @@ projects:
   - name: "Whistle 智能声学监控平台"
     slug: "whistle-platform"
     category: "company"
+    employer: "苏州清声学科技有限公司"
     featured: true
-    period: "公司项目 · 持续参与"
+    period: "2022.10 - 至今"
     role: "C++/Qt 软件开发 · 核心模块参与者"
     description: "面向声音识别、声源定位、摄像头和设备管理的跨平台智能监控平台。"
     highlights: ["参与声音识别、声源定位、摄像头、证据生成和设备管理链路。", "参与 WebSocket/WebRTC 实时预览、诊断信息导出和 Web 管理端能力建设。", "维护 CMake、vcpkg、MSYS2、Docker 和 GitLab CI 跨平台构建发布流程。"]
@@ -63,8 +73,9 @@ projects:
   - name: "Acoustic Camera 声学成像平台"
     slug: "acoustic-camera-platform"
     category: "company"
+    employer: "苏州清声学科技有限公司"
     featured: true
-    period: "公司项目 · 持续参与"
+    period: "2022.10 - 至今"
     role: "C++/Qt 软件开发 · 设备与可视化模块参与者"
     description: "融合声学成像、频谱分析、PRPD、红外摄像头和 PTZ 控制的设备软件平台。"
     highlights: ["参与 OpenCV、FFmpeg、CUDA、MQTT、SQLite 和 Qt/QML 组成的设备软件链路。", "参与红外控制、设备兼容、抗闪烁、线程安全、增益和设备通信。", "配套云端管理和独立部署前端，覆盖诊断、升级、校准和安装包校验。"]
@@ -84,8 +95,9 @@ projects:
   - name: "Focusound Screen Electron"
     slug: "focusound-screen-electron"
     category: "company"
+    employer: "苏州清声学科技有限公司"
     featured: true
-    period: "公司项目 · 持续参与"
+    period: "2022.10 - 至今"
     role: "Electron/React 开发 · 桌面交互与设备通信"
     description: "面向空间音频和声场展示的跨平台 Electron 桌面应用。"
     highlights: ["使用 Electron、React、TypeScript、Vite 和 TailwindCSS 构建跨平台桌面应用。", "实现 SerialPort、自定义协议、CRC16、忙碌重试和设备连接启动门控。", "支持角度控制、8 通道增益、音频输出切换、Web Audio 可视化和多平台打包。"]
@@ -102,8 +114,9 @@ projects:
   - name: "Dance 多端设备管理平台"
     slug: "dance-device-platform"
     category: "company"
+    employer: "苏州清声学科技有限公司"
     featured: true
-    period: "公司项目 · 持续参与"
+    period: "2022.10 - 至今"
     role: "全栈/Android 设备管理参与者"
     description: "覆盖 Go 后端、React 管理后台、微信小程序和 Android 设备端的综合系统。"
     highlights: ["覆盖 Go + Gin + GORM + MySQL、React/Ant Design、微信小程序和 Kotlin Android。", "基于 ADB 和 Android Device Owner 实现设备探测、锁定、权限和应用升级。", "参与预约、设备占用、会话超时、管理员权限和失败诊断流程。"]
@@ -120,8 +133,9 @@ projects:
   - name: "SCADA 图形组态子系统"
     slug: "scada-graphic-configuration"
     category: "company"
+    employer: "苏州汇川技术有限公司"
     featured: true
-    period: "2021.04 - 至今"
+    period: "2021.04 - 2022.10"
     role: "C++/Qt 软件开发 · 图形组态模块参与者"
     description: "面向工业监控系统的图形组态子系统，负责将监控对象、属性面板和自定义图元组织成可编辑的工程界面。"
     highlights: ["参与需求文档、概要设计和属性子系统的架构设计与编码实现。", "基于 Qt Graphics Framework 设计和实现可交互自定义图元。", "围绕图元属性、编辑状态和组态交互完善桌面端工程能力。"]
@@ -141,6 +155,7 @@ projects:
   - name: "企讯通即时通讯客户端"
     slug: "qixuntong-desktop-client"
     category: "company"
+    employer: "苏州广立信息技术有限公司"
     featured: false
     period: "2016.05 - 2019.08"
     role: "C++/Qt 软件工程师 · PC 客户端开发"
@@ -159,6 +174,7 @@ projects:
   - name: "吴江智慧校园客户端"
     slug: "wujiang-smart-campus"
     category: "company"
+    employer: "苏州广立信息技术有限公司"
     featured: false
     period: "2016.05 - 2019.08"
     role: "C++/Qt 软件工程师 · 功能模块负责人"
@@ -177,9 +193,29 @@ projects:
       - 负责班级管理、事务管理和应急消息处理等模块。
       - 参与业务流程、消息交互和客户端界面实现。
       - 配合版本迭代持续维护既有 Qt 客户端框架。
+  - name: "梦想编辑器"
+    slug: "dream-editor"
+    category: "company"
+    employer: "苏州梦想人软件科技有限公司"
+    featured: false
+    period: "2019.08 - 2021.03"
+    role: "C++/Qt 开发工程师 · 编辑器维护与重构"
+    description: "基于 Qt 的图书制作编辑器，负责产品维护、定制版本开发、代码重构和性能优化。"
+    highlights: ["主导编辑器日常维护和定制化版本开发，持续梳理既有模块边界。", "通过代码重构和性能优化提升编辑器稳定性与易用性。", "围绕图书制作流程完善编辑器功能，提高内容制作效率。"]
+    tags: ["C++", "Qt", "桌面应用", "代码重构", "性能优化", "编辑器"]
+    metrics:
+      - { label: "产品形态", value: "Qt 桌面编辑器" }
+      - { label: "负责方向", value: "维护 / 定制 / 重构" }
+      - { label: "优化重点", value: "稳定性 / 易用性" }
+    detail: |
+      ## 我的工作
+      - 主导梦想编辑器的维护和定制化版本开发。
+      - 持续进行代码重构和性能优化，改善编辑器稳定性与易用性。
+      - 围绕图书制作流程完善功能，提升内容制作效率。
   - name: "AR SDK 图像识别与跟踪优化"
     slug: "ar-sdk-recognition-tracking"
     category: "company"
+    employer: "苏州梦想人软件科技有限公司"
     featured: false
     period: "2019.08 - 2021.03"
     role: "C++/OpenCV 开发工程师 · 算法优化参与者"

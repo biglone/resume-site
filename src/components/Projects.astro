@@ -5,7 +5,7 @@ import Badge from './common/Badge.astro';
 interface Props { projects: Project[]; }
 const { projects } = Astro.props;
 const groups = [
-  { title: '公司项目', note: '音频、设备与跨平台产品', items: projects.filter((project) => project.category === 'company') },
+  { title: '公司项目', note: '按任职时间从新到旧', items: projects.filter((project) => project.category === 'company').sort((a, b) => (b.period || '').localeCompare(a.period || '')) },
   { title: '个人项目', note: 'AI、全栈与工具产品', items: projects.filter((project) => project.category === 'personal') },
 ];
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
@@ -33,6 +33,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
               </div>
               <div class="project-card-head">
                 <h4>{project.name}</h4>
+                <p class="project-company">{project.employer || '个人项目'}</p>
                 <p class="project-role">{project.role} · {project.period}</p>
               </div>
               <p class="project-description">{project.description}</p>
@@ -71,6 +72,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
   .card-links a:hover { color: var(--color-primary); }
   .project-card h4 { font-family: var(--font-display); font-size: 1.32rem; line-height: 1.25; margin-bottom: .45rem; }
   .project-role { color: var(--color-primary); font-size: .74rem; }
+  .project-company { color: var(--color-text); font: 600 .74rem var(--font-mono); margin-top: .55rem; }
   .project-description { color: var(--color-text-secondary); line-height: 1.65; font-size: .88rem; margin: 1.2rem 0; }
   .highlight-list { display: grid; gap: .55rem; margin: 0 0 1.2rem; color: var(--color-text-secondary); font-size: .8rem; line-height: 1.5; }
   .highlight-list li { position: relative; padding-left: 1rem; }
