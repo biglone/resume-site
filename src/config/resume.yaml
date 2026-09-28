@@ -93,6 +93,29 @@ projects:
       - 参与红外摄像头、PTZ、麦克风和设备状态功能，处理设备查询时序、兼容版本和线程安全问题。
       - 参与 CUDA 热点优化：声源图矩阵生成约 35ms 降至 16ms，定位矩阵移动约 25ms 降至 3ms，归一化约 30ms 降至 4ms；同时清理不必要的 `cudaDeviceSynchronize`，减少同步开销。
       - 参与 Qt/QML 可视化、FFmpeg 数据处理、MQTT/SQLite 设备链路和 React 管理端之间的协作，把算法结果、设备状态和报告流程串起来。
+  - name: "音频播报服务 ABS"
+    slug: "audio-broadcast-service"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: true
+    period: "2022.10 - 至今"
+    role: "C++ 软件开发 · 音频服务与协议模块参与者"
+    description: "面向音频终端的 HTTP/TCP 播报服务，覆盖 TTS、音频文件播放、音量、停止和声光电控制。"
+    highlights: ["将 HTTP API、TCP 设备协议、播放队列和 TTS 引擎组织成统一服务。", "支持 Windows TTS 与 sherpa-onnx/Kokoro 等本地语音引擎，并保留音频文件推送能力。", "配套 Web 管理页、SSE 日志、TCP 测试工具、Docker 构建和跨平台打包流程。"]
+    tags: ["C++", "CMake", "HTTP", "TCP", "TTS", "sherpa-onnx", "Docker", "Go"]
+    metrics:
+      - { label: "服务入口", value: "HTTP + TCP" }
+      - { label: "语音能力", value: "Windows / 本地 TTS" }
+      - { label: "交付方式", value: "Deb / NSIS / Docker" }
+    detail: |
+      ## 项目定位
+      ABS 将上层业务、声光电报警单元和音频终端之间的调用统一为 HTTP/TCP 服务，提供 TTS 合成、音频文件推送、音量、停止播放和爆闪灯控制。
+
+      ## 技术难点与我的工作
+      - 按 HTTP API、TCP 会话、设备协议、TTS 引擎和播放队列拆分边界，避免不同入口重复实现播放控制。
+      - 支持 Windows TTS 与 sherpa-onnx/Kokoro 等引擎切换，处理模型、词典、音频格式和播放状态之间的衔接。
+      - 配套 Web 管理页、SSE 日志和 TCP tester，便于现场查看服务状态、复现协议问题和验证终端行为。
+      - 参与 CMake Presets、Docker 构建、Deb/NSIS 打包、smoke test 和协议文档维护，形成可重复的发布链路。
   - name: "Focusound Screen Electron"
     slug: "focusound-screen-electron"
     category: "company"
@@ -203,6 +226,29 @@ projects:
       - 参与 Ant Design Pro/React/TypeScript 管理端的设备配置页面和业务流程。
       - 实现设备语言切换、声纹识别开关等配置能力，补充 API 定义和中英文/多语言文案。
       - 配合 OpenAPI、lint、Jest 和版本流程完成前端交付，减少页面字段与后端接口不一致的问题。
+  - name: "ACMS 独立部署控制台"
+    slug: "acms-standalone-console"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: false
+    period: "2022.10 - 至今"
+    role: "React/TypeScript 开发 · 设备控制与配置参与者"
+    description: "面向单机声像仪的配置、校准、预览、回放、PTZ 控制和系统维护控制台。"
+    highlights: ["围绕设备时间、网络、存储、麦克风、校准和 PTZ 组织独立部署页面。", "通过 OpenAPI 请求层和 MQTT 语义完成设备配置与实时云台控制。", "处理 PTZ 角度同步、校准模式进入、升级倒计时和多语言现场交互。"]
+    tags: ["React", "TypeScript", "UmiJS", "Ant Design", "OpenAPI", "MQTT", "PTZ", "国际化"]
+    metrics:
+      - { label: "部署形态", value: "设备侧独立 Web" }
+      - { label: "控制能力", value: "配置 / 校准 / PTZ" }
+      - { label: "接口边界", value: "OpenAPI + MQTT" }
+    detail: |
+      ## 项目定位
+      ACMS 独立部署控制台直接服务于声像仪现场操作，覆盖设备通用配置、校准、预览/回放、PTZ 云台和系统升级维护。
+
+      ## 技术难点与我的工作
+      - 按配置、预览、回放和维护拆分 React 页面，通过 OpenAPI 请求层连接设备服务。
+      - 参与 PTZ 实时角度同步、巡检点配置和云台控制；部分配置请求需要组合多个 MQTT 语义，同时保证设备返回状态及时刷新。
+      - 参与校准模式进入、设备时间/网络/存储配置和升级倒计时，处理接口成功但设备状态尚未同步时的 UI 一致性。
+      - 配合多语言资源、版本化构建和独立部署配置支持现场安装与维护。
   - name: "聚音屏演示软件"
     slug: "focusound-demonstration-app"
     category: "company"
@@ -225,6 +271,29 @@ projects:
       - 参与 Electron/UmiJS/Ant Design 媒体库和视频信息管理功能，处理视频分类自动选择与表单校验。
       - 完善相对路径存储、文件传输、删除、库刷新和错误反馈，避免绝对路径导致换机器后内容失效。
       - 使用 ECharts 支撑演示数据可视化，并针对演示流程做交互状态收敛。
+  - name: "聚音屏自动化测试平台"
+    slug: "focusound-production-test"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: true
+    period: "2022.10 - 至今"
+    role: "C# / WPF 开发 · 产线测试平台参与者"
+    description: "面向聚音屏量产测试的 Windows 自动化平台，统一控制测试仪器、治具板和功放板并完成声学判定。"
+    highlights: ["通过串口、VISA.NET 和 Audiobus API 控制 LCR 测试仪、示波器和音频分析仪。", "将设备发现、连接监测、测试调度、参数采集和结果判定拆分为独立库。", "支持三语言、Velopack 自动更新、release/beta 渠道和设备库单元测试。"]
+    tags: ["C#", "WPF", ".NET Framework", "VISA.NET", "Audiobus", "SerialPort", "Velopack", "测试自动化"]
+    metrics:
+      - { label: "测试对象", value: "聚音屏全通道" }
+      - { label: "仪器接入", value: "LCR / 示波器 / 音频分析仪" }
+      - { label: "交付能力", value: "自动更新 + 多语言" }
+    detail: |
+      ## 项目定位
+      为聚音屏生产测试提供统一工作台，依次完成设备连接、通道切换、F0/LCR、电压/功率和声学指标测试，并对功放板参数和固件进行管理。
+
+      ## 技术难点与我的工作
+      - 将串口、VISA.NET、Audiobus 和治具/功放板协议隔离到独立设备控制库，再由 WPF 主程序统一编排测试步骤。
+      - 通过设备发现、连接监测、测试调度和测量服务降低现场手工切换仪器造成的漏测风险；串口数据流接口支持 Mock，便于单元测试。
+      - 兼容 .NET Framework 与 .NET Standard 2.0 设备库边界，满足测试平台和外部上位机复用同一套设备控制能力。
+      - 维护 Velopack 自动更新、中文/繁体中文/英文资源及 release/beta 发布脚本，支撑产线持续升级。
   - name: "SCADA 图形组态子系统"
     slug: "scada-graphic-configuration"
     category: "company"
@@ -335,6 +404,28 @@ projects:
       - 负责 AR SDK 底层识别与跟踪算法优化，先改善采集图像质量，再调整 ORB 特征提取参数。
       - 围绕特征点分布、匹配稳定性和跟踪连续性分析失败样本，避免只用单一阈值掩盖问题。
       - 根据实际采集场景持续定位、验证和回归，提升图书页识别与跟踪成功率。
+  - name: "Audfly C++ 音频基础库"
+    slug: "audfly-cpp-foundation"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: false
+    period: "2022.10 - 至今"
+    role: "C++ 软件开发 · 公共组件与并发基础设施参与者"
+    description: "面向音频和设备项目复用的 C++ 基础库，提供线程安全队列、环形缓冲、计时和日志组件。"
+    highlights: ["提供 shared_queue、circular_queue、circular_buffer 和 stopwatch 等可复用组件。", "改进阻塞队列 pop_front 语义，统一空队列等待、生产消费和容量边界行为。", "配套 CMake、vcpkg、Visual Studio、GoogleTest 和 lint/test 脚本。"]
+    tags: ["C++", "C++11", "多线程", "CMake", "vcpkg", "GoogleTest", "并发队列"]
+    metrics:
+      - { label: "复用方向", value: "音频 / 设备模块" }
+      - { label: "核心组件", value: "队列 / 缓冲 / 计时" }
+      - { label: "质量保障", value: "GoogleTest + CI" }
+    detail: |
+      ## 项目定位
+      多个音频采集、处理和设备项目都需要稳定的生产者/消费者队列、环形缓冲和计时能力，因此将高频并发基础设施沉淀为独立 C++ 库。
+
+      ## 技术难点与我的工作
+      - 改进 `shared_queue::pop_front`，使队列为空时等待，并在有数据或停止条件满足时返回确定结果，避免业务侧重复编写等待逻辑。
+      - 通过互斥量和条件变量支撑多线程生产/消费，配合环形队列的容量限制处理满载、空载和边界数据。
+      - 将组件设计为 CMake/vcpkg 可复用包，同时维护 Visual Studio 工程、GoogleTest 测试、lint 和 CI 脚本。
   - name: "CodeHarbor AI 多模型 Matrix 网关"
     slug: "codeharbor"
     category: "personal"
@@ -360,8 +451,9 @@ projects:
 
       ## 我的贡献与技术亮点
       - 用 SQLite 持久化房间、用户、任务和 AI 会话映射，使机器人重启后可以继续识别上下文。
-      - 用限流、并发闸门、取消机制和任务进度事件控制长时间 CLI 任务，避免一个房间拖垮整个网关。
-      - 抽象图片、语音、生成文件和进度消息适配，并用 Vitest/Playwright 覆盖协议与端到端行为。
+      - 用限流、并发闸门、取消机制和逻辑 worker 控制长时间 CLI 任务，并增加重复 Matrix 事件防护，避免一个房间或重复事件拖垮整个网关。
+      - 抽象图片、语音、生成文件和进度消息适配，增加本地 Whisper/OpenAI 转写回退、文件投递意图和 request_id 级可观测性。
+      - 维护 TypeScript 主运行时与 Python legacy 兼容边界，配合 Vitest、Playwright、typecheck、lint、覆盖率检查和 NPM release 流程交付。
   - name: "Plover 计划驱动 GUI 自动化"
     slug: "plover"
     category: "personal"
@@ -503,9 +595,9 @@ skills:
   - category: "跨平台客户端"
     items:
       - { name: "Electron", level: 84 }
-      - { name: "C# / WPF / WinUI", level: 78 }
+      - { name: "C# / WPF / .NET", level: 82 }
       - { name: "Tauri / Rust", level: 58 }
-      - { name: "设备通信 / 串口 / TCP", level: 88 }
+      - { name: "设备通信 / 串口 / VISA", level: 90 }
   - category: "Web 与服务端"
     items:
       - { name: "TypeScript / JavaScript", level: 84 }
@@ -515,7 +607,8 @@ skills:
   - category: "AI 与工程化"
     items:
       - { name: "AI Agent / LLM CLI 集成", level: 82 }
-      - { name: "音频 / TTS / 视觉处理", level: 84 }
+      - { name: "音频 / TTS / sherpa-onnx", level: 84 }
+      - { name: "MQTT / OpenAPI / WebSocket", level: 82 }
       - { name: "Docker / Linux / Jetson", level: 82 }
       - { name: "CI/CD / 自动化测试", level: 78 }
 

@@ -54,11 +54,29 @@ const notes: Record<string, CaseNote> = {
     implementation: '参与设备语言切换、声纹识别开关、API 定义和版本上下文更新，关注表单状态、权限和配置反馈的一致性。',
     delivery: '结合国际化、TypeScript 类型检查、Jest 和 lint 流程，使管理端功能能够随设备版本一起迭代发布。'
   },
+  'acms-standalone-console': {
+    context: '独立部署版本需要直接服务于声像仪现场操作，配置、校准、回放和 PTZ 控制必须在设备状态可见的前提下完成。',
+    architecture: 'UmiJS/React 页面按配置、预览、回放和维护组织，OpenAPI 生成的请求层连接设备服务，部分 PTZ 操作组合多个 MQTT 语义。',
+    implementation: '参与 PTZ 实时角度同步、校准模式进入、设备时间/网络/存储配置和升级页面，处理接口成功但设备状态尚未刷新时的 UI 一致性。',
+    delivery: '通过多语言资源、版本化构建和独立部署配置支持现场安装，重点降低设备端配置与管理端显示不一致造成的误操作。'
+  },
   'focusound-demonstration-app': {
     context: '产品演示需要快速切换不同视频和场景，演示素材管理不能依赖手工复制文件或临时修改配置。',
     architecture: 'Electron 提供桌面文件能力，UmiJS/React 承载页面，Ant Design 负责表单和交互，ECharts 用于演示数据可视化。',
     implementation: '参与视频新增、编辑、删除、相对路径、文件传输和媒体库即时刷新，重点保证内容变化后页面状态及时同步。',
     delivery: '将演示内容维护流程收敛到应用内，降低现场演示前准备成本，并通过表单校验减少无效素材进入播放列表。'
+  },
+  'focusound-production-test': {
+    context: '聚音屏量产测试需要同时连接 LCR 测试仪、示波器、音频分析仪、治具板和功放板，人工切换仪器会降低效率并放大漏测风险。',
+    architecture: 'WPF 主程序通过独立设备控制库隔离串口、VISA.NET、Audiobus 和设备协议，测试编排服务统一管理设备连接、测量步骤和结果判定。',
+    implementation: '代码中将仪器连接、设备发现、测试调度和测量服务分层，并为串口数据流提供可 Mock 的接口；支持 F0、LCR、电压、功率、声学参数以及通道切换测试。',
+    delivery: '使用 Velopack 自动更新、三语言资源和 release/beta 打包脚本，配合单元测试覆盖数据流和设备库，适合现场产线持续升级。'
+  },
+  'audio-broadcast-service': {
+    context: '音频终端需要同时被上层业务、TCP 设备协议和 Web 运维页面调用，TTS、文件播放、音量和声光电控制不能各自维护一套逻辑。',
+    architecture: 'C++ 服务将 HTTP API、TCP 会话、设备协议、TTS 引擎和播放队列分层，前端管理页通过 API 与 SSE 日志观察运行状态。',
+    implementation: '支持 Windows TTS 与 sherpa-onnx/Kokoro 等引擎切换，统一处理文本合成、音频文件推送、播放停止、音量和爆闪灯；TCP tester 使用明确的请求/响应消息类型验证协议。',
+    delivery: '通过 CMake Presets、Docker 构建、Deb/NSIS 打包和 smoke test 形成跨平台发布链路，并保留协议文档、Postman 集合和集成测试入口。'
   },
   'scada-graphic-configuration': {
     context: 'SCADA 系统需要让工程人员以图形化方式组织监控对象，属性模型和画布交互是组态体验的核心。',
@@ -89,6 +107,12 @@ const notes: Record<string, CaseNote> = {
     architecture: '采集图像先经过预处理，再进入 ORB 特征提取、匹配和跟踪流程，识别结果由 SDK 提供给上层应用。',
     implementation: '围绕图像预处理和 ORB 参数调整进行实验与验证，结合实际采集场景定位识别失败和跟踪不稳定问题。',
     delivery: '以识别和跟踪成功率为方向迭代底层算法，为 Qt 编辑器和 AR 图书产品提供更稳定的视觉能力。'
+  },
+  'audfly-cpp-foundation': {
+    context: '多个音频和设备模块都需要可靠的队列、缓冲和计时能力，重复实现会造成并发语义不一致。',
+    architecture: '以 header library 形式提供 shared_queue、circular_queue、circular_buffer、stopwatch 和日志等基础组件，业务模块通过 CMake/vcpkg 复用。',
+    implementation: '改进阻塞队列的 pop_front 语义，使空队列等待并返回确定值；通过互斥与条件变量支持生产者/消费者并发，并覆盖容量、移动语义和边界行为。',
+    delivery: '配套 GoogleTest、CMake、Visual Studio 工程和 lint/test 脚本，让底层组件可以在 Windows/Linux 音频项目中稳定复用。'
   },
   codeharbor: {
     context: '多个 AI CLI 的输入输出、会话和附件处理方式不同，需要一个统一入口把它们接入 Matrix 房间。',

@@ -43,10 +43,25 @@ const diagrams: Record<string, { label: string; note: string; nodes: string[] }>
     note: 'Web 管理端通过 API 连接设备配置、用户和业务开关。',
     nodes: ['React / Ant Design', 'OpenAPI 类型与请求', '设备 / 用户 / 配置', '语言与声纹开关', '测试 · 构建 · 发布']
   },
+  'acms-standalone-console': {
+    label: 'STANDALONE DEVICE CONSOLE',
+    note: '面向单机部署的声像仪配置、校准、回放和 PTZ 控制工作台。',
+    nodes: ['设备状态', 'OpenAPI / MQTT', '配置与校准', 'PTZ / 回放', '升级 / 国际化']
+  },
   'focusound-demonstration-app': {
     label: 'DEMONSTRATION CONTENT LOOP',
     note: '演示素材管理、表单校验和播放入口集中在桌面端完成。',
     nodes: ['视频素材库', 'Electron 文件层', 'UmiJS / React 页面', 'Ant Design 表单', '分类 · 播放 · 刷新']
+  },
+  'focusound-production-test': {
+    label: 'PRODUCTION TESTING PIPELINE',
+    note: '把仪器控制、设备协议和测试判定组织成可重复的产线流程。',
+    nodes: ['测试治具 / 设备', '串口 · VISA · Audiobus', '测试编排服务', '参数采集与判定', '报告 / 更新 / 发布']
+  },
+  'audio-broadcast-service': {
+    label: 'AUDIO BROADCAST SERVICE',
+    note: '通过 HTTP/TCP 接口统一承载 TTS、音频推送、音量和声光电控制。',
+    nodes: ['HTTP / TCP 请求', '协议解析与会话', 'TTS / 音频引擎', '终端播放控制', 'Web 管理 / 日志']
   },
   'scada-graphic-configuration': {
     label: 'SCADA GRAPHIC AUTHORING FLOW',
@@ -72,6 +87,11 @@ const diagrams: Record<string, { label: string; note: string; nodes: string[] }>
     label: 'VISION RECOGNITION LOOP',
     note: '通过输入预处理和特征参数调整改善识别与跟踪效果。',
     nodes: ['采集图像', '预处理', 'ORB 特征提取', '匹配与跟踪', '图书页识别']
+  },
+  'audfly-cpp-foundation': {
+    label: 'C++ AUDIO FOUNDATION',
+    note: '以线程安全队列、环形缓冲和计时工具支撑实时音频模块复用。',
+    nodes: ['音频生产者', '线程安全队列', '环形缓冲', '处理模块', '测试 / CMake / 包']
   },
   codeharbor: {
     label: 'AI CLI ORCHESTRATION',
