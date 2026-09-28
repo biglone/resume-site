@@ -346,23 +346,28 @@ projects:
     detail: |
       ## 项目定位
       StrawBerry 关注语音硬件产品从样机接入到部署验收的工程闭环。
-  - name: "Resume Site 个人简历与作品集"
-    slug: "resume-site"
+  - name: "Todo Harbor 待办与专注管理平台"
+    slug: "todo-harbor"
     category: "personal"
     featured: false
     period: "个人项目 · 持续迭代"
     role: "独立设计与开发"
-    description: "配置驱动的个人简历、项目展示和后台发布系统。"
-    highlights: ["使用 Astro、React、TailwindCSS 构建高性能静态前台。", "提供 Express API 和 React 管理后台，支持草稿、发布和内容持久化。", "支持暗色模式、项目详情页、GitHub Pages、Vercel 和 Netlify 部署。"]
-    tags: ["Astro", "React", "TypeScript", "TailwindCSS", "Express", "Docker", "CI/CD"]
+    description: "支持历史记录、周期任务、番茄钟和多账号隔离的自托管待办事项平台。"
+    highlights: ["使用 Node.js、Express 和 SQLite 实现账号隔离、任务持久化和层级任务管理。", "支持周期任务自动生成、服务端分页、批量编辑、导入导出和多步撤销。", "通过 Docker、Cloudflare Tunnel、自动化测试和 CI 构建完整交付链路。"]
+    tags: ["Node.js", "Express", "SQLite", "Docker", "Cloudflare Tunnel", "Vitest", "CI/CD"]
     metrics:
-      - { label: "内容模型", value: "YAML / API" }
-      - { label: "前台模式", value: "Astro + 少量 JS" }
-      - { label: "发布方式", value: "Pages / Vercel / Netlify" }
-    link: "https://github.com/biglone/resume-site"
+      - { label: "任务能力", value: "周期 / 层级 / 批量" }
+      - { label: "专注工具", value: "番茄钟 + 统计" }
+      - { label: "部署方式", value: "Docker + Tunnel" }
+    link: "https://github.com/biglone/todo-harbor"
     detail: |
       ## 项目定位
-      这是一个配置驱动的简历作品集站点，前台负责高性能访问，后台负责内容编辑和发布。
+      Todo Harbor 是一个面向个人和小团队的自托管待办与专注管理平台。
+
+      ## 关键设计
+      - 使用 SQLite 持久化任务、账号、番茄钟和操作历史。
+      - 支持父子任务、项目分组、到期日分组、周期任务和服务端分页。
+      - 通过 Docker 和 Cloudflare Tunnel 部署，并用测试和 CI 保证迭代质量。
 
 skills:
   - category: "核心开发"
