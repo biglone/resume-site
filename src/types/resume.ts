@@ -42,6 +42,11 @@ export interface ProjectCommit {
   snippet?: string;
 }
 
+export interface ProjectMetric {
+  label: string;
+  value: string;
+}
+
 export interface Project {
   name: string;
   slug: string;  // URL identifier
@@ -55,6 +60,9 @@ export interface Project {
   commits?: ProjectCommit[];  // Git commit examples
   period?: string;  // Project timeline
   role?: string;  // Your role in the project
+  category?: 'company' | 'personal';
+  featured?: boolean;
+  metrics?: ProjectMetric[];
 }
 
 export interface SkillItem {

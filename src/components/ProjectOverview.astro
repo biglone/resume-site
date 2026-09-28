@@ -1,0 +1,91 @@
+---
+import type { Project } from '../types/resume';
+
+interface Props { projects: Project[]; }
+const { projects } = Astro.props;
+const company = projects.filter((project) => project.category === 'company');
+const personal = projects.filter((project) => project.category === 'personal');
+const total = company.length + personal.length;
+const lanes = [
+  { label: '桌面与设备', value: 'C++ · Qt · Electron · WPF', color: 'var(--color-primary)' },
+  { label: '音频与视觉', value: 'OpenCV · FFmpeg · TTS · Web Audio', color: 'var(--color-accent)' },
+  { label: 'AI 与服务', value: 'Agent · FastAPI · Go · Node.js', color: 'var(--color-warm)' },
+  { label: '交付与质量', value: 'Docker · CI/CD · E2E · Jetson', color: 'var(--color-sage)' },
+];
+---
+
+<section class="project-overview" aria-labelledby="project-map-title">
+  <div class="section-container">
+    <div class="overview-heading">
+      <div>
+        <p class="eyebrow">Engineering map</p>
+        <h2 id="project-map-title" class="section-title">把底层能力做成可交付的产品</h2>
+      </div>
+      <p class="overview-note">从设备与算法，到桌面端、Web 服务和自动化部署，项目经历覆盖完整交付链路。</p>
+    </div>
+
+    <div class="overview-grid">
+      <div class="signal-card signal-card-main">
+        <span class="signal-label">PROJECT SCOPE</span>
+        <strong>{total}</strong>
+        <span>代表项目</span>
+        <div class="scope-bars" aria-label="项目类型分布">
+          <div style={'width: ' + (company.length / total * 100) + '%'}></div>
+          <div style={'width: ' + (personal.length / total * 100) + '%'}></div>
+        </div>
+        <div class="scope-legend">
+          <span><i class="legend-company"></i>公司项目 {company.length}</span>
+          <span><i class="legend-personal"></i>个人项目 {personal.length}</span>
+        </div>
+      </div>
+
+      <div class="signal-card">
+        <span class="signal-label">DELIVERY LOOP</span>
+        <div class="delivery-flow">
+          <span>Device</span><b>→</b><span>Process</span><b>→</b><span>Product</span><b>→</b><span>Ship</span>
+        </div>
+        <p>设备接入、数据处理、交互产品、构建发布和运行维护在项目中形成闭环。</p>
+      </div>
+    </div>
+
+    <div class="lane-grid">
+      {lanes.map((lane, index) => (
+        <div class="lane" style={'--lane-color: ' + lane.color + '; --lane-delay: ' + index * 80 + 'ms'}>
+          <span class="lane-index">0{index + 1}</span>
+          <div><strong>{lane.label}</strong><p>{lane.value}</p></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .project-overview { padding: 5rem 0 1rem; background: var(--color-bg); }
+  .overview-heading { display: flex; justify-content: space-between; gap: 2rem; align-items: end; margin-bottom: 2rem; }
+  .overview-heading .section-title { margin-bottom: 0; border: 0; padding: 0; max-width: 34rem; }
+  .eyebrow, .signal-label, .lane-index { font-family: var(--font-mono); letter-spacing: .14em; text-transform: uppercase; font-size: .68rem; color: var(--color-text-secondary); }
+  .eyebrow { color: var(--color-primary); margin-bottom: .65rem; }
+  .overview-note { max-width: 25rem; color: var(--color-text-secondary); line-height: 1.7; font-size: .9rem; }
+  .overview-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 1rem; }
+  .signal-card { min-height: 10rem; padding: 1.4rem; border: 1px solid var(--color-border); background: var(--color-bg-secondary); border-radius: 1rem; }
+  .signal-card-main { background: linear-gradient(135deg, var(--color-ink), var(--color-panel)); color: #f8fbff; border: 0; }
+  .signal-card-main .signal-label, .signal-card-main > span:not(.signal-label) { color: #a8b7c6; }
+  .signal-card strong { display: block; font-family: var(--font-display); font-size: 3.6rem; line-height: 1; margin: .6rem 0 .25rem; }
+  .scope-bars { display: flex; height: .4rem; margin-top: 1.2rem; border-radius: 1rem; overflow: hidden; background: #334354; }
+  .scope-bars div:first-child { background: var(--color-primary); }
+  .scope-bars div:last-child { background: var(--color-accent); }
+  .scope-legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: .75rem; font-size: .72rem; color: #b8c4cf; }
+  .scope-legend i { display: inline-block; width: .45rem; height: .45rem; border-radius: 50%; margin-right: .35rem; }
+  .legend-company { background: var(--color-primary); }
+  .legend-personal { background: var(--color-accent); }
+  .delivery-flow { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; margin: 1.25rem 0 .8rem; font-family: var(--font-mono); font-size: .74rem; }
+  .delivery-flow span { padding: .45rem .6rem; color: var(--color-primary); border: 1px solid color-mix(in srgb, var(--color-primary), transparent 65%); border-radius: .45rem; }
+  .delivery-flow b { color: var(--color-text-secondary); font-weight: 400; }
+  .signal-card p { color: var(--color-text-secondary); line-height: 1.6; font-size: .84rem; margin: 0; }
+  .lane-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin-top: .75rem; }
+  .lane { display: flex; gap: .8rem; align-items: flex-start; padding: 1rem; border-top: 2px solid var(--lane-color); background: var(--color-bg-secondary); animation: fadeInUp .55s ease both; animation-delay: var(--lane-delay); }
+  .lane-index { color: var(--lane-color); }
+  .lane strong { font-size: .85rem; }
+  .lane p { color: var(--color-text-secondary); font-size: .72rem; line-height: 1.5; margin-top: .35rem; }
+  @media (max-width: 760px) { .overview-heading { display: block; } .overview-note { margin-top: 1rem; } .overview-grid, .lane-grid { grid-template-columns: 1fr; } }
+</style>

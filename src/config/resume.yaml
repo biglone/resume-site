@@ -1,250 +1,292 @@
+# 刘元龙个人简历与作品集配置
 profile:
-  name: 张三
-  title: 高级前端工程师
-  avatar: /images/screenshot_20251226_174700.jpg
-  bio: 5年前端开发经验，专注于 React 生态和性能优化。热爱开源，追求极致的用户体验。
-  location: 北京
-  email: zhangsan@example.com
-  phone: +86 138-0000-0000
+  name: "刘元龙"
+  title: "C++ / Qt 跨平台桌面与音频设备软件工程师"
+  avatar: "/images/avatar.jpg"
+  bio: "近十年软件开发经验，专注于 C++/Qt 桌面应用、音频与设备通信；同时独立构建 Electron、Web 全栈、AI Agent 和跨平台工具。"
+  location: "苏州"
+  email: "leslie_mc@163.com"
+  phone: "15370348006"
   social:
-    github: https://github.com/username
-    linkedin: https://linkedin.com/in/username
-    twitter: https://twitter.com/username
+    github: "https://github.com/biglone"
+    blog: "https://biglone.github.io"
+
 experience:
-  - company: 某知名科技公司
-    logo: /images/company1.png
-    position: 高级前端工程师
-    period: 2022.03 - 至今
-    location: 北京
+  - company: "苏州汇川技术有限公司"
+    position: "软件开发工程师 · 研发管理部"
+    period: "2021.04 - 至今"
+    location: "苏州"
     description:
-      - 负责核心业务系统前端架构设计与重构，提升团队开发效率 30%
-      - 主导前端性能优化项目，LCP 指标从 4.2s 降至 1.8s，提升 57%
-      - 搭建前端监控体系，实现错误自动上报和性能数据可视化
-      - 指导初级工程师，组织技术分享，推动团队技术成长
-    tags:
-      - React
-      - TypeScript
-      - Node.js
-      - Webpack
-  - company: 某互联网公司
-    position: 前端工程师
-    period: 2019.07 - 2022.02
-    location: 上海
+      - "参与声学监控、图形组态和设备管理产品的技术预研、选型、概要设计与模块实现。"
+      - "负责 C++/Qt/QML 图形界面、设备状态、WebSocket/WebRTC 预览和跨平台构建发布相关工作。"
+      - "参与从设备接入、音视频处理、实时通信到 Web 管理端的完整产品链路。"
+    tags: ["C++", "Qt/QML", "OpenCV", "FFmpeg", "Electron", "C#", "Docker"]
+  - company: "苏州梦想人软件科技有限公司"
+    position: "C++开发工程师"
+    period: "2019.08 - 2021.03"
+    location: "苏州"
     description:
-      - 负责电商平台前端开发，参与从 0 到 1 搭建项目
-      - 封装通用组件库，被多个业务线复用，节省开发成本
-      - 优化首屏加载速度，通过代码分割和懒加载减少 40% 加载时间
-    tags:
-      - Vue.js
-      - JavaScript
-      - Sass
-      - Git
+      - "负责 Qt 编辑器产品维护、定制版本开发、代码重构和性能优化。"
+      - "基于 OpenCV 优化 AR SDK 的图像预处理、ORB 特征提取和识别跟踪流程。"
+    tags: ["C++", "Qt", "OpenCV", "ORB", "重构", "性能优化"]
+  - company: "苏州广立信息技术有限公司"
+    position: "软件工程师 · 研究部"
+    period: "2016.05 - 2019.08"
+    location: "苏州"
+    description:
+      - "负责 Qt 即时通讯和智慧校园 PC 客户端的功能开发、维护与版本迭代。"
+      - "独立实现截图工具、图片浏览器、文件管理器和上线提醒等桌面功能模块。"
+    tags: ["C++", "Qt", "TCP/IP", "SQLite", "MySQL", "Linux"]
+
 projects:
-  - period: 2023.06 - 2023.12
-    name: 电商平台前端重构
-    slug: ecommerce-refactor
+  - name: "Whistle 智能声学监控平台"
+    slug: "whistle-platform"
+    category: "company"
+    featured: true
+    period: "公司项目 · 持续参与"
+    role: "C++/Qt 软件开发 · 核心模块参与者"
+    description: "面向声音识别、声源定位、摄像头和设备管理的跨平台智能监控平台。"
+    highlights: ["参与声音识别、声源定位、摄像头、证据生成和设备管理链路。", "参与 WebSocket/WebRTC 实时预览、诊断信息导出和 Web 管理端能力建设。", "维护 CMake、vcpkg、MSYS2、Docker 和 GitLab CI 跨平台构建发布流程。"]
+    tags: ["C++17", "Qt6/QML", "OpenCV", "FFmpeg", "WebRTC", "CMake", "GitLab CI"]
+    metrics:
+      - { label: "产品形态", value: "跨平台桌面 + Web" }
+      - { label: "核心链路", value: "采集 → 分析 → 预览 → 证据" }
+      - { label: "工程重点", value: "实时性 / 可诊断 / 可发布" }
     detail: |
-      ## 项目背景
+      ## 项目定位
+      Whistle 连接音频采集、声源定位、摄像头、识别算法、设备管理和证据输出等模块。
 
-      公司原有电商系统使用 jQuery + 原生 JavaScript 开发，存在以下问题：
-      - 代码耦合严重，维护成本高
-      - 缺乏组件化，重复代码多
-      - 性能差，首屏加载时间超过 4 秒
-
-      ## 技术方案
-
-      经过技术调研，我们选择了以下技术栈进行重构：
-
-      - **React 18** - 利用 Concurrent Mode 提升用户体验
-      - **TypeScript** - 提供类型安全，减少运行时错误
-      - **qiankun 微前端** - 支持多团队并行开发，渐进式迁移
-      - **Webpack 5** - 模块联邦实现依赖共享
-
-      ## 核心实现
-
-      ### 微前端架构设计
-
-      ```
-      ┌─────────────────────────────────────┐
-      │           主应用 (基座)              │
-      ├─────────┬─────────┬─────────────────┤
-      │ 商品中心 │ 订单中心 │    用户中心     │
-      │ (React) │ (React) │    (Vue)       │
-      └─────────┴─────────┴─────────────────┘
-      ```
-
-      ### 性能优化措施
-
-      1. **代码分割** - 按路由懒加载，首屏只加载必要代码
-      2. **图片优化** - WebP 格式 + 懒加载 + CDN
-      3. **缓存策略** - Service Worker + HTTP 缓存
-
-      ## 项目成果
-
-      - 首屏加载时间从 **4s 降至 1.2s**，提升 70%
-      - 组件复用率达到 **70%**
-      - 支持 **10+ 业务线**独立部署
-      - 开发效率提升 **40%**
-    role: 前端负责人
-    images:
-      - src: /images/projects/ecommerce/home.png
-        alt: 电商首页设计
-      - src: /images/projects/ecommerce/product.png
-        alt: 商品详情页
-      - src: /images/projects/ecommerce/cart.png
-        alt: 购物车页面
-    tags:
-      - React
-      - TypeScript
-      - Webpack 5
-      - qiankun
-    link: https://github.com/username/project1
-    commits:
-      - hash: a1b2c3d
-        message: "feat(cart): add quantity adjustment with debounce"
-        date: 2023-11-15
-      - hash: e4f5g6h
-        message: "fix(checkout): resolve payment callback race condition"
-        date: 2023-11-12
-      - hash: i7j8k9l
-        message: "refactor(product): extract ProductCard as shared component"
-        date: 2023-11-10
-      - hash: m1n2o3p
-        message: "perf(home): implement virtual list for product grid"
-        date: 2023-11-08
-      - hash: q4r5s6t
-        message: "test(cart): add unit tests for cart reducer"
-        date: 2023-11-05
-    description: 将老旧 jQuery 项目迁移至 React 技术栈，采用微前端架构，支持多团队并行开发
-    highlights:
-      - 首屏加载时间从 4s 降至 1.2s
-      - 组件复用率提升至 70%
-      - 支持 10+ 业务线独立部署
-  - period: 2023.01 - 2023.05
-    name: 前端监控 SDK
-    slug: frontend-monitor-sdk
+      ## 我的工作
+      - 参与 C++/Qt/QML 应用和设备状态链路设计与实现。
+      - 参与 WebSocket/WebRTC 预览、帧时间戳、传输节流和诊断信息导出。
+      - 参与 Windows/Linux 构建、依赖缓存、安装包和 CI 失败诊断。
+  - name: "Acoustic Camera 声学成像平台"
+    slug: "acoustic-camera-platform"
+    category: "company"
+    featured: true
+    period: "公司项目 · 持续参与"
+    role: "C++/Qt 软件开发 · 设备与可视化模块参与者"
+    description: "融合声学成像、频谱分析、PRPD、红外摄像头和 PTZ 控制的设备软件平台。"
+    highlights: ["参与 OpenCV、FFmpeg、CUDA、MQTT、SQLite 和 Qt/QML 组成的设备软件链路。", "参与红外控制、设备兼容、抗闪烁、线程安全、增益和设备通信。", "配套云端管理和独立部署前端，覆盖诊断、升级、校准和安装包校验。"]
+    tags: ["C++14", "Qt/QML", "OpenCV", "CUDA", "FFmpeg", "MQTT", "SQLite"]
+    metrics:
+      - { label: "算法/数据", value: "声源图 / 频谱 / PRPD" }
+      - { label: "硬件链路", value: "红外 / PTZ / 麦克风" }
+      - { label: "部署形态", value: "桌面端 + 云端管理" }
     detail: |
-      ## 项目背景
+      ## 项目定位
+      Acoustic Camera 负责设备采集、声学分析、可视化、报告输出和设备生命周期管理。
 
-      随着业务规模扩大，线上问题定位困难，需要一套完整的前端监控方案。
-
-      ## 功能特性
-
-      - **错误监控** - JS 错误、Promise 异常、资源加载失败
-      - **性能监控** - Web Vitals (LCP/FID/CLS)、资源加载耗时
-      - **用户行为** - PV/UV、点击热力图、用户路径分析
-
-      ## 技术亮点
-
-      1. SDK 体积仅 **8KB** (gzipped)
-      2. 支持 **SourceMap** 自动解析错误堆栈
-      3. 离线缓存 + 批量上报，减少网络请求
-      4. 采样率可配置，控制数据量
-    role: 核心开发者
-    tags:
-      - TypeScript
-      - Rollup
-      - IndexedDB
-      - Web Vitals
-    link: https://github.com/username/project2
-    commits:
-      - hash: x1y2z3a
-        message: "feat(core): implement error boundary capture"
-        date: 2023-04-20
-      - hash: b4c5d6e
-        message: "feat(performance): add Web Vitals metrics collection"
-        date: 2023-04-15
-      - hash: f7g8h9i
-        message: "perf(report): batch upload with IndexedDB queue"
-        date: 2023-04-10
-    description: 从零搭建前端监控系统，支持错误捕获、性能监控、用户行为追踪
-    highlights:
-      - 接入 50+ 项目，日均处理 1000万+ 事件
-      - 错误发现时间从小时级降至分钟级
-      - 支持 SourceMap 自动解析
-  - period: 2022.06 - 至今
-    name: 开源组件库
-    slug: ui-component-library
+      ## 我的工作
+      - 参与红外摄像头、PTZ、麦克风和设备状态相关功能。
+      - 处理抗闪烁、线程安全、设备查询时序和兼容版本等现场问题。
+      - 参与 Qt/QML 桌面端、React 管理端和独立部署升级链路。
+  - name: "Focusound Screen Electron"
+    slug: "focusound-screen-electron"
+    category: "company"
+    featured: true
+    period: "公司项目 · 持续参与"
+    role: "Electron/React 开发 · 桌面交互与设备通信"
+    description: "面向空间音频和声场展示的跨平台 Electron 桌面应用。"
+    highlights: ["使用 Electron、React、TypeScript、Vite 和 TailwindCSS 构建跨平台桌面应用。", "实现 SerialPort、自定义协议、CRC16、忙碌重试和设备连接启动门控。", "支持角度控制、8 通道增益、音频输出切换、Web Audio 可视化和多平台打包。"]
+    tags: ["Electron", "React", "TypeScript", "Vite", "SerialPort", "Web Audio", "electron-builder"]
+    metrics:
+      - { label: "目标平台", value: "Windows / macOS / Linux" }
+      - { label: "设备能力", value: "串口协议 + CRC16" }
+      - { label: "交互能力", value: "角度 / 增益 / 音频输出" }
     detail: |
-      ## 项目简介
+      ## 我的工作
+      - 设计 Electron 主进程、Preload 和 React UI 之间的通信边界。
+      - 实现串口连接管理、自定义协议解析、CRC16 校验、失败重试和启动门控。
+      - 实现角度跟踪、手动角度、8 通道增益、输出设备切换和 Web Audio 可视化。
+  - name: "Dance 多端设备管理平台"
+    slug: "dance-device-platform"
+    category: "company"
+    featured: true
+    period: "公司项目 · 持续参与"
+    role: "全栈/Android 设备管理参与者"
+    description: "覆盖 Go 后端、React 管理后台、微信小程序和 Android 设备端的综合系统。"
+    highlights: ["覆盖 Go + Gin + GORM + MySQL、React/Ant Design、微信小程序和 Kotlin Android。", "基于 ADB 和 Android Device Owner 实现设备探测、锁定、权限和应用升级。", "参与预约、设备占用、会话超时、管理员权限和失败诊断流程。"]
+    tags: ["Go", "Gin", "GORM", "React", "TypeScript", "Kotlin", "ADB", "Docker"]
+    metrics:
+      - { label: "端侧组成", value: "Web / 小程序 / Android" }
+      - { label: "设备控制", value: "ADB + Device Owner" }
+      - { label: "业务流程", value: "预约 / 锁定 / 升级" }
+    detail: |
+      ## 我的工作
+      - 参与后端、管理后台和 Android 设备端的跨端协作。
+      - 完善 ADB 工作流、设备就绪检查、目标设备锁定和失败诊断。
+      - 参与预约语义、会话占用、超时释放和管理员权限流程。
+  - name: "CodeHarbor AI 多模型 Matrix 网关"
+    slug: "codeharbor"
+    category: "personal"
+    featured: true
+    period: "个人项目 · 持续迭代"
+    role: "独立设计与开发"
+    description: "把 Codex、Claude 和 Gemini CLI 接入 Matrix 房间的自托管 AI 网关。"
+    highlights: ["支持三个 AI CLI 后端动态切换、会话持久化和跨后端上下文衔接。", "实现限流、并发控制、任务取消、进度通知、附件处理和请求可观测性。", "通过 Vitest、Playwright、GitHub Actions 和 NPM 发布形成完整工程闭环。"]
+    tags: ["TypeScript", "Node.js", "Matrix", "SQLite", "Vitest", "Playwright", "NPM"]
+    metrics:
+      - { label: "AI 后端", value: "Codex / Claude / Gemini" }
+      - { label: "运行形态", value: "Matrix Bot + CLI" }
+      - { label: "工程闭环", value: "测试 / CI / NPM" }
+    link: "https://github.com/biglone/CodeHarbor"
+    detail: |
+      ## 架构
+      Matrix Room → Channel Adapter → Orchestrator → AI CLI Executor
+                                      ↓
+                                  SQLite StateStore
 
-      一套面向企业级应用的 React UI 组件库，注重开发体验和可定制性。
+      ## 关键设计
+      - 用持久化状态管理房间、用户和 AI 会话映射。
+      - 用限流、并发闸门和取消机制控制长时间运行的 CLI 任务。
+      - 对图片、语音、生成文件和进度消息提供统一消息适配。
+  - name: "Plover 计划驱动 GUI 自动化"
+    slug: "plover"
+    category: "personal"
+    featured: true
+    period: "个人项目 · 持续迭代"
+    role: "独立设计与开发"
+    description: "将 GUI 自动化任务外化为可审查、可修复、可回放的版本化计划。"
+    highlights: ["采用 Planner、Executor、Frontend 分层，使用 gRPC 和 WebSocket 连接运行链路。", "支持失败检测、局部修复、人工审核、待执行步骤编辑和运行时间线。", "提供 Docker、macOS 宿主执行器、浏览器 E2E 和质量门禁。"]
+    tags: ["Python", "FastAPI", "gRPC", "React", "Vite", "WebSocket", "Docker", "Playwright"]
+    metrics:
+      - { label: "核心抽象", value: "Versioned Plan" }
+      - { label: "服务边界", value: "Planner / Executor / UI" }
+      - { label: "验证方式", value: "Unit + E2E + Smoke" }
+    link: "https://github.com/biglone/Plover"
+    detail: |
+      ## 关键设计
+      - Planner 负责生成和修复计划。
+      - Executor 负责与真实桌面或 Mock 环境交互。
+      - Frontend 负责计划审核、运行状态和时间线展示。
+  - name: "Bookwise AI 图书学习平台"
+    slug: "bookwise"
+    category: "personal"
+    featured: true
+    period: "个人项目 · 持续迭代"
+    role: "独立设计与开发"
+    description: "将 PDF、EPUB、Markdown 和文本内容转换为按章节组织的学习材料。"
+    highlights: ["使用 Next.js、Express 和 TypeScript 实现图书解析、章节任务和学习内容展示。", "支持 Codex CLI 与本地启发式生成器切换，并提供失败回退和缓存复用。", "通过 Docker Compose 和 Cloudflare Tunnel 部署完整前后端服务。"]
+    tags: ["Next.js", "React", "TypeScript", "Express", "PDF/EPUB", "Docker", "Codex CLI"]
+    metrics:
+      - { label: "输入格式", value: "PDF / EPUB / Markdown" }
+      - { label: "生成策略", value: "AI Provider 可切换" }
+      - { label: "可靠性", value: "缓存 + 回退" }
+    link: "https://github.com/biglone/bookwise"
+    detail: |
+      ## 项目链路
+      文件上传 → 文本/章节抽取 → 章节任务 → AI/启发式生成 → 学习内容查看
 
-      ## 特性
+      项目将文件解析、任务状态、缓存复用、provider 路由和失败回退组织成可运行的产品流程。
+  - name: "SharePier 文件上传与分享平台"
+    slug: "sharepier"
+    category: "personal"
+    featured: true
+    period: "个人项目 · 持续迭代"
+    role: "独立设计与开发"
+    description: "自托管文件上传、分片续传、公开分享和审计管理系统。"
+    highlights: ["使用 Go + React + PostgreSQL 构建管理端、API 和对象存储抽象。", "实现分片上传、会话清理、分享密码、过期时间、下载次数和审计日志。", "支持本地存储和 S3-compatible 存储，并提供 Docker/Cloudflare Tunnel 部署。"]
+    tags: ["Go", "chi", "React", "TypeScript", "PostgreSQL", "S3 API", "Docker"]
+    metrics:
+      - { label: "上传能力", value: "普通 + 分片续传" }
+      - { label: "存储后端", value: "Local / S3-compatible" }
+      - { label: "安全控制", value: "密码 / 过期 / 次数" }
+    link: "https://github.com/biglone/sharepier"
+    detail: |
+      ## 设计重点
+      - 抽象存储后端，支持本地磁盘和 S3 兼容对象存储。
+      - 分片会话具有过期清理和配额拦截，减少临时文件残留。
+      - 分享链接支持密码、过期时间和最大下载次数等策略。
+  - name: "Codex History Viewer"
+    slug: "codex-history-viewer"
+    category: "personal"
+    featured: false
+    period: "个人项目 · 持续迭代"
+    role: "独立设计与开发"
+    description: "基于 Tauri/Rust 的 Codex 会话查看、搜索、导入和云端同步工具。"
+    highlights: ["Rust 读取本地 SQLite 和 JSONL 会话数据，支持项目分组和全文搜索。", "配套 Fastify/PostgreSQL 服务端，支持跨设备增量同步。", "支持 Gemini/Agy 历史导入、Headless CLI 和 Linux ARM64 发布。"]
+    tags: ["Tauri", "Rust", "JavaScript", "SQLite", "Fastify", "PostgreSQL", "GitHub Actions"]
+    metrics:
+      - { label: "客户端", value: "Tauri v2" }
+      - { label: "本地数据", value: "SQLite + JSONL" }
+      - { label: "服务端", value: "Fastify + PostgreSQL" }
+    link: "https://github.com/biglone/codex-history-viewer"
+    detail: |
+      ## 项目定位
+      通过 Rust/Tauri 直接读取本地 Codex 数据，提供检索、回顾、导入和跨设备同步能力。
+  - name: "StrawBerry Jetson 语音硬件平台"
+    slug: "strawberry-voice-platform"
+    category: "personal"
+    featured: false
+    period: "个人项目 · 持续设计"
+    role: "独立设计与实现"
+    description: "面向 Jetson 和 ReSpeaker 终端的语音硬件接入、通信、压测和部署方案。"
+    highlights: ["围绕 WebSocket 协议、设备 Token、ReSpeaker 参数和终端接入建立技术方案。", "设计 Jetson 不可达时的离线提示、降级和回切演练。", "提供 Docker Compose、采购前自检和虚拟终端压测脚手架。"]
+    tags: ["Jetson", "ReSpeaker", "WebSocket", "Node.js", "Docker", "Cloudflare Tunnel"]
+    metrics:
+      - { label: "设备侧", value: "Jetson / ReSpeaker" }
+      - { label: "通信", value: "WebSocket + Token" }
+      - { label: "交付", value: "部署 / 压测 / 降级" }
+    link: "https://github.com/biglone/StrawBerry"
+    detail: |
+      ## 项目定位
+      StrawBerry 关注语音硬件产品从样机接入到部署验收的工程闭环。
+  - name: "Resume Site 个人简历与作品集"
+    slug: "resume-site"
+    category: "personal"
+    featured: false
+    period: "个人项目 · 持续迭代"
+    role: "独立设计与开发"
+    description: "配置驱动的个人简历、项目展示和后台发布系统。"
+    highlights: ["使用 Astro、React、TailwindCSS 构建高性能静态前台。", "提供 Express API 和 React 管理后台，支持草稿、发布和内容持久化。", "支持暗色模式、项目详情页、GitHub Pages、Vercel 和 Netlify 部署。"]
+    tags: ["Astro", "React", "TypeScript", "TailwindCSS", "Express", "Docker", "CI/CD"]
+    metrics:
+      - { label: "内容模型", value: "YAML / API" }
+      - { label: "前台模式", value: "Astro + 少量 JS" }
+      - { label: "发布方式", value: "Pages / Vercel / Netlify" }
+    link: "https://github.com/biglone/resume-site"
+    detail: |
+      ## 项目定位
+      这是一个配置驱动的简历作品集站点，前台负责高性能访问，后台负责内容编辑和发布。
 
-      - **50+ 组件** - 覆盖常见业务场景
-      - **TypeScript** - 完整的类型定义
-      - **主题定制** - CSS Variables + Design Token
-      - **按需加载** - Tree Shaking 友好
-      - **无障碍** - WAI-ARIA 支持
-
-      ## 文档与测试
-
-      - Storybook 交互式文档
-      - Jest + Testing Library 单元测试
-      - 测试覆盖率 > 85%
-    role: 项目发起人
-    tags:
-      - React
-      - Storybook
-      - Jest
-      - Rollup
-    link: https://github.com/username/project3
-    commits:
-      - hash: j1k2l3m
-        message: "feat(button): add loading state and icon support"
-        date: 2024-01-10
-      - hash: n4o5p6q
-        message: "docs(table): add sorting and filtering examples"
-        date: 2024-01-05
-      - hash: r7s8t9u
-        message: "fix(modal): prevent body scroll when open"
-        date: 2024-01-02
-    description: 基于 React 的企业级 UI 组件库，支持主题定制和按需加载
-    highlights:
-      - GitHub 1000+ Star
-      - NPM 周下载量 5000+
-      - 完善的文档和测试覆盖
 skills:
-  - category: 前端框架
+  - category: "核心开发"
     items:
-      - name: React
-        level: 90
-      - name: Vue.js
-        level: 80
-      - name: Next.js
-        level: 75
-  - category: 语言 & 工具
+      - { name: "C++", level: 95 }
+      - { name: "Qt / QML", level: 95 }
+      - { name: "CMake / vcpkg", level: 88 }
+      - { name: "OpenCV / FFmpeg", level: 88 }
+  - category: "跨平台客户端"
     items:
-      - name: TypeScript
-        level: 85
-      - name: JavaScript
-        level: 90
-      - name: Node.js
-        level: 70
-  - category: 工程化
+      - { name: "Electron", level: 84 }
+      - { name: "C# / WPF / WinUI", level: 78 }
+      - { name: "Tauri / Rust", level: 58 }
+      - { name: "设备通信 / 串口 / TCP", level: 88 }
+  - category: "Web 与服务端"
     items:
-      - name: Webpack
-        level: 80
-      - name: Vite
-        level: 75
-      - name: Git
-        level: 85
-  - category: 其他
+      - { name: "TypeScript / JavaScript", level: 84 }
+      - { name: "React / Next.js / Astro", level: 80 }
+      - { name: "Python / FastAPI", level: 76 }
+      - { name: "Go / Gin / chi", level: 68 }
+  - category: "AI 与工程化"
     items:
-      - name: Docker
-        level: 60
-      - name: CI/CD
-        level: 65
-      - name: Linux
-        level: 60
+      - { name: "AI Agent / LLM CLI 集成", level: 82 }
+      - { name: "音频 / TTS / 视觉处理", level: 84 }
+      - { name: "Docker / Linux / Jetson", level: 82 }
+      - { name: "CI/CD / 自动化测试", level: 78 }
+
 education:
-  - school: 某大学
-    degree: 计算机科学与技术 学士
-    period: 2015.09 - 2019.06
+  - school: "昆明理工大学"
+    degree: "计算机系统结构 · 硕士"
+    period: "2013.09 - 2016.06"
+  - school: "淮阴工学院"
+    degree: "计算机科学与技术（嵌入式系统软件设计方向）· 本科"
+    period: "2009.09 - 2013.06"
+
 site:
-  title: 张三的个人主页
-  description: 高级前端工程师 | React 专家 | 开源爱好者
-  keywords: 前端工程师, React, TypeScript, 简历
-  theme: auto
-  language: zh-CN
+  title: "刘元龙 · C++ / Qt 软件工程师"
+  description: "刘元龙的技术简历与项目作品集：C++/Qt、音频设备、Electron、AI Agent 和跨平台软件。"
+  keywords: "刘元龙, C++, Qt, Electron, AI Agent, 音频, 设备通信, 跨平台"
+  theme: "auto"
+  language: "zh-CN"

@@ -2,111 +2,84 @@
 import type { Project } from '../types/resume';
 import Badge from './common/Badge.astro';
 
-interface Props {
-  projects: Project[];
-}
-
+interface Props { projects: Project[]; }
 const { projects } = Astro.props;
-// Ensure baseUrl ends with slash
-const baseUrl = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
+const groups = [
+  { title: '公司项目', note: '音频、设备与跨平台产品', items: projects.filter((project) => project.category === 'company') },
+  { title: '个人项目', note: 'AI、全栈与工具产品', items: projects.filter((project) => project.category === 'personal') },
+];
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
-<section id="projects" class="py-16 section-surface">
+<section id="projects" class="projects-section">
   <div class="section-container">
-    <h2 class="section-title">项目经历</h2>
-
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      {projects.map((project, index) => (
-        <div
-          class="card group animate-fade-in-up"
-          style={`animation-delay: ${index * 0.1}s`}
-        >
-          {/* Cover Image */}
-          {(project.image || (project.images && project.images.length > 0)) && (
-            <div class="media-frame mb-4">
-              <a href={`${baseUrl}projects/${project.slug}`}>
-                <img
-                  src={project.image || project.images?.[0]?.src}
-                  alt={project.name}
-                  class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  onerror={`this.src='https://placehold.co/400x200/1f2937/9ca3af?text=${encodeURIComponent(project.name)}'`}
-                />
-              </a>
-            </div>
-          )}
-
-          {/* Header */}
-          <div class="flex items-start justify-between gap-2 mb-2">
-            <a href={`${baseUrl}projects/${project.slug}`} class="link font-medium">
-              <h3 class="text-lg font-semibold">{project.name}</h3>
-            </a>
-            <div class="flex items-center gap-1">
-              {project.link && (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex-shrink-0 icon-button"
-                  title="GitHub"
-                >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                  </svg>
-                </a>
-              )}
-            </div>
-          </div>
-
-          {/* Meta info */}
-          {(project.role || project.period) && (
-            <div class="flex items-center gap-3 mb-3 text-xs" style="color: var(--color-text-secondary);">
-              {project.role && <span>{project.role}</span>}
-              {project.role && project.period && <span>·</span>}
-              {project.period && <span>{project.period}</span>}
-            </div>
-          )}
-
-          {/* Description */}
-          <p class="text-sm mb-4" style="color: var(--color-text-secondary);">
-            {project.description}
-          </p>
-
-          {/* Highlights (show max 2) */}
-          {project.highlights && project.highlights.length > 0 && (
-            <ul class="list-disc list-inside space-y-1 mb-4 text-sm" style="color: var(--color-text-secondary);">
-              {project.highlights.slice(0, 2).map((highlight) => (
-                <li>{highlight}</li>
-              ))}
-            </ul>
-          )}
-
-          {/* Tags */}
-          <div class="flex flex-wrap gap-2 mb-4">
-            {project.tags.slice(0, 4).map((tag) => (
-              <Badge text={tag} variant="outline" />
-            ))}
-            {project.tags.length > 4 && (
-              <span class="text-xs" style="color: var(--color-text-secondary);">
-                +{project.tags.length - 4}
-              </span>
-            )}
-          </div>
-
-          {/* View Details Link */}
-          <a
-            href={`${baseUrl}projects/${project.slug}`}
-            class="inline-flex items-center gap-1 text-sm font-medium hover:gap-2 transition-all"
-            style="color: var(--color-primary);"
-          >
-            查看详情
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-      ))}
+    <div class="section-intro">
+      <div><p class="eyebrow">Selected work</p><h2 class="section-title">项目经历</h2></div>
+      <p>每个项目都保留了背景、我的角色、技术栈和可讨论的工程问题，方便面试时从结果深入到实现。</p>
     </div>
+
+    {groups.map((group) => (
+      <div class="project-group">
+        <div class="group-heading"><h3>{group.title}</h3><span>{group.note} · {group.items.length} 项</span></div>
+        <div class="project-grid">
+          {group.items.map((project, index) => (
+            <article class:list={['project-card', project.featured && 'project-card-featured']} style={'--card-delay: ' + index * 70 + 'ms'}>
+              <div class="card-topline">
+                <span class="project-number">{String(index + 1).padStart(2, '0')}</span>
+                <div class="card-links">
+                  {project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label={'查看 ' + project.name + ' 源码'}>GitHub ↗</a>}
+                  <a href={baseUrl + 'projects/' + project.slug} aria-label={'查看 ' + project.name + ' 详情'}>详情 ↗</a>
+                </div>
+              </div>
+              <div class="project-card-head">
+                <h4>{project.name}</h4>
+                <p class="project-role">{project.role} · {project.period}</p>
+              </div>
+              <p class="project-description">{project.description}</p>
+              <ul class="highlight-list">{project.highlights.slice(0, 3).map((highlight) => <li>{highlight}</li>)}</ul>
+              {project.metrics && <div class="metric-row">{project.metrics.map((metric) => <div><strong>{metric.value}</strong><span>{metric.label}</span></div>)}</div>}
+              <div class="tag-row">
+                {project.tags.slice(0, 6).map((tag) => <Badge text={tag} variant="outline" />)}
+                {project.tags.length > 6 && <span class="more-tags">+{project.tags.length - 6}</span>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    ))}
   </div>
 </section>
+
+<style>
+  .projects-section { padding: 5rem 0; background: var(--color-bg-secondary); }
+  .section-intro { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: 3rem; }
+  .section-intro .section-title { margin-bottom: 0; border: 0; padding: 0; }
+  .section-intro > p { max-width: 27rem; color: var(--color-text-secondary); line-height: 1.7; font-size: .9rem; }
+  .eyebrow { font-family: var(--font-mono); color: var(--color-primary); letter-spacing: .14em; text-transform: uppercase; font-size: .68rem; margin-bottom: .65rem; }
+  .project-group + .project-group { margin-top: 4rem; }
+  .group-heading { display: flex; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--color-border); padding-bottom: .8rem; margin-bottom: 1rem; }
+  .group-heading h3 { font-family: var(--font-display); font-size: 1.25rem; }
+  .group-heading span { color: var(--color-text-secondary); font-size: .78rem; }
+  .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .project-card { position: relative; display: flex; flex-direction: column; padding: 1.35rem; border: 1px solid var(--color-border); background: var(--color-bg); min-height: 27rem; animation: fadeInUp .55s ease both; animation-delay: var(--card-delay); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+  .project-card:hover { transform: translateY(-4px); border-color: var(--color-primary); box-shadow: 0 18px 40px rgba(10, 25, 40, .1); }
+  .project-card-featured { background: linear-gradient(145deg, var(--color-bg), color-mix(in srgb, var(--color-primary), var(--color-bg) 94%)); }
+  .card-topline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.35rem; }
+  .project-number { color: var(--color-primary); font-family: var(--font-mono); font-size: .72rem; }
+  .card-links { display: flex; gap: .8rem; font-size: .72rem; }
+  .card-links a { color: var(--color-text-secondary); }
+  .card-links a:hover { color: var(--color-primary); }
+  .project-card h4 { font-family: var(--font-display); font-size: 1.32rem; line-height: 1.25; margin-bottom: .45rem; }
+  .project-role { color: var(--color-primary); font-size: .74rem; }
+  .project-description { color: var(--color-text-secondary); line-height: 1.65; font-size: .88rem; margin: 1.2rem 0; }
+  .highlight-list { display: grid; gap: .55rem; margin: 0 0 1.2rem; color: var(--color-text-secondary); font-size: .8rem; line-height: 1.5; }
+  .highlight-list li { position: relative; padding-left: 1rem; }
+  .highlight-list li::before { content: ''; position: absolute; top: .55em; left: 0; width: .35rem; height: .35rem; border-radius: 50%; background: var(--color-accent); }
+  .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); padding: .9rem 0; margin-top: auto; margin-bottom: 1rem; }
+  .metric-row div { min-width: 0; }
+  .metric-row strong { display: block; font-family: var(--font-mono); font-size: .68rem; line-height: 1.35; overflow-wrap: anywhere; }
+  .metric-row span { display: block; color: var(--color-text-secondary); font-size: .62rem; margin-top: .3rem; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+  .more-tags { color: var(--color-text-secondary); font-size: .7rem; }
+  @media (max-width: 760px) { .section-intro { display: block; } .section-intro > p { margin-top: 1rem; } .project-grid { grid-template-columns: 1fr; } .project-card { min-height: unset; } }
+</style>

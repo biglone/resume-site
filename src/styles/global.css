@@ -17,6 +17,11 @@
   --color-primary-hover: #1e40af;
   --color-accent: #f97316;
   --color-accent-soft: #ffe3cc;
+  --color-warm: #b78742;
+  --color-sage: #78977e;
+  --color-ink: #18343a;
+  --color-panel: #28545a;
+  --font-mono: 'SFMono-Regular', 'Roboto Mono', Consolas, monospace;
   --color-glow-1: rgba(29, 78, 216, 0.14);
   --color-glow-2: rgba(249, 115, 22, 0.16);
   --color-grid: rgba(18, 18, 18, 0.05);
@@ -38,6 +43,10 @@
   --color-primary-hover: #9bb9ff;
   --color-accent: #fbbf24;
   --color-accent-soft: #3a2a10;
+  --color-warm: #d8ad63;
+  --color-sage: #9bbda0;
+  --color-ink: #09181c;
+  --color-panel: #163c42;
   --color-glow-1: rgba(122, 162, 255, 0.2);
   --color-glow-2: rgba(251, 191, 36, 0.16);
   --color-grid: rgba(255, 255, 255, 0.06);
@@ -257,6 +266,10 @@ a {
 .hero-bio {
   color: var(--color-text-secondary);
   @apply text-base sm:text-lg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
 
 .hero-card {

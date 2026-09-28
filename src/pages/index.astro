@@ -6,6 +6,7 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Experience from '../components/Experience.astro';
 import Projects from '../components/Projects.astro';
+import ProjectOverview from '../components/ProjectOverview.astro';
 import Skills from '../components/Skills.astro';
 import Education from '../components/Education.astro';
 import { fetchMeta, fetchPublishedResume } from '../lib/api';
@@ -84,6 +85,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     <>
       <Hero profile={resume.profile} />
       <Experience experience={resume.experience} />
+      <ProjectOverview projects={resume.projects} />
       <Projects projects={resume.projects} />
       <Skills skills={resume.skills} />
       {resume.education && <Education education={resume.education} />}
