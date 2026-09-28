@@ -1,0 +1,168 @@
+---
+import type { Project } from '../../types/resume';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const diagrams: Record<string, { label: string; note: string; nodes: string[] }> = {
+  'whistle-platform': {
+    label: 'REAL-TIME AUDIO / VIDEO PIPELINE',
+    note: '从设备采集到识别、预览和证据输出的实时处理链路。',
+    nodes: ['音频 / 视频设备', '接收 · 解码 · 同步', '识别 · 定位 · 取证', 'Qt/QML 工作台', 'Web 管理 / 证据输出']
+  },
+  'acoustic-camera-platform': {
+    label: 'ACOUSTIC IMAGING WORKFLOW',
+    note: '声学数据、摄像头和设备控制在同一套桌面工作流中协同。',
+    nodes: ['麦克风 / 红外 / PTZ', '采集与设备通信', '声源图 · 频谱 · PRPD', 'Qt/QML 可视化', '报告 / 校准 / 运维']
+  },
+  'focusound-screen-electron': {
+    label: 'ELECTRON DEVICE CONTROL LOOP',
+    note: '浏览器 UI、Electron 主进程和串口设备之间的边界与消息流。',
+    nodes: ['React 控制面板', 'Preload / IPC', 'SerialPort · CRC16', '设备状态与重试', '角度 / 增益 / 音频输出']
+  },
+  'dance-device-platform': {
+    label: 'MULTI-END DEVICE PLATFORM',
+    note: '预约业务、设备占用和端侧控制通过服务端形成闭环。',
+    nodes: ['Web / 小程序', 'Go API · 会话状态', 'MySQL · 预约数据', 'Android Device Owner', 'ADB 探测 / 锁定 / 升级']
+  },
+  'audfly-recording-agent': {
+    label: 'WINDOWS AGENT DELIVERY LOOP',
+    note: '桌面客户端将运行配置、授权检查、日志和版本交付串联起来。',
+    nodes: ['WPF UI', 'MVVM / 配置服务', '录音代理与状态检查', '授权 / 日志 / 国际化', 'Velopack 自动更新']
+  },
+  'ac-viewer-analysis': {
+    label: 'DATA PACKAGE ANALYSIS PIPELINE',
+    note: '把声像仪导出的数据包转换为可分析、可视化、可导出的结果。',
+    nodes: ['音频 / 视频数据包', '解析 · 校验 · 导入', '频谱 · PRPD · 声源图', 'Qt 分析工作台', '报告与数据包导出']
+  },
+  'acms-device-management': {
+    label: 'DEVICE MANAGEMENT CONSOLE',
+    note: 'Web 管理端通过 API 连接设备配置、用户和业务开关。',
+    nodes: ['React / Ant Design', 'OpenAPI 类型与请求', '设备 / 用户 / 配置', '语言与声纹开关', '测试 · 构建 · 发布']
+  },
+  'focusound-demonstration-app': {
+    label: 'DEMONSTRATION CONTENT LOOP',
+    note: '演示素材管理、表单校验和播放入口集中在桌面端完成。',
+    nodes: ['视频素材库', 'Electron 文件层', 'UmiJS / React 页面', 'Ant Design 表单', '分类 · 播放 · 刷新']
+  },
+  'scada-graphic-configuration': {
+    label: 'SCADA GRAPHIC AUTHORING FLOW',
+    note: '属性模型驱动图元编辑，再进入工业监控界面组态流程。',
+    nodes: ['监控对象模型', '属性子系统', 'Qt Graphics 图元', '画布编辑与交互', '监控界面组态']
+  },
+  'qixuntong-desktop-client': {
+    label: 'DESKTOP COMMUNICATION TOOLKIT',
+    note: '即时通讯能力向文件、图片和桌面效率工具延展。',
+    nodes: ['TCP/IP 通信', 'Qt 客户端框架', '消息与文件管理', '截图 / 图片 / 文件', 'SQLite / MySQL']
+  },
+  'wujiang-smart-campus': {
+    label: 'CAMPUS MESSAGING WORKFLOW',
+    note: '基于即时通讯基础设施承载校园业务和应急消息。',
+    nodes: ['即时通讯基础', '班级管理', '事务管理', '应急消息', 'Qt PC 客户端']
+  },
+  'dream-editor': {
+    label: 'EDITOR REFACTORING LOOP',
+    note: '围绕图书制作流程持续重构编辑器模块和交互体验。',
+    nodes: ['图书制作流程', 'Qt 编辑器模块', '定制版本适配', '代码重构与优化', '稳定性 / 易用性']
+  },
+  'ar-sdk-recognition-tracking': {
+    label: 'VISION RECOGNITION LOOP',
+    note: '通过输入预处理和特征参数调整改善识别与跟踪效果。',
+    nodes: ['采集图像', '预处理', 'ORB 特征提取', '匹配与跟踪', '图书页识别']
+  },
+  codeharbor: {
+    label: 'AI CLI ORCHESTRATION',
+    note: '消息入口、任务编排和多个 AI CLI 后端之间的状态流转。',
+    nodes: ['Matrix Room', 'Channel Adapter', 'Orchestrator', 'CLI Executor', 'SQLite StateStore']
+  },
+  plover: {
+    label: 'PLAN / EXECUTE / REVIEW',
+    note: '把 GUI 自动化拆成可审查、可修复、可回放的计划。',
+    nodes: ['Planner', 'Versioned Plan', 'Executor', '运行时间线', '人工审核 / 修复']
+  },
+  bookwise: {
+    label: 'BOOK TO LEARNING CONTENT',
+    note: '从文件解析到章节任务和学习内容生成的处理链路。',
+    nodes: ['PDF / EPUB / Markdown', '文本与章节抽取', '章节任务', 'AI / 启发式生成', '学习内容查看']
+  },
+  sharepier: {
+    label: 'FILE UPLOAD / SHARE PIPELINE',
+    note: '上传会话、对象存储和分享策略共同组成文件交付链路。',
+    nodes: ['Web / API', '普通或分片上传', 'Local / S3 Storage', '分享策略', '审计与清理']
+  },
+  'codex-history-viewer': {
+    label: 'LOCAL HISTORY SYNC',
+    note: '本地会话读取、检索和跨设备增量同步的客户端链路。',
+    nodes: ['SQLite / JSONL', 'Rust Data Layer', 'Tauri UI', 'Fastify API', 'PostgreSQL Sync']
+  },
+  'strawberry-voice-platform': {
+    label: 'EDGE VOICE DEVICE LOOP',
+    note: 'Jetson 端设备接入、WebSocket 通信和部署验收流程。',
+    nodes: ['Jetson / ReSpeaker', 'WebSocket Gateway', '设备 Token', '语音服务', 'Docker / Tunnel']
+  },
+  'todo-harbor': {
+    label: 'TASK / FOCUS / HISTORY',
+    note: '任务状态、周期生成和专注记录统一落到可持久化的数据模型。',
+    nodes: ['Web UI', 'Express API', 'SQLite', '周期任务 / 番茄钟', '导入导出 / 审计']
+  }
+};
+
+const diagram = diagrams[project.slug] || {
+  label: 'PROJECT DELIVERY FLOW',
+  note: '从输入、处理到交付的项目结构草图。',
+  nodes: ['Input', 'Process', 'Domain Logic', 'User Interface', 'Delivery']
+};
+---
+
+<section class="architecture-sketch" aria-label={`${project.name} 架构草图`}>
+  <div class="architecture-heading">
+    <div>
+      <span class="section-kicker">ARCHITECTURE SKETCH</span>
+      <h2>系统结构与数据流</h2>
+    </div>
+    <span class="architecture-label">{diagram.label}</span>
+  </div>
+  <p class="architecture-note">{diagram.note}</p>
+  <div class="architecture-flow">
+    {diagram.nodes.map((node, index) => (
+      <>
+        <div class="architecture-node">
+          <span>0{index + 1}</span>
+          <strong>{node}</strong>
+        </div>
+        {index < diagram.nodes.length - 1 && <div class="architecture-arrow" aria-hidden="true">→</div>}
+      </>
+    ))}
+  </div>
+  <div class="architecture-footer"><span>FLOW MODEL</span><span>基于项目代码结构整理</span></div>
+</section>
+
+<style>
+  .architecture-sketch {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: .45rem;
+    overflow: hidden;
+    background: linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px), var(--color-ink);
+    background-size: 28px 28px;
+    color: #e7f8f5;
+    box-shadow: 0 22px 55px rgba(0, 35, 43, .18);
+  }
+
+  .architecture-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+  .architecture-heading h2 { margin: .35rem 0 0; font: 700 1.45rem var(--font-display); }
+  .architecture-label { color: var(--color-accent); font: 500 .62rem var(--font-mono); letter-spacing: .12em; text-align: right; }
+  .architecture-note { max-width: 42rem; margin: .9rem 0 1.5rem; color: #9ab7b9; font-size: .84rem; }
+  .architecture-flow { display: flex; align-items: stretch; gap: .55rem; overflow-x: auto; padding-bottom: .4rem; }
+  .architecture-node { flex: 1 0 9.5rem; min-height: 6.5rem; display: flex; flex-direction: column; justify-content: space-between; padding: .8rem; border: 1px solid #28606a; background: rgba(11, 53, 66, .72); }
+  .architecture-node span { color: var(--color-primary); font: 500 .62rem var(--font-mono); }
+  .architecture-node strong { max-width: 9ch; color: #f1fffc; font: 600 .9rem var(--font-display); line-height: 1.3; }
+  .architecture-arrow { align-self: center; color: var(--color-accent); font: 500 1.2rem var(--font-mono); }
+  .architecture-footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; padding-top: .75rem; border-top: 1px solid #214b55; color: #719397; font: 500 .58rem var(--font-mono); letter-spacing: .1em; }
+  @media (max-width: 640px) { .architecture-sketch { padding: 1rem; } .architecture-heading { display: block; } .architecture-label { display: block; margin-top: .8rem; text-align: left; } .architecture-flow { margin-right: -.5rem; } }
+</style>
