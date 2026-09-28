@@ -117,6 +117,84 @@ projects:
       - 参与后端、管理后台和 Android 设备端的跨端协作。
       - 完善 ADB 工作流、设备就绪检查、目标设备锁定和失败诊断。
       - 参与预约语义、会话占用、超时释放和管理员权限流程。
+  - name: "SCADA 图形组态子系统"
+    slug: "scada-graphic-configuration"
+    category: "company"
+    featured: true
+    period: "2021.04 - 至今"
+    role: "C++/Qt 软件开发 · 图形组态模块参与者"
+    description: "面向工业监控系统的图形组态子系统，负责将监控对象、属性面板和自定义图元组织成可编辑的工程界面。"
+    highlights: ["参与需求文档、概要设计和属性子系统的架构设计与编码实现。", "基于 Qt Graphics Framework 设计和实现可交互自定义图元。", "围绕图元属性、编辑状态和组态交互完善桌面端工程能力。"]
+    tags: ["C++", "Qt", "Qt Graphics", "SCADA", "图形组态", "设计模式"]
+    metrics:
+      - { label: "核心界面", value: "图元 / 属性 / 组态" }
+      - { label: "技术基础", value: "Qt Graphics Framework" }
+      - { label: "参与阶段", value: "预研 → 设计 → 实现" }
+    detail: |
+      ## 项目定位
+      SCADA 图形组态子系统用于搭建工业监控界面，是监控系统中连接数据对象与可视化交互的重要模块。
+
+      ## 我的工作
+      - 参与属性子系统的模块边界、对象模型和交互流程设计。
+      - 基于 Qt Graphics Framework 实现自定义图元及其编辑行为。
+      - 参与需求文档、概要设计文档和关键模块的编码实现。
+  - name: "企讯通即时通讯客户端"
+    slug: "qixuntong-desktop-client"
+    category: "company"
+    featured: false
+    period: "2016.05 - 2019.08"
+    role: "C++/Qt 软件工程师 · PC 客户端开发"
+    description: "基于 Qt 的企业即时通讯 PC 客户端，覆盖消息通信、文件处理和一系列桌面效率工具。"
+    highlights: ["负责客户端日常维护、需求开发和版本迭代。", "独立实现截图工具、图片浏览器、文件管理器和上线提醒等功能模块。", "结合 TCP/IP、SQLite/MySQL 和 Linux 编程经验处理客户端功能与数据问题。"]
+    tags: ["C++", "Qt", "TCP/IP", "SQLite", "MySQL", "Linux", "桌面应用"]
+    metrics:
+      - { label: "产品形态", value: "企业级 PC 客户端" }
+      - { label: "独立模块", value: "截图 / 图片 / 文件" }
+      - { label: "工程重点", value: "稳定性 / 易用性" }
+    detail: |
+      ## 我的工作
+      - 负责 Qt 客户端的日常维护、需求开发和版本迭代。
+      - 独立完成截图工具、图片浏览器、文件管理器和上线提醒等功能。
+      - 处理网络通信、数据库读写和桌面交互相关问题。
+  - name: "吴江智慧校园客户端"
+    slug: "wujiang-smart-campus"
+    category: "company"
+    featured: false
+    period: "2016.05 - 2019.08"
+    role: "C++/Qt 软件工程师 · 功能模块负责人"
+    description: "以即时通讯为基础的智慧校园 PC 客户端，覆盖班级管理、事务管理和应急消息处理。"
+    highlights: ["基于 Qt 完成班级管理、事务管理和应急消息处理等功能模块。", "参与即时通讯能力与校园业务模块之间的交互设计和实现。", "在既有客户端框架中完成需求拆解、功能开发和版本维护。"]
+    tags: ["C++", "Qt", "即时通讯", "班级管理", "消息处理", "客户端"]
+    metrics:
+      - { label: "业务范围", value: "班级 / 事务 / 应急" }
+      - { label: "产品基础", value: "即时通讯客户端" }
+      - { label: "工作方式", value: "需求 → 开发 → 迭代" }
+    detail: |
+      ## 项目定位
+      吴江智慧校园以即时通讯为基础，将校园管理和消息处理能力整合到桌面客户端中。
+
+      ## 我的工作
+      - 负责班级管理、事务管理和应急消息处理等模块。
+      - 参与业务流程、消息交互和客户端界面实现。
+      - 配合版本迭代持续维护既有 Qt 客户端框架。
+  - name: "AR SDK 图像识别与跟踪优化"
+    slug: "ar-sdk-recognition-tracking"
+    category: "company"
+    featured: false
+    period: "2019.08 - 2021.03"
+    role: "C++/OpenCV 开发工程师 · 算法优化参与者"
+    description: "面向图书页识别与跟踪的 AR SDK 算法优化项目，重点改进图像预处理和 ORB 特征提取流程。"
+    highlights: ["对采集图像进行预处理，改善后续特征提取的输入质量。", "调整 ORB 特征提取参数，提升图书页识别与跟踪的成功率。", "围绕识别、跟踪和现场表现进行迭代验证与问题定位。"]
+    tags: ["C++", "OpenCV", "ORB", "图像预处理", "特征提取", "AR"]
+    metrics:
+      - { label: "处理对象", value: "图书页图像" }
+      - { label: "核心算法", value: "ORB 特征" }
+      - { label: "优化方向", value: "识别 / 跟踪成功率" }
+    detail: |
+      ## 我的工作
+      - 负责 AR SDK 底层识别与跟踪算法的优化。
+      - 通过图像预处理和 ORB 参数调整改善识别与跟踪表现。
+      - 根据采集场景和实际反馈持续定位问题并验证调整效果。
   - name: "CodeHarbor AI 多模型 Matrix 网关"
     slug: "codeharbor"
     category: "personal"
