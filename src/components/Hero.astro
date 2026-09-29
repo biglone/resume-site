@@ -13,7 +13,7 @@ const { profile } = Astro.props;
   <div class="section-container">
     <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-start">
       <div class="space-y-6 animate-fade-in-up">
-        <p class="section-kicker">PROFILE</p>
+        <p class="hero-meta">苏州 · C++ / Qt · 音频设备 · 跨平台软件</p>
         <h1 class="hero-title">{profile.name}</h1>
         <p class="hero-role">{profile.title}</p>
         <p class="hero-bio max-w-2xl">{profile.bio}</p>
@@ -47,7 +47,7 @@ const { profile } = Astro.props;
             />
           </div>
           <div>
-            <p class="section-kicker">CURRENT FOCUS</p>
+            <p class="hero-card-label">CURRENT FOCUS</p>
             <p class="text-base font-semibold">{profile.title}</p>
           </div>
         </div>
