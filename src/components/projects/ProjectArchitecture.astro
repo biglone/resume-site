@@ -185,14 +185,32 @@ const diagram = diagrams[project.slug] || {
   note: '从输入、处理到交付的项目结构草图。',
   nodes: ['Input', 'Process', 'Domain Logic', 'User Interface', 'Delivery']
 };
+
+const architectureTitle = project.slug === 'audio-broadcast-service'
+  ? '服务协议与播放链路'
+  : project.slug === 'af-vst-audio-engine' || project.slug === 'acoustic-camera-platform'
+    ? '音频处理与算法链路'
+    : project.slug === 'ar-sdk-recognition-tracking' || project.slug === 'aigc-engineering-lab'
+  ? '算法路径与实验结果'
+  : project.slug === 'focusound-screen-electron' || project.slug === 'dance-device-platform' || project.slug === 'lenovo-audio-control'
+    ? '设备控制闭环'
+    : project.slug === 'audfly-recording-agent' || project.slug === 'strawberry-voice-platform'
+      ? '代理运行与发布链路'
+    : project.slug === 'ac-viewer-analysis' || project.slug === 'fanshu-book-browser' || project.slug === 'video-automation'
+      ? '内容处理与用户流程'
+      : project.slug === 'dream-editor' || project.slug === 'scada-graphic-configuration' || project.slug === 'qixuntong-desktop-client' || project.slug === 'wujiang-smart-campus'
+        ? '编辑与交互工作流'
+      : project.slug === 'codeharbor' || project.slug === 'plover' || project.slug === 'sharepier' || project.slug === 'matrix-open-stack'
+        ? '服务边界与部署关系'
+        : '系统结构与数据流';
 ---
 
 <section class="architecture-sketch" aria-label={`${project.name} 架构草图`}>
   <div class="architecture-heading">
-    <div>
-      <span class="section-kicker">STRUCTURE / FLOW</span>
-      <h2>系统结构与数据流</h2>
-    </div>
+      <div>
+        <span class="section-kicker">STRUCTURE / FLOW</span>
+      <h2>{architectureTitle}</h2>
+      </div>
     <span class="architecture-label">{diagram.label}</span>
   </div>
   <p class="architecture-note">{diagram.note}</p>

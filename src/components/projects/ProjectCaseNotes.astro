@@ -21,6 +21,13 @@ interface DeepDive {
   story: string;
 }
 
+interface Presentation {
+  layout: 'pipeline' | 'device' | 'algorithm' | 'platform' | 'product';
+  eyebrow: string;
+  title: string;
+  labels: [string, string, string, string];
+}
+
 interface Props { project: Project; }
 const { project } = Astro.props;
 
@@ -507,20 +514,86 @@ const deepDives: Record<string, DeepDive> = {
 };
 
 const deepDive = deepDives[project.slug];
+
+const deviceProjects = new Set([
+  'focusound-screen-electron', 'dance-device-platform', 'audfly-recording-agent',
+  'acms-device-management', 'acms-standalone-console', 'focusound-production-test',
+  'lenovo-audio-control', 'aps-sensing-console', 'audio-broadcast-service', 'strawberry-voice-platform'
+]);
+const algorithmProjects = new Set([
+  'acoustic-camera-platform', 'ar-sdk-recognition-tracking', 'audfly-cpp-foundation',
+  'af-vst-audio-engine', 'aigc-engineering-lab'
+]);
+const platformProjects = new Set([
+  'whistle-platform', 'acms-device-management', 'dance-device-platform', 'codeharbor',
+  'plover', 'bookwise', 'sharepier', 'codex-history-viewer', 'matrix-open-stack',
+  'feedflow', 'linuxdo-scout', 'qwen3-tts-service', 'todo-harbor'
+]);
+
+const presentation: Presentation = deviceProjects.has(project.slug)
+  ? {
+      layout: 'device',
+      eyebrow: 'DEVICE / PROTOCOL / STATE',
+      title: '设备边界与状态闭环',
+      labels: ['设备场景', '协议与状态', '异常处理', '现场交付']
+    }
+  : algorithmProjects.has(project.slug)
+    ? {
+        layout: 'algorithm',
+        eyebrow: 'ALGORITHM / BENCHMARK / EVIDENCE',
+        title: '算法路径与验证证据',
+        labels: ['输入与约束', '处理路径', '性能或算法重点', '实验与落地']
+      }
+    : platformProjects.has(project.slug)
+      ? {
+          layout: 'platform',
+          eyebrow: 'BOUNDARY / RELIABILITY / DELIVERY',
+          title: '边界、可靠性与交付',
+          labels: ['业务问题', '系统边界', '可靠性设计', '交付与运维']
+        }
+      : {
+          layout: 'product',
+          eyebrow: 'PRODUCT / WORKFLOW / CRAFT',
+          title: '产品流程与工程取舍',
+          labels: ['用户问题', '产品结构', '关键实现', '交付关注点']
+        };
 ---
 
 {caseNote && (
   <section class="case-notes" aria-label={`${project.name} 项目案例说明`}>
     <div class="case-notes-heading">
-      <span class="section-kicker">PROJECT NOTES</span>
-      <h2>从问题到交付</h2>
+      <span class="section-kicker">{presentation.eyebrow}</span>
+      <h2>{presentation.title}</h2>
     </div>
-    <div class="case-notes-grid">
-      <article><span>01 / CONTEXT</span><h3>项目背景</h3><p>{caseNote.context}</p></article>
-      <article><span>02 / ARCHITECTURE</span><h3>系统结构</h3><p>{caseNote.architecture}</p></article>
-      <article><span>03 / IMPLEMENTATION</span><h3>关键实现</h3><p>{caseNote.implementation}</p></article>
-      <article><span>04 / DELIVERY</span><h3>交付关注点</h3><p>{caseNote.delivery}</p></article>
-    </div>
+    {presentation.layout === 'device' ? (
+      <div class="device-case-grid">
+        <article class="case-feature"><span>01 / {presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
+        <article><span>02 / {presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
+        <article><span>03 / {presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
+        <article class="case-wide"><span>04 / {presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
+      </div>
+    ) : presentation.layout === 'algorithm' ? (
+      <div class="algorithm-case-grid">
+        <article class="algorithm-hero"><span>01 / {presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
+        <article><span>02 / {presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
+        <article><span>03 / {presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
+        <article class="case-wide"><span>04 / {presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
+      </div>
+    ) : presentation.layout === 'platform' ? (
+      <div class="platform-case-grid">
+        <article><span>01 / {presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
+        <article class="platform-boundary"><span>02 / {presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
+        <article><span>03 / {presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
+        <article><span>04 / {presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
+      </div>
+    ) : (
+      <div class="case-notes-grid product-case-grid">
+        <article><span>01 / {presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
+        <article><span>02 / {presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
+        <article><span>03 / {presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
+        <article><span>04 / {presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
+      </div>
+    )}
     {caseEvidence && (
       <div class="case-evidence">
         <div class="evidence-lead">
@@ -574,6 +647,20 @@ const deepDive = deepDives[project.slug];
   .case-notes-grid span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
   .case-notes-grid h3 { margin: .65rem 0 .45rem; font: 700 1rem var(--font-display); }
   .case-notes-grid p { color: var(--color-text-secondary); font-size: .84rem; line-height: 1.7; }
+  .device-case-grid, .algorithm-case-grid, .platform-case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+  .device-case-grid article, .algorithm-case-grid article, .platform-case-grid article { min-height: 10rem; padding: 1.15rem; border: 1px solid var(--color-border); background: var(--color-bg-secondary); }
+  .device-case-grid article { border-top: 2px solid var(--color-primary); }
+  .device-case-grid article:nth-child(2n) { border-top-color: var(--color-accent); }
+  .device-case-grid .case-wide { grid-column: 1 / -1; min-height: auto; }
+  .algorithm-case-grid article { border-left: 2px solid var(--color-accent); }
+  .algorithm-case-grid .algorithm-hero { grid-column: 1 / -1; min-height: auto; border-left: 0; border-top: 2px solid var(--color-primary); }
+  .algorithm-case-grid .case-wide { grid-column: 1 / -1; min-height: auto; background: color-mix(in srgb, var(--color-primary), var(--color-bg-secondary) 94%); }
+  .platform-case-grid { grid-template-columns: 1.15fr .85fr; }
+  .platform-case-grid article { min-height: 9rem; border-bottom: 2px solid var(--color-primary); }
+  .platform-case-grid .platform-boundary { grid-row: span 2; min-height: 100%; background: var(--color-ink); border-color: #28606a; color: #e7f8f5; }
+  .platform-case-grid .platform-boundary span { color: var(--color-accent); }
+  .platform-case-grid .platform-boundary h3 { color: #f1fffc; }
+  .platform-case-grid .platform-boundary p { color: #a9c6c7; }
   .case-evidence { margin-top: .75rem; padding: 1.25rem; border: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-bg-secondary), transparent 5%); }
   .evidence-lead { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 1rem; align-items: baseline; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); }
   .evidence-lead h3 { margin: 0; font: 700 1.12rem var(--font-display); }
@@ -595,5 +682,5 @@ const deepDive = deepDives[project.slug];
   .deep-dive-grid article > span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
   .deep-dive-grid h3 { margin: .55rem 0 .5rem; font: 700 1rem var(--font-display); }
   .deep-dive-grid p { color: var(--color-text-secondary); font-size: .82rem; line-height: 1.72; }
-  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-top: .4rem; } .case-notes-grid, .evidence-grid, .deep-dive-grid { grid-template-columns: 1fr; } .evidence-lead { display: block; } .evidence-lead h3 { margin-top: .4rem; } .evidence-lead p { margin-top: .6rem; } .case-evidence { padding: 1rem; } }
+  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-top: .4rem; } .case-notes-grid, .device-case-grid, .algorithm-case-grid, .platform-case-grid, .evidence-grid, .deep-dive-grid { grid-template-columns: 1fr; } .device-case-grid .case-wide, .algorithm-case-grid .algorithm-hero, .algorithm-case-grid .case-wide { grid-column: auto; } .platform-case-grid .platform-boundary { grid-row: auto; min-height: auto; } .evidence-lead { display: block; } .evidence-lead h3 { margin-top: .4rem; } .evidence-lead p { margin-top: .6rem; } .case-evidence { padding: 1rem; } }
 </style>
