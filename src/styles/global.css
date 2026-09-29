@@ -1,29 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Noto+Serif+SC:wght@500;600;700&display=swap');
 @import "tailwindcss";
 
 /* Custom theme variables */
 :root {
-  --font-display: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-display: 'Instrument Serif', 'Noto Serif SC', 'Songti SC', serif;
   --font-body: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 
-  --color-bg: #f4f0e8;
-  --color-bg-rgb: 244 240 232;
-  --color-bg-secondary: #ebe5da;
-  --color-surface: #fffdf8;
-  --color-text: #172b2f;
-  --color-text-secondary: #5d6e70;
-  --color-border: #cfc6b8;
-  --color-primary: #17636a;
-  --color-primary-hover: #0c474e;
-  --color-accent: #ef654f;
-  --color-accent-soft: #ffd8ce;
-  --color-warm: #e5b642;
-  --color-sage: #5e9384;
-  --color-ink: #102f35;
-  --color-panel: #194b52;
+  --color-bg: #f7f3ec;
+  --color-bg-rgb: 247 243 236;
+  --color-bg-secondary: #ece6dc;
+  --color-surface: #fffdf9;
+  --color-text: #1d2727;
+  --color-text-secondary: #66706c;
+  --color-border: #d6cec1;
+  --color-primary: #314f4b;
+  --color-primary-hover: #203a37;
+  --color-accent: #c84e3c;
+  --color-accent-soft: #f2d4c9;
+  --color-warm: #b1843f;
+  --color-sage: #71877d;
+  --color-ink: #203b37;
+  --color-panel: #34524d;
   --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
-  --color-glow-1: rgba(23, 99, 106, 0.09);
-  --color-glow-2: rgba(239, 101, 79, 0.07);
+  --color-glow-1: rgba(49, 79, 75, 0.06);
+  --color-glow-2: rgba(200, 78, 60, 0.06);
   --color-grid: rgba(23, 43, 47, 0.06);
 
   --shadow-soft: 0 12px 30px -24px rgba(18, 18, 18, 0.4);
@@ -32,21 +32,21 @@
 }
 
 .dark {
-  --color-bg: #10282c;
-  --color-bg-rgb: 16 40 44;
-  --color-bg-secondary: #15353a;
-  --color-surface: #194148;
+  --color-bg: #172421;
+  --color-bg-rgb: 23 36 33;
+  --color-bg-secondary: #20332e;
+  --color-surface: #29423b;
   --color-text: #f5f0e7;
   --color-text-secondary: #acc0bc;
   --color-border: #3b5d60;
-  --color-primary: #9bd5c5;
-  --color-primary-hover: #d0eee2;
-  --color-accent: #ff846d;
-  --color-accent-soft: #613e3a;
-  --color-warm: #f1c95b;
-  --color-sage: #8ec0a8;
-  --color-ink: #0b2024;
-  --color-panel: #173e44;
+  --color-primary: #c3d6c9;
+  --color-primary-hover: #edf2e8;
+  --color-accent: #f08068;
+  --color-accent-soft: #65423b;
+  --color-warm: #e4bd6c;
+  --color-sage: #a8c1ae;
+  --color-ink: #0f1d1a;
+  --color-panel: #2d4b42;
   --color-glow-1: rgba(155, 213, 197, 0.10);
   --color-glow-2: rgba(255, 132, 109, 0.08);
   --color-grid: rgba(245, 240, 231, 0.08);
@@ -354,7 +354,7 @@ a {
 
 .project-overview::before,
 .projects-section::before {
-  content: 'CAPABILITY / SIGNAL / DELIVERY';
+  content: 'WORK / PROCESS / CRAFT';
   position: absolute;
   top: 1.2rem;
   right: max(1rem, calc((100vw - 72rem) / 2));
@@ -392,7 +392,7 @@ a {
 }
 
 #about::before {
-  content: 'C++  /  QT  /  AUDIO  /  DEVICES  /  AI';
+  content: 'C++  /  QT  /  AUDIO  /  PRODUCT  /  FORM';
   position: absolute;
   left: max(1rem, calc((100vw - 72rem) / 2));
   bottom: 1.5rem;
@@ -523,7 +523,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 }
 .brand-glyph { background: var(--color-accent); color: var(--color-ink); transform: none; border-radius: 50%; }
 .brand-copy strong { letter-spacing: .04em; }
-.brand-copy small { letter-spacing: .2em; }
+.brand-copy small { letter-spacing: .12em; }
 .nav-link { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
 .icon-button { border-radius: 0; padding: .55rem; }
 
@@ -533,8 +533,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
   padding-bottom: 5rem;
 }
 #about::before { content: 'FIELD NOTE  /  2026'; left: max(1.25rem, calc((100vw - 80rem) / 2)); bottom: 2rem; color: var(--color-accent); font-size: .64rem; letter-spacing: .22em; }
-.hero-title { max-width: 8ch; font-size: clamp(4.4rem, 11vw, 9rem); letter-spacing: -.075em; line-height: .84; }
-.hero-meta { color: var(--color-accent); font: 500 .66rem var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+.hero-title { max-width: 8ch; font-size: clamp(4.8rem, 12vw, 10rem); letter-spacing: -.055em; line-height: .78; font-style: italic; }
+.hero-meta { color: var(--color-accent); font: 500 .68rem var(--font-mono); letter-spacing: .08em; }
 .hero-card-label { color: var(--color-text-secondary); font: 500 .62rem var(--font-mono); letter-spacing: .16em; }
 .hero-role { max-width: 33rem; margin-top: 1.4rem; color: var(--color-primary); font-family: var(--font-mono); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
 .hero-bio { max-width: 34rem; margin-top: 1.2rem; color: var(--color-text-secondary); font-size: 1rem; line-height: 1.85; }
@@ -543,7 +543,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .btn-primary:hover { box-shadow: 5px 5px 0 var(--color-primary); filter: none; }
 .btn-secondary { border-color: var(--color-text); background: transparent; font-size: .68rem; }
 .btn-secondary:hover { background: var(--color-text); color: var(--color-bg); }
-.hero-card { border: 1px solid var(--color-text); border-radius: 0; box-shadow: 10px 10px 0 var(--color-primary); background: var(--color-surface); background-image: none; padding: 2rem; }
+.hero-card { border: 1px solid var(--color-text); border-radius: 0; box-shadow: 0 18px 40px rgba(29, 39, 39, .09); background: var(--color-surface); background-image: none; padding: 2rem; }
 .hero-card::before { content: 'LIU / PROFILE'; top: 1.2rem; right: 1.4rem; color: var(--color-accent); }
 .hero-card::after { width: 12rem; height: 12rem; right: -6rem; bottom: -6rem; border-color: var(--color-accent); }
 .hero-avatar { border-radius: 0; border: 0; box-shadow: none; filter: saturate(.8) contrast(1.05); }
@@ -553,7 +553,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .section-kicker, .eyebrow { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .18em; }
 .section-surface { background: var(--color-bg-secondary); border-color: var(--color-border); }
 .project-overview, .projects-section { background: var(--color-bg); }
-.project-overview::before, .projects-section::before { content: 'SELECTED WORK / CASE ARCHIVE'; top: 2rem; right: max(1.25rem, calc((100vw - 80rem) / 2)); color: var(--color-accent); }
+.project-overview::before, .projects-section::before { content: ''; }
 .project-overview { padding: 6rem 0 2rem; }
 .overview-heading { border-top: 1px solid var(--color-text); padding-top: 1rem; }
 .overview-heading .section-title { max-width: 15ch; }
@@ -576,7 +576,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .project-card-featured .project-role, .project-card-featured .project-number { color: var(--color-warm); }
 .project-card-featured .metric-row { border-color: #34545a; }
 .project-card-featured .tag-row .badge-outline { border-color: #48666a; color: #dce9e2; }
-.project-card h4 { font-size: clamp(1.45rem, 2.2vw, 2rem); letter-spacing: -.05em; }
+.project-card h4 { font-size: clamp(1.6rem, 2.4vw, 2.35rem); letter-spacing: -.045em; }
 .project-company { font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; }
 .project-role { font-family: var(--font-mono); font-size: .68rem; }
 .project-description { max-width: 34rem; line-height: 1.75; }

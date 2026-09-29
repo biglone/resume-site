@@ -6,7 +6,7 @@ interface Props { projects: Project[]; }
 const { projects } = Astro.props;
 const groups = [
   { title: '公司项目', note: '按任职时间从新到旧', items: projects.filter((project) => project.category === 'company').sort((a, b) => (b.period || '').localeCompare(a.period || '')) },
-  { title: '个人项目', note: 'AI、全栈与工具产品', items: projects.filter((project) => project.category === 'personal') },
+  { title: '个人项目', note: '实验、工具与产品', items: projects.filter((project) => project.category === 'personal') },
 ];
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
@@ -14,8 +14,8 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
 <section id="projects" class="projects-section">
   <div class="section-container">
     <div class="section-intro">
-      <div><p class="eyebrow">Selected work</p><h2 class="section-title">项目经历</h2></div>
-      <p>每个项目都保留了背景、我的角色、技术栈和可讨论的工程问题，方便面试时从结果深入到实现。</p>
+      <div><p class="eyebrow">03 — Selected work</p><h2 class="section-title">项目经历</h2></div>
+      <p>我喜欢把复杂系统讲清楚：先交代问题，再展示取舍，最后把代码、交互和交付放回真实场景。</p>
     </div>
 
     {groups.map((group) => (
