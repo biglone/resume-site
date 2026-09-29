@@ -585,6 +585,264 @@ projects:
       - 实现每日/每周/月度周期任务生成、JSON 导入导出、多步撤销和提醒，重点处理重复操作与历史状态恢复。
       - 通过 Docker、Cloudflare Tunnel、lint/test 和 CI 形成自托管部署闭环。
 
+  - name: "Lenovo 音频控制与 AI Turbo Engine UI"
+    slug: "lenovo-audio-control"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: false
+    period: "2024.06 - 2025.07"
+    role: "C# / C++ 音频控制开发 · 设备交互与配置参与者"
+    description: "面向 Lenovo 音频设备的 Windows 控制软件，覆盖麦克风、雷达、音频模式、EQ 配置和设备状态交互。"
+    highlights: ["参与 WPF 音频控制 UI、C++ 设备 DLL、RPC/IPC 和配置持久化链路。", "实现 EQ 模式、增益值、会议模式和播放效果配置，并限制连续命令发送间隔。", "参与 MessagePack/base64 管道数据传输、设备连接状态和现场提示反馈。"]
+    tags: ["C#", "WPF", "C++", "RPC/IPC", "MessagePack", "音频设备", "EQ", "Windows"]
+    metrics:
+      - { label: "产品形态", value: "Windows 音频控制台" }
+      - { label: "设备链路", value: "麦克风 / 雷达 / 音频设备" }
+      - { label: "核心能力", value: "EQ / 模式 / 状态同步" }
+    detail: |
+      ## 项目定位
+      该项目是一套面向 Lenovo 音频设备的 Windows 控制软件，UI 侧负责设备模式、EQ 和音频效果配置，底层通过 C++ DLL、RPC/IPC 与设备能力连接。
+
+      ## 我的工作与技术亮点
+      - 参与 WPF 控制台和 C++ 设备模块的协作，处理麦克风、雷达、扬声器设备以及本地配置之间的状态同步。
+      - 实现 EQ 模式、增益值、会议模式和播放效果配置，针对设备连接状态决定控件是否可用，并对连续 EQ 命令增加 100ms 间隔限制。
+      - 参与管道数据使用 MessagePack 序列化和 Base64 编码传输，减少跨进程传输中的结构歧义。
+      - 通过设置持久化、成功提示和日志补齐现场可见反馈，避免“配置提交成功但设备状态未知”的问题。
+
+      ## 可展开的工程问题
+      重点可以从 WPF UI 与 C++ 设备层边界、RPC/IPC 数据模型、设备断连后的状态恢复，以及频繁命令对硬件控制的节流策略展开。
+  - name: "AF-VST 音频效果处理引擎"
+    slug: "af-vst-audio-engine"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: false
+    period: "2023. - 2024."
+    role: "C++ 音频软件开发 · DSP 模块参与者"
+    description: "面向音频效果处理的 C++ 引擎，包含采集、通信、滤波、增益、混音、降噪和动态处理模块。"
+    highlights: ["围绕音频帧、收发、处理器和通信模块组织实时处理链路。", "参与 FIR/IIR、增益、混音、噪声抑制、重采样和动态处理组件。", "使用 CMake 组织多模块构建，并处理浮点音频数据和跨模块接口。"]
+    tags: ["C++", "DSP", "FIR/IIR", "降噪", "混音", "CMake", "ISPC", "实时音频"]
+    metrics:
+      - { label: "处理链路", value: "采集 → DSP → 输出" }
+      - { label: "算法模块", value: "滤波 / 增益 / 混音" }
+      - { label: "工程重点", value: "实时性 / 帧一致性" }
+    detail: |
+      ## 项目定位
+      AF-VST 是一套 C++ 音频效果处理引擎，代码按 audio、communicate、processor、fir、iir、gain、mix、AfcPf 等模块组织，面向实时音频帧进行连续处理。
+
+      ## 我的工作与技术亮点
+      - 参与 AudioReceiver、AudioSender、AudioRecorder 和 Frame 等音频收发基础模块，明确帧边界、输入输出和处理器之间的契约。
+      - 参与 FIR/IIR 滤波、增益、混音、噪声抑制、重采样和动态处理模块的维护，理解 DSP 算法在实时线程中的资源约束。
+      - 处理音频数据从整数/混合表示转为浮点数据后的接口影响，避免模块之间出现隐式转换和精度损失。
+      - 使用 CMake 管理多模块构建，并保留 ISPC 等性能优化入口，便于后续针对热点处理做向量化。
+
+      ## 可展开的工程问题
+      面试时可以从实时音频线程不能阻塞、帧大小与算法窗口的关系、滤波器状态跨帧保存，以及 DSP 模块如何测试和观测展开。
+  - name: "APS 声感知设备管理前端"
+    slug: "aps-sensing-console"
+    category: "company"
+    employer: "苏州清声学科技有限公司"
+    featured: false
+    period: "2023. - 2024."
+    role: "Vue 前端开发 · 设备管理与可视化参与者"
+    description: "面向声感知设备的 Web 管理端，提供设备接入、统计地图、配置和运行状态可视化。"
+    highlights: ["基于 Vue 2、Element UI、Axios 和 ECharts 构建设备管理页面。", "参与统计地图、设备新增、IP 必填校验和首页功能分区交互。", "配合环境配置、静态构建和 OSS 上传脚本完成前端发布。"]
+    tags: ["Vue 2", "Element UI", "ECharts", "Axios", "JavaScript", "OSS", "设备管理"]
+    metrics:
+      - { label: "产品形态", value: "Web 设备管理端" }
+      - { label: "可视化", value: "统计地图 / 图表" }
+      - { label: "交付方式", value: "静态构建 + OSS" }
+    detail: |
+      ## 项目定位
+      APS 是声感知设备的 Web 管理与统计前端，使用 Vue 2 组织页面，Element UI 负责业务控件，ECharts 承载统计图表和地图展示。
+
+      ## 我的工作与技术亮点
+      - 参与统计地图、首页功能分区和设备新增页面，将设备数据和可视化信息组织为可操作的管理流程。
+      - 补充设备 IP 必填校验、统计图例和布局细节，减少无效设备配置进入后端。
+      - 配合 `.env` 环境配置、Vue CLI 构建和 OSS 上传脚本，维护从本地调试到静态发布的前端链路。
+
+      ## 可展开的工程问题
+      可从设备管理表单的校验边界、ECharts 数据与页面状态同步、测试/生产 API 切换以及静态资源发布流程展开。
+  - name: "AIGC 工程实践与代码问答系统"
+    slug: "aigc-engineering-lab"
+    category: "personal"
+    featured: true
+    period: "个人项目 · 2025 - 至今"
+    role: "独立设计与开发"
+    description: "从 C++ 推理优化、RAG 代码问答到 Prompt、Agent 和 MLOps 的 AI 工程实践集合。"
+    highlights: ["实现 C++17 推理引擎实验，覆盖 KV Cache、INT8 量化、AVX2 SIMD 和 benchmark。", "实现基于 tree-sitter、ChromaDB 和 LangChain 的多语言代码问答系统。", "用文档、示例、测试和 Docker 模板整理从原理到工程部署的学习路径。"]
+    tags: ["C++17", "AVX2", "INT8", "Python", "RAG", "LangChain", "ChromaDB", "Gradio"]
+    metrics:
+      - { label: "内容组成", value: "推理引擎 + RAG + 教程" }
+      - { label: "代码检索", value: "AST 分块 + 向量搜索" }
+      - { label: "工程目标", value: "原理验证 → 可运行" }
+    link: "https://github.com/biglone/AIGC"
+    detail: |
+      ## 项目定位
+      这是一个把 AI 原理学习转化为工程实验的项目集合，既包含 C++ 推理优化，也包含面向真实代码库的 RAG 问答系统和完整的理论/部署文档。
+
+      ## 技术深挖
+      - C++ 推理引擎围绕 KV Cache、INT8 量化和 AVX2 SIMD 做性能实验，重点理解首 token 延迟、内存占用和精度之间的关系；仓库记录了约 30 倍首 token 加速和 75% 内存节省的实验目标。
+      - RAG 系统使用 tree-sitter 保持函数/类结构完整，再结合 OpenAI embedding、ChromaDB、混合搜索和 MMR 重排，为多语言代码提供来源可追溯的问答。
+      - 通过 Gradio、benchmark、单元测试和 Docker 模板把理论验证落成可运行工程，而不是只停留在笔记或 Prompt 示例。
+
+      ## 面试切入点
+      可以展开 KV Cache 的复杂度变化、量化带来的精度/内存取舍、代码语义分块为什么优于固定长度切块，以及 RAG 答案如何返回来源证据。
+  - name: "Matrix Open Stack 自托管通信平台"
+    slug: "matrix-open-stack"
+    category: "personal"
+    featured: true
+    period: "个人项目 · 2026"
+    role: "独立设计与开发"
+    description: "基于 Conduwuit、控制 API、Web 管理台和 Cloudflared 的可部署 Matrix 通信基础设施。"
+    highlights: ["用 Docker Compose 编排 homeserver、控制 API、Web 管理台和备份恢复脚本。", "实现用户、机器人、空间、房间和权限状态的管理 API。", "默认关闭高风险创建能力，加入 Token、审计日志、邀请限流和安全部署检查。"]
+    tags: ["Matrix", "Conduwuit", "Python", "FastAPI", "React", "Docker", "Cloudflared", "安全审计"]
+    metrics:
+      - { label: "部署方式", value: "Clone → Bootstrap → Compose" }
+      - { label: "控制能力", value: "用户 / Bot / 房间" }
+      - { label: "安全边界", value: "Token / 审计 / 限流" }
+    link: "https://github.com/biglone/matrix-open-stack"
+    detail: |
+      ## 项目定位
+      Matrix Open Stack 将 homeserver、控制 API、Web 管理台和 Cloudflared 公网入口组合成一套可自托管通信基础设施，目标是让部署、初始化、备份和运维具备明确边界。
+
+      ## 技术深挖
+      - 通过 Docker Compose 编排 Conduwuit、control-plane 和管理页面，bootstrap 脚本负责生成环境和初始化流程。
+      - 控制 API 覆盖空间、房间、用户、机器人、邀请、状态归档、Token 和运维操作，并用 audit log 保留敏感操作轨迹。
+      - 用户/机器人创建默认关闭，只有本地安全脚本可以打开短暂维护窗口；邀请接口加入 IP 与 Token 指纹限流，降低公网暴露风险。
+      - 提供备份、恢复、完整用户快照和 Cloudflared 模板，体现了从“能启动”到“可长期运行”的运维思维。
+
+      ## 面试切入点
+      可以从控制面与 homeserver 的职责划分、Docker socket 高风险能力如何默认关闭、审计日志和临时注册窗口如何降低误操作风险展开。
+  - name: "FeedFlow 内容订阅与自动部署服务"
+    slug: "feedflow"
+    category: "personal"
+    featured: false
+    period: "个人项目 · 2026"
+    role: "独立设计与开发"
+    description: "面向视频/内容订阅的服务端系统，结合 RSS、YouTube 解析、数据库迁移和 GitHub Webhook 自动部署。"
+    highlights: ["基于 Hono、Drizzle、PostgreSQL、Zod 和 JWT 组织服务端 API。", "集成 RSS、YouTube、代理、Cookies 和 PO Token provider 等真实内容源约束。", "通过独立生产目录、Webhook、systemd user service 和数据库迁移实现安全部署。"]
+    tags: ["TypeScript", "Hono", "Drizzle", "PostgreSQL", "RSS", "YouTube", "Webhook", "systemd"]
+    metrics:
+      - { label: "服务端", value: "Hono + Drizzle" }
+      - { label: "内容源", value: "RSS / YouTube" }
+      - { label: "发布链路", value: "Webhook → Deploy → Migrate" }
+    link: "https://github.com/biglone/feedflow"
+    detail: |
+      ## 项目定位
+      FeedFlow 是一个面向内容订阅和视频处理的服务端项目，重点不只在 API，而在于把不稳定的外部内容源、代理/Cookies 配置和可回滚部署纳入系统设计。
+
+      ## 技术深挖
+      - 使用 Hono、Zod 和 JWT 组织边界清晰的 API，Drizzle 负责 PostgreSQL schema 和迁移，降低运行时字段漂移。
+      - 对 YouTube bot-check 设计 Cookies 和 PO Token provider 配置，并把代理、解析失败和运行日志作为可诊断问题处理。
+      - 部署脚本使用独立的 `feedflow-prod` 生产目录，避免 webhook 发布时误伤开发目录；push 事件触发 webhook，再执行构建、迁移和服务重启。
+      - 通过 systemd user service 管理后端和 webhook，形成“代码变更 → 自动部署 → 数据库迁移 → 日志复盘”的闭环。
+
+      ## 面试切入点
+      可以讨论外部依赖不可靠时的配置隔离、生产目录与源码目录分离、数据库迁移失败如何阻止错误发布，以及 webhook 的安全边界。
+  - name: "Linux.do Scout 实时抓取与搜索工具"
+    slug: "linuxdo-scout"
+    category: "personal"
+    featured: false
+    period: "个人项目 · 2026"
+    role: "独立设计与开发"
+    description: "基于 Node.js、better-sqlite3 和 Discourse 数据源的论坛抓取、索引与本地搜索工具。"
+    highlights: ["支持 crawl/search CLI 和本地 Web UI，面向 Discourse 论坛内容持续抓取。", "使用 SQLite 持久化帖子、作者、时间和搜索数据，适合低依赖本地运行。", "提供 Docker Compose、TypeScript 构建和 npm 可执行入口。"]
+    tags: ["Node.js", "TypeScript", "SQLite", "Discourse", "Crawler", "CLI", "Docker"]
+    metrics:
+      - { label: "运行形态", value: "CLI + Web UI" }
+      - { label: "数据存储", value: "SQLite" }
+      - { label: "工程入口", value: "crawl / search" }
+    link: "https://github.com/biglone/linuxdo-scout"
+    detail: |
+      ## 项目定位
+      Linux.do Scout 面向 Discourse 论坛内容建立本地抓取和搜索能力，用低依赖的 Node.js + SQLite 方案把“定期获取、结构化保存、快速检索”串起来。
+
+      ## 技术深挖
+      - CLI 提供 `crawl` 和 `search` 两类入口，抓取逻辑、数据库访问和 Web UI 分层，既能脚本化运行，也能浏览结果。
+      - 使用 better-sqlite3 持久化论坛内容，针对本地工具优先低运维成本和可迁移性，而不是引入重量级服务端数据库。
+      - 通过 TypeScript、npm build、ESLint、Dockerfile 和 compose 文件形成可安装、可运行、可发布的工具链。
+
+      ## 面试切入点
+      可以从增量抓取的幂等性、SQLite 查询索引、外部站点限流/失败重试，以及 CLI 与 Web UI 复用同一数据层展开。
+  - name: "Qwen3-TTS Jetson 语音服务"
+    slug: "qwen3-tts-service"
+    category: "personal"
+    featured: true
+    period: "个人项目 · 2026"
+    role: "独立设计与开发"
+    description: "部署在 Jetson GPU 环境的 Qwen3-TTS HTTP 服务，支持定制音色、声音设计、声音克隆和流式输出。"
+    highlights: ["基于 FastAPI 封装 CustomVoice、VoiceDesign 和 VoiceClone 三类能力。", "支持同步、chunked 和 SSE 分段音频输出，统一 wav/mp3 结果格式。", "通过 Docker、NVIDIA runtime、模型缓存和环境变量适配 Jetson 部署。"]
+    tags: ["Python", "FastAPI", "Qwen3-TTS", "Docker", "Jetson", "GPU", "SSE", "音频"]
+    metrics:
+      - { label: "能力形态", value: "Custom / Design / Clone" }
+      - { label: "输出方式", value: "Sync / Stream / SSE" }
+      - { label: "部署目标", value: "Jetson GPU" }
+    link: "https://github.com/biglone/qwen3-tts-service"
+    detail: |
+      ## 项目定位
+      Qwen3-TTS Service 把本地大模型语音能力封装成 HTTP 服务，面向 Jetson GPU 环境提供定制音色、文本驱动声音设计和参考音频克隆。
+
+      ## 技术深挖
+      - 通过 FastAPI 统一 `/v1/tts/custom`、`/design` 和 `/clone` 接口，分别覆盖内置音色、提示词设计和参考音频克隆。
+      - 同时支持同步输出、chunked streaming 和 SSE 分段音频，返回 wav/mp3，便于桌面端、设备端和 Web 端接入。
+      - Docker 使用 NVIDIA runtime、模型目录只读挂载和 HuggingFace 缓存，解决 GPU 运行时、模型体积和重复下载问题。
+      - 通过 `/healthz`、`/v1/voices` 和 `/v1/models` 提供部署探针和能力发现，为后续接入设备服务保留稳定边界。
+
+      ## 面试切入点
+      可以讨论模型生命周期与请求并发、音频格式转换、流式接口的缓冲边界，以及 Jetson 资源受限环境中的模型缓存和部署策略。
+  - name: "Video Automation 2K 章节视频流水线"
+    slug: "video-automation"
+    category: "personal"
+    featured: false
+    period: "个人项目 · 2026"
+    role: "独立设计与开发"
+    description: "将章节文稿、主视觉静帧、旁白混音和视频渲染组织为可复用的 2K 整集生产流水线。"
+    highlights: ["以 episode.json、script.md 和 series profile 驱动章节化视频生产。", "支持 2048x1152 主视觉、章节视频渲染、旁白混音和整集合成。", "通过 smoke test、预设继承和脚本入口降低批量内容生产的重复配置。"]
+    tags: ["Node.js", "Shell", "FFmpeg", "JSON", "TTS", "视频流水线", "自动化测试"]
+    metrics:
+      - { label: "生产规格", value: "2048 × 1152" }
+      - { label: "处理单元", value: "章节 / 段落 / 整集" }
+      - { label: "质量保障", value: "Smoke + Preset" }
+    link: "https://github.com/biglone/video-automation"
+    detail: |
+      ## 项目定位
+      Video Automation 将内容脚本、章节结构、主视觉静帧、配音和视频渲染组织为一条可重复执行的 2K 整集流水线，目标是降低内容生产过程中反复改参数和手工拼接的成本。
+
+      ## 技术深挖
+      - 以 `episode.json` 描述单集输入、脚本、预设、旁白和输出目录，按章节拆分处理，避免长流程失败后全部重跑。
+      - 通过 `series_profiles` 和 presets 继承全局、内容模式和系列级配置，让视频规格、负面词、TTS 和 shot 规则集中管理。
+      - 当前正式链路聚焦 `chapter_stills`：生成 2048x1152 主视觉、章节视频、整集旁白混音并最终拼接。
+      - 提供编译 smoke test 和脚本入口，对输入结构、路径和生产链路做早期校验。
+
+      ## 面试切入点
+      可以从声明式配置、流水线幂等性、章节级失败恢复、媒体处理中的音画时序，以及如何用 smoke test 保证脚本重构不破坏生产入口展开。
+  - name: "帆书分类图书浏览站"
+    slug: "fanshu-book-browser"
+    category: "personal"
+    featured: false
+    period: "个人项目 · 2026"
+    role: "独立设计与开发"
+    description: "基于 React/Vite 的本地图书浏览站，支持分类切换、搜索、图书详情和多套主题预览。"
+    highlights: ["使用 React 19 和 Vite 构建本地数据驱动的内容浏览界面。", "支持业务线、分类、书名/作者/摘要搜索和图书详情展开。", "设计 refined、playful、brand 三套主题，兼顾信息密度和长时间浏览体验。"]
+    tags: ["React", "Vite", "JavaScript", "CSS", "本地数据", "主题系统", "内容产品"]
+    metrics:
+      - { label: "内容组织", value: "业务线 / 分类 / 图书" }
+      - { label: "交互能力", value: "搜索 / 筛选 / 详情" }
+      - { label: "视觉系统", value: "3 套可切换主题" }
+    link: "https://github.com/biglone/fanshu-book-browser"
+    detail: |
+      ## 项目定位
+      帆书分类图书浏览站是一个本地内容整理和浏览产品，重点不在复杂后端，而在于把大量分类、书目信息、作者、摘要、荐语和摘录组织成清晰、可检索、适合长时间浏览的界面。
+
+      ## 技术深挖
+      - 使用 React + Vite，数据内置为本地 JSON，页面加载后不依赖实时接口，降低部署和网络波动对浏览体验的影响。
+      - 在同一数据模型上实现业务线切换、分类筛选、书名/作者/摘要搜索和详情信息展开，保持搜索与浏览状态一致。
+      - 设计 refined、playful、brand 三套主题，通过 CSS 变量和组件样式组织视觉差异，验证内容产品在信息密度、可读性和风格之间的取舍。
+      - 配套截图、构建、lint 和免责声明，体现从数据整理到可发布前端产品的完整闭环。
+
+      ## 面试切入点
+      可以从本地数据与实时 API 的取舍、搜索字段归一化、主题 token 设计，以及高信息密度页面如何保持阅读层次展开。
+
 skills:
   - category: "核心开发"
     items:

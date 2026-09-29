@@ -163,6 +163,66 @@ const notes: Record<string, CaseNote> = {
     architecture: 'Express API 负责账号和任务业务，SQLite 持久化任务与操作历史，前端通过分页、分组和筛选组织工作台。',
     implementation: '实现周期任务自动生成、批量修改、JSON 导入导出、多步 Undo、番茄钟统计和外部 Token 同步边界。',
     delivery: '通过 Docker、健康检查、CI 测试和 Cloudflare Tunnel 部署为可长期运行的自托管应用。'
+  },
+  'lenovo-audio-control': {
+    context: '音频控制台需要把 WPF 操作、C++ 设备能力和本地配置连接起来，并且及时反馈设备是否真正完成操作。',
+    architecture: 'WPF UI 负责配置与反馈，RPC/IPC 连接 C++ 设备层，麦克风、雷达和音频模块以状态驱动控制项可用性。',
+    implementation: '参与 EQ、会议模式、播放效果、MessagePack 管道和命令节流，处理设备连接状态与配置持久化。',
+    delivery: '面向 Windows 设备现场交付，重点关注断连、命令频率、成功提示和版本兼容。'
+  },
+  'af-vst-audio-engine': {
+    context: '实时音频效果处理要求每个模块按帧协同，任何阻塞、隐式格式转换或状态丢失都会影响听感和稳定性。',
+    architecture: 'AudioReceiver/ Sender 提供帧输入输出，DSP 模块按 FIR/IIR、增益、混音、降噪和动态处理组合。',
+    implementation: '参与浮点音频数据、滤波器状态、重采样和多模块 CMake 构建，关注跨帧状态和实时线程约束。',
+    delivery: '通过模块化构建和可替换处理器为后续性能优化、插件化和跨平台发布保留空间。'
+  },
+  'aps-sensing-console': {
+    context: '声感知设备需要通过 Web 管理端完成配置和统计查看，设备信息、图表和表单反馈必须保持一致。',
+    architecture: 'Vue/Element UI 承载管理页面，Axios 连接后端，ECharts 展示统计地图和设备数据。',
+    implementation: '参与统计地图、设备新增、IP 校验和首页功能分区，补齐静态资源和环境配置。',
+    delivery: '通过 Vue CLI 构建和 OSS 上传脚本支持测试、生产环境切换与静态发布。'
+  },
+  'aigc-engineering-lab': {
+    context: 'AI 学习内容容易停留在概念层，因此项目把推理优化、RAG 和部署实践拆成可运行实验。',
+    architecture: 'C++ 推理实验与 Python RAG 系统分别验证底层优化和应用层检索生成，文档、测试和 Docker 连接学习路径。',
+    implementation: '围绕 KV Cache、量化、SIMD、AST 分块、向量检索和 MMR 重排整理实现与 benchmark。',
+    delivery: '以可复现实验数据、完整 README 和运行入口为交付标准，形成从原理到应用的工程证据。'
+  },
+  'matrix-open-stack': {
+    context: '自托管通信栈不仅要能启动，还要处理用户、机器人、权限、备份和公网暴露后的安全边界。',
+    architecture: 'Conduwuit 负责 homeserver，Control API 和 Web 管理台负责控制面，Docker/Cloudflared 负责部署入口。',
+    implementation: '参与安全创建窗口、Token、邀请限流、审计日志、用户快照、备份恢复和运维开关设计。',
+    delivery: '以 clone、bootstrap、compose、backup/restore 为核心流程，强调可恢复和默认安全。'
+  },
+  feedflow: {
+    context: '内容源会受到代理、Cookies、bot-check 和接口变化影响，订阅服务必须把外部不确定性纳入设计。',
+    architecture: 'Hono API 连接 RSS/YouTube 解析和 PostgreSQL，Webhook 触发独立生产目录部署与迁移。',
+    implementation: '参与源配置、数据库迁移、Cookies/PO Token 处理和 webhook/systemd 发布链路。',
+    delivery: '通过日志、独立生产目录和失败阻断策略降低自动部署误伤开发环境的风险。'
+  },
+  'linuxdo-scout': {
+    context: '论坛内容需要定期抓取并可快速检索，工具应保持低依赖、可迁移且适合命令行自动化。',
+    architecture: 'Crawler 写入 SQLite 索引，CLI 和 Web UI 共享查询模型，Docker 提供可选运行环境。',
+    implementation: '参与抓取、搜索、better-sqlite3 持久化和 npm CLI 入口组织。',
+    delivery: '以 crawl/search 两个明确入口和 TypeScript 构建检查保证工具可重复使用。'
+  },
+  'qwen3-tts-service': {
+    context: '本地 TTS 模型需要在 Jetson GPU 环境中对外提供稳定接口，同时兼顾模型体积和不同音色能力。',
+    architecture: 'FastAPI 作为 HTTP 边界，CustomVoice/VoiceDesign/VoiceClone 复用模型服务，Docker 挂载 GPU 与缓存。',
+    implementation: '参与同步、chunked、SSE 分段输出，wav/mp3 转换和 health/models/voices 能力发现。',
+    delivery: '通过 compose、NVIDIA runtime、只读模型挂载和健康检查支持边缘设备部署。'
+  },
+  'video-automation': {
+    context: '章节视频生产包含脚本、静帧、渲染、配音和拼接，多集批量制作需要避免重复手工配置。',
+    architecture: 'episode.json 和 series profile 驱动章节流水线，脚本入口串联静帧、视频、旁白和整集输出。',
+    implementation: '参与配置继承、2K chapter_stills 流程、smoke test 和旧工作流收敛。',
+    delivery: '以声明式配置、章节级处理和可验证脚本降低长流程失败后的恢复成本。'
+  },
+  'fanshu-book-browser': {
+    context: '大量图书分类和详情信息需要在本地快速浏览，界面既要有信息密度，也要保持长时间阅读的可读性。',
+    architecture: '本地 JSON 作为数据源，React 管理筛选和搜索状态，详情与主题系统负责呈现层。',
+    implementation: '参与业务线/分类筛选、关键词搜索、详情信息组织和三套主题视觉设计。',
+    delivery: '通过 Vite 构建、lint 和静态数据发布，形成低依赖、可迁移的内容产品。'
   }
 };
 

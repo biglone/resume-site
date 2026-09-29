@@ -127,6 +127,56 @@ const diagrams: Record<string, { label: string; note: string; nodes: string[] }>
     label: 'TASK / FOCUS / HISTORY',
     note: '任务状态、周期生成和专注记录统一落到可持久化的数据模型。',
     nodes: ['Web UI', 'Express API', 'SQLite', '周期任务 / 番茄钟', '导入导出 / 审计']
+  },
+  'lenovo-audio-control': {
+    label: 'WINDOWS AUDIO CONTROL LOOP',
+    note: 'WPF 控制台、IPC/RPC 和 C++ 设备能力之间的状态闭环。',
+    nodes: ['WPF 控制台', '配置 / EQ / 模式', 'RPC / IPC', 'C++ 设备层', '设备状态 / 反馈']
+  },
+  'af-vst-audio-engine': {
+    label: 'REAL-TIME DSP PIPELINE',
+    note: '音频帧经过收发、滤波、增益、混音和动态处理后输出。',
+    nodes: ['Audio Frame', 'Receiver / Sender', 'FIR / IIR', 'Gain / Mix / Denoise', 'Output']
+  },
+  'aps-sensing-console': {
+    label: 'SENSING DEVICE CONSOLE',
+    note: '设备配置、统计数据和图表展示由 Vue 管理端统一组织。',
+    nodes: ['Vue 页面', 'Axios API', '设备配置', '统计 / ECharts', '构建 / OSS 发布']
+  },
+  'aigc-engineering-lab': {
+    label: 'AI ENGINEERING LEARNING LOOP',
+    note: '从推理优化实验到代码检索问答，再到可运行文档和测试。',
+    nodes: ['C++ Inference', 'KV Cache / Quantize', 'AST Code Chunks', 'Vector Search / RAG', 'Gradio / Benchmark']
+  },
+  'matrix-open-stack': {
+    label: 'SELF-HOSTED MATRIX STACK',
+    note: 'Homeserver、控制面、管理台和公网入口组成可运维通信栈。',
+    nodes: ['Web Admin', 'Control API', 'Conduwuit', 'Audit / Snapshot', 'Docker / Tunnel']
+  },
+  feedflow: {
+    label: 'CONTENT INGESTION / DEPLOYMENT',
+    note: '内容源、解析服务、数据库和 Webhook 部署形成持续运行链路。',
+    nodes: ['RSS / YouTube', 'Hono API', 'PostgreSQL', 'Webhook Deploy', 'systemd / Logs']
+  },
+  'linuxdo-scout': {
+    label: 'CRAWL / INDEX / SEARCH',
+    note: 'Discourse 内容从抓取进入 SQLite，再由 CLI 和 Web UI 检索。',
+    nodes: ['Discourse', 'Crawler', 'SQLite Index', 'CLI Search', 'Web UI / Docker']
+  },
+  'qwen3-tts-service': {
+    label: 'JETSON TTS SERVICE',
+    note: 'HTTP 请求进入模型能力层，按同步或流式方式返回音频。',
+    nodes: ['HTTP Client', 'FastAPI', 'Custom / Design / Clone', 'WAV / MP3 Stream', 'Jetson GPU / Cache']
+  },
+  'video-automation': {
+    label: 'CHAPTER VIDEO PIPELINE',
+    note: '声明式单集配置驱动章节静帧、视频、旁白和整集合成。',
+    nodes: ['episode.json', 'Script / Chapters', 'Stills / Render', 'TTS / Mix', '2K Episode']
+  },
+  'fanshu-book-browser': {
+    label: 'LOCAL CONTENT BROWSER',
+    note: '本地内容数据经过筛选、搜索和主题渲染形成可浏览产品。',
+    nodes: ['Local JSON', 'React State', 'Search / Filter', 'Book Detail', 'Theme System']
   }
 };
 
