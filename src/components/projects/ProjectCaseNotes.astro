@@ -16,6 +16,11 @@ interface CaseEvidence {
   sourceRefs: string[];
 }
 
+interface DeepDive {
+  verification: string;
+  story: string;
+}
+
 interface Props { project: Project; }
 const { project } = Astro.props;
 
@@ -400,6 +405,108 @@ const evidence: Record<string, CaseEvidence> = {
 };
 
 const caseEvidence = evidence[project.slug];
+
+// 二次扫描后的项目证据：对应仓库中的 README、设计文档、测试入口、构建脚本和个人提交记录。
+const deepDives: Record<string, DeepDive> = {
+  'whistle-platform': {
+    verification: '验证入口包括 docs/系统设计与音视频预处理流程图、GoogleTest 模块、CMake/vcpkg 构建和 GitLab CI artifact。现场问题可以沿采集线程、时间戳、队列、识别结果和证据文件逐层回放。',
+    story: '在鸣笛处理时间从 18~40 秒压缩到现场要求的 2/5 秒约束下，我参与把数据预处理、识别和鸣笛处理拆开，并定位到 XMOS UDP 反射忙等阻塞 uIP 事件循环的问题；最终让系统从依赖重启规避，转向可解释的根因修复和诊断闭环。'
+  },
+  'acoustic-camera-platform': {
+    verification: '优化结果来自项目历史中的算子耗时对比，并结合 CMake 下的 sound_map、audio_signal_analysis、report_generator 测试目录验证回归；设备侧通过 MQTT/SQLite 状态和报告导出检查链路完整性。',
+    story: '当声源图和定位计算成为交互瓶颈时，我先拆分矩阵生成、矩阵移动和归一化热点，再减少不必要的 CUDA 同步；结果是 35→16ms、25→3ms、30→4ms 的局部优化，同时保留了设备兼容和结果可解释性。'
+  },
+  'focusound-screen-electron': {
+    verification: '验证点包括 SerialPort 协议的 CRC16、连接启动门控、忙碌重试、设备断开和 electron-builder 多平台打包；UI 侧通过角度、增益和输出设备状态回传检查闭环。',
+    story: '在设备控制 UI 出现“按钮已点击但硬件未执行”的现场风险时，我把 Electron 主进程、Preload、渲染层和串口协议边界拆开，并将连接、校验、重试和状态回传显式化，降低了桌面演示对偶然时序的依赖。'
+  },
+  'dance-device-platform': {
+    verification: '验证依据包括 docs/权限模型设计、Android 真机检查清单和远程升级设计；重点检查 Casbin HRBAC、设备锁定、Device Owner/ADB 执行反馈与超时释放。',
+    story: '当业务预约状态和设备实际状态可能发生偏差时，我参与将会话、设备锁定和端侧执行拆成不同状态，并用权限模型和诊断反馈连接它们，避免只靠前端禁用按钮维持一致性。'
+  },
+  'audfly-recording-agent': {
+    verification: '验证入口包括 .NET 项目配置、AppData 配置、NLog 日志、授权到期检查、版本信息和 Velopack release/beta 发布产物；重点覆盖升级和过期状态的可见反馈。',
+    story: '针对录音代理长期运行时授权过期容易被忽略的问题，我参与增加周期性有效期检查、版本和日志反馈，并把 release/beta 渠道纳入更新流程，使后台状态能够转化为现场可处理的提示。'
+  },
+  'ac-viewer-analysis': {
+    verification: '验证依据包括 package_manager、zip_operator、sound_map、report_generator 及对应 test 目录；具体回归覆盖云端图片有效性、数据包导入、报告关闭后状态、MouseArea 和滚轮交互。',
+    story: '当无效云端资源会把错误推迟到分析或报告阶段时，我参与把有效性检查前移到导入入口，并同步修复报告状态和交互事件问题，减少了难以复现的“导入成功但后续不可用”。'
+  },
+  'acms-device-management': {
+    verification: '验证方式包括 OpenAPI 定义更新、TypeScript 类型检查、Jest/lint、翻译资源和版本提交；设备语言与声纹开关分别检查读取、提交、反馈和失败路径。',
+    story: '面对设备配置容易出现字段漂移的问题，我参与以 OpenAPI 作为页面与服务端边界，并同步补齐语言、声纹识别和翻译上下文，让功能交付不只停留在页面可点击。'
+  },
+  'acms-standalone-console': {
+    verification: '代码注释和提交记录明确了 PTZ 的 point_cmd/point_index、rotate_dir/angles/device time 三类 MQTT 语义；回归重点是写入后读回角度、校准模式进入和升级倒计时。',
+    story: '在 PTZ 操作“请求成功但页面角度仍是旧值”的问题上，我参与采用写入后重新读取设备状态的策略，并补充校准入口和实时角度同步，牺牲少量请求换取控制台状态可信。'
+  },
+  'focusound-demonstration-app': {
+    verification: '验证依据来自视频新增/编辑表单、相对路径存储、文件传输、删除和媒体库刷新提交；回归路径覆盖换机器、分类自动选择和不完整素材拦截。',
+    story: '演示现场最怕素材路径或列表状态失真，我参与把绝对路径改为相对路径，并将表单校验、文件传输和刷新时机收敛到同一流程，优先保证演示内容可迁移、可恢复。'
+  },
+  'focusound-production-test': {
+    verification: '项目包含 Audfly.Device、M90、TestFixture 等测试工程，以及 ISerialPort/SerialDataStream、DeviceMonitorService、DeviceScheduleService 和 MeasurementService，支持硬件不可用时的 Mock 验证。',
+    story: '在产线需要同时控制 LCR、示波器、音频分析仪和治具时，我参与把仪器差异隔离到设备库，把测试步骤交给调度服务，并用可替换串口接口降低硬件依赖，避免产线流程被具体仪器绑死。'
+  },
+  'audio-broadcast-service': {
+    verification: '验证入口包括 CMake/GTest、smoke test、Postman 集合、Web SSE 日志和 tools/tcp-tester；协议层可用 0xC3 TTS 请求与 0xD3 响应复现设备交互。',
+    story: '当 HTTP、TCP 和 Web 管理端都需要触发播放时，我参与把播放控制统一到服务层，并用 TTS 引擎抽象、协议测试器和 SSE 日志补齐可观测性，让问题能从接口追到终端。'
+  },
+  'scada-graphic-configuration': {
+    verification: '验证依据包括需求文档、概要设计、属性子系统架构和 Qt Graphics 自定义图元实现；重点通过属性修改、图元状态和画布交互检查模型与视图的一致性。',
+    story: '面对组态系统图元类型持续扩展的问题，我参与把属性模型作为稳定边界，再将自定义图元和画布交互建立在模型之上，减少新图元对既有编辑流程的侵入。'
+  },
+  'qixuntong-desktop-client': {
+    verification: '验证对象包括截图工具、图片浏览器、文件管理器和上线提醒等独立模块，结合 TCP/IP、SQLite/MySQL 和既有 Qt 客户端版本回归检查窗口、文件和消息状态。',
+    story: '在存量即时通讯客户端中增加桌面效率工具时，我选择以独立模块接入并复用既有状态，而不是拆出多个程序，既降低交付成本，也控制了对老版本兼容性的影响面。'
+  },
+  'wujiang-smart-campus': {
+    verification: '验证场景围绕班级管理、事务管理和应急消息处理，重点检查通知触达、业务确认、角色差异和异常状态反馈，而不是只验证消息是否发出。',
+    story: '在即时通讯基础上承载校园事务时，我参与把消息通道与业务状态分开表达，让“通知已送达”和“事务已处理”不再混为一谈，提升业务模块的可维护性。'
+  },
+  'dream-editor': {
+    verification: '验证方式以真实图书制作流程、定制版本回归、稳定性问题复现和性能前后对比为主；重点关注重构是否破坏资源编辑、输出和定制差异。',
+    story: '面对长期迭代的 Qt 编辑器，我没有直接重写，而是先围绕高频制作路径识别耦合点，再用小步重构和性能优化逐步替换，兼顾版本交付和架构改善。'
+  },
+  'ar-sdk-recognition-tracking': {
+    verification: '验证依据是实际采集图像和识别/跟踪失败样本，分别观察首次识别、特征匹配稳定性和连续跟踪，而不是只比较一个总成功率。',
+    story: '当 AR 图书页在光照和视角变化下跟踪不稳定时，我先做输入图像预处理，再调整 ORB 特征参数并回到真实采集场景验证，避免把采集噪声误判成单纯算法参数问题。'
+  },
+  'audfly-cpp-foundation': {
+    verification: '验证入口包括 shared_queue、circular_queue、circular_buffer 的 GoogleTest、CMake/vcpkg 和 Visual Studio 工程；重点检查空队列等待、返回值、移动语义和停止/析构边界。',
+    story: '当业务侧出现 front + pop 在多线程下数据不同步的问题时，我参与增加线程安全的 pop_front，并让空队列等待而非忙等，把重复的并发处理沉淀为可复用基础组件。'
+  },
+  codeharbor: {
+    verification: '验证方式包括 Vitest、Playwright、typecheck、lint、覆盖率和 NPM release；重点回归重复 Matrix 事件、/stop 取消、会话迁移、附件交付和进程退出。',
+    story: '面对 Matrix 异步消息和分钟级 CLI 任务的组合，我把消息回调提升为可持久化任务状态，增加并发闸门、取消和重复事件保护，让重启、超时和附件场景可以被测试和恢复。'
+  },
+  plover: {
+    verification: '验证入口包括 planner/executor 单元测试、浏览器 E2E、smoke test、安全恢复和人工审核流程；Mock executor 用于在没有真实桌面时验证计划状态。',
+    story: 'GUI 自动化失败时最重要的是可解释和可恢复，我参与设计版本化计划、repair pending 和人工审核状态，让自动修复不会静默覆盖用户意图。'
+  },
+  bookwise: {
+    verification: '验证对象包括 PDF/EPUB/Markdown 解析、章节任务状态、provider 切换、缓存命中、失败回退和 Docker/Cloudflare Tunnel 部署。',
+    story: '长文档生成一旦中途失败，重新开始代价很高，因此我参与按章节拆分任务并加入缓存和 provider 回退，让内容生产可以增量推进而不是一次性成败。'
+  },
+  sharepier: {
+    verification: '验证重点包括分片会话过期、断点续传、配额拦截、本地/S3 存储切换、分享密码/过期/下载次数和审计记录。',
+    story: '在文件分享同时面对大文件和安全策略时，我参与把上传会话、存储后端和分享策略分层，既支持断点续传，也避免把密码和下载限制只放在前端。'
+  },
+  'codex-history-viewer': {
+    verification: '验证覆盖本地 SQLite/JSONL 读取、项目分组、全文搜索、多来源导入、Headless CLI、服务端增量同步和 Linux ARM64 GitHub Actions 发布。',
+    story: '当会话数据分散在 SQLite 和 JSONL 中时，我参与将本地读取、检索和同步拆成稳定数据层，并采用增量同步兼顾跨设备回顾与本地隐私。'
+  },
+  'strawberry-voice-platform': {
+    verification: '验证入口包括虚拟终端、smoke test、Jetson/ReSpeaker 实机步骤、采购前自检、异常降级和回切演练，以及 Docker/Tunnel 部署检查。',
+    story: '语音硬件项目不能只验证 Demo happy path，我参与把鉴权、断线、离线提示、压测和回切纳入验收，使设备不可达时仍能诊断和恢复。'
+  },
+  'todo-harbor': {
+    verification: '验证对象包括周期任务生成、层级任务、批量编辑、JSON 导入导出、多步 Undo、番茄钟、账号隔离、健康检查和 CI。',
+    story: '待办功能越多，状态组合越容易失控，我参与用操作历史支撑 Undo、用明确的数据模型处理周期任务和层级关系，并把账号隔离与部署检查作为基础能力一起交付。'
+  }
+};
+
+const deepDive = deepDives[project.slug];
 ---
 
 {caseNote && (
@@ -438,6 +545,20 @@ const caseEvidence = evidence[project.slug];
           <span>可讨论的代码入口</span>
           <div>{caseEvidence.sourceRefs.map((ref) => <code>{ref}</code>)}</div>
         </div>
+        {deepDive && (
+          <div class="deep-dive-grid">
+            <article>
+              <span>07 / VERIFICATION</span>
+              <h3>代码与文档如何证明</h3>
+              <p>{deepDive.verification}</p>
+            </article>
+            <article>
+              <span>08 / STAR STORY</span>
+              <h3>面试表达示例</h3>
+              <p>{deepDive.story}</p>
+            </article>
+          </div>
+        )}
       </div>
     )}
   </section>
@@ -469,5 +590,10 @@ const caseEvidence = evidence[project.slug];
   .source-refs { margin-top: .9rem; padding-top: .85rem; border-top: 1px solid var(--color-border); }
   .source-refs div { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .55rem; }
   .source-refs code { padding: .35rem .5rem; color: var(--color-text-secondary); border: 1px solid var(--color-border); background: var(--color-bg); font: .68rem var(--font-mono); }
-  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-top: .4rem; } .case-notes-grid, .evidence-grid { grid-template-columns: 1fr; } .evidence-lead { display: block; } .evidence-lead h3 { margin-top: .4rem; } .evidence-lead p { margin-top: .6rem; } .case-evidence { padding: 1rem; } }
+  .deep-dive-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-top: .75rem; }
+  .deep-dive-grid article { padding: 1rem; border-top: 2px solid var(--color-accent); background: var(--color-bg); }
+  .deep-dive-grid article > span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
+  .deep-dive-grid h3 { margin: .55rem 0 .5rem; font: 700 1rem var(--font-display); }
+  .deep-dive-grid p { color: var(--color-text-secondary); font-size: .82rem; line-height: 1.72; }
+  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-top: .4rem; } .case-notes-grid, .evidence-grid, .deep-dive-grid { grid-template-columns: 1fr; } .evidence-lead { display: block; } .evidence-lead h3 { margin-top: .4rem; } .evidence-lead p { margin-top: .6rem; } .case-evidence { padding: 1rem; } }
 </style>
