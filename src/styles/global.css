@@ -677,3 +677,67 @@ h1, h2, h3, h4, h5 { font-weight: 500; }
   .metric-row { margin-top: 1.5rem; }
   .tag-row { margin-top: 1rem; }
 }
+
+/* Clarity pass: remove the remaining dashboard signals and protect text contrast. */
+:root {
+  --color-bg: #fbfaf7;
+  --color-bg-secondary: #f2efe9;
+  --color-surface: #ffffff;
+  --color-text: #202321;
+  --color-text-secondary: #53605a;
+  --color-border: #d5d1c8;
+  --color-primary: #284c43;
+  --color-primary-hover: #17372f;
+  --color-accent: #b64536;
+  --color-accent-soft: #f1d9d0;
+  --color-warm: #866228;
+  --color-ink: #202321;
+  --color-panel: #284c43;
+}
+.dark {
+  --color-bg: #1d2421;
+  --color-bg-secondary: #252d29;
+  --color-surface: #2d3732;
+  --color-text: #faf8f2;
+  --color-text-secondary: #d0d8d0;
+  --color-border: #56645b;
+  --color-primary: #c8e0cf;
+  --color-primary-hover: #f1f7ec;
+  --color-accent: #f18a72;
+  --color-accent-soft: #60423b;
+  --color-warm: #edc978;
+  --color-ink: #111714;
+  --color-panel: #29453a;
+}
+body { color: var(--color-text); background-color: var(--color-bg); line-height: 1.75; }
+#about::before { content: none; }
+.hero-title { font-style: normal; letter-spacing: -.07em; }
+.hero-meta { font-size: .9rem; color: var(--color-text-secondary); }
+.hero-role { color: var(--color-primary); }
+.hero-bio, .overview-note, .section-intro > p, .project-description, .highlight-list { color: var(--color-text-secondary); }
+.hero-card { color: var(--color-text); }
+.hero-card-label { font-size: .8rem; }
+.section-kicker, .eyebrow { color: var(--color-text-secondary); font-size: .8rem; }
+.section-title { color: var(--color-text); }
+.project-overview, .projects-section { background: var(--color-bg); }
+.projects-section { border-top: 1px solid var(--color-border); }
+.project-group + .project-group { margin-top: 5rem; }
+.group-heading { border-bottom-color: var(--color-text); }
+.group-heading h3 { color: var(--color-text); }
+.group-heading span { color: var(--color-text-secondary); }
+.project-card-featured { background: var(--color-surface); color: var(--color-text); }
+.project-card-featured:hover { background: var(--color-surface); }
+.project-card-featured h4, .project-card-featured .project-company, .project-card-featured .project-description, .project-card-featured .highlight-list, .project-card-featured .project-role, .project-card-featured .project-number { color: inherit; }
+.project-card-featured .project-role, .project-card-featured .project-number { color: var(--color-accent); }
+.project-card h4 { color: var(--color-text); font-weight: 500; }
+.project-company { color: var(--color-text); font-size: .85rem; }
+.project-role { color: var(--color-primary); font-size: .85rem; }
+.project-description { font-size: 1rem; }
+.highlight-list { font-size: .9rem; }
+.highlight-list li::before { background: var(--color-accent); }
+.metric-row strong { color: var(--color-text) !important; font-family: var(--font-body); font-size: .9rem; font-weight: 600; }
+.metric-row span { color: var(--color-text-secondary) !important; font-size: .75rem; }
+.badge-outline, .project-card-featured .tag-row .badge-outline { color: var(--color-text-secondary) !important; font-size: .78rem; }
+.card-links a, .project-card-featured .card-links a { color: var(--color-primary) !important; }
+#experience .card h3 { color: var(--color-text); }
+#experience .card ul, #experience .card .text-sm { color: var(--color-text-secondary) !important; }
