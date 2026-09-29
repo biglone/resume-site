@@ -562,53 +562,53 @@ const presentation: Presentation = deviceProjects.has(project.slug)
 {caseNote && (
   <section class="case-notes" aria-label={`${project.name} 项目案例说明`}>
     <div class="case-notes-heading">
-      <span class="section-kicker">{presentation.eyebrow}</span>
       <h2>{presentation.title}</h2>
+      <span class="case-notes-index">{presentation.eyebrow}</span>
     </div>
     {presentation.layout === 'device' ? (
       <div class="device-case-grid">
-        <article class="case-feature"><span>01 / {presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
-        <article><span>02 / {presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
-        <article><span>03 / {presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
-        <article class="case-wide"><span>04 / {presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
+        <article class="case-feature"><span>{presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
+        <article><span>{presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
+        <article><span>{presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
+        <article class="case-wide"><span>{presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
       </div>
     ) : presentation.layout === 'algorithm' ? (
       <div class="algorithm-case-grid">
-        <article class="algorithm-hero"><span>01 / {presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
-        <article><span>02 / {presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
-        <article><span>03 / {presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
-        <article class="case-wide"><span>04 / {presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
+        <article class="algorithm-hero"><span>{presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
+        <article><span>{presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
+        <article><span>{presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
+        <article class="case-wide"><span>{presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
       </div>
     ) : presentation.layout === 'platform' ? (
       <div class="platform-case-grid">
-        <article><span>01 / {presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
-        <article class="platform-boundary"><span>02 / {presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
-        <article><span>03 / {presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
-        <article><span>04 / {presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
+        <article><span>{presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
+        <article class="platform-boundary"><span>{presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
+        <article><span>{presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
+        <article><span>{presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
       </div>
     ) : (
       <div class="case-notes-grid product-case-grid">
-        <article><span>01 / {presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
-        <article><span>02 / {presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
-        <article><span>03 / {presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
-        <article><span>04 / {presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
+        <article><span>{presentation.labels[0]}</span><h3>{presentation.labels[0]}</h3><p>{caseNote.context}</p></article>
+        <article><span>{presentation.labels[1]}</span><h3>{presentation.labels[1]}</h3><p>{caseNote.architecture}</p></article>
+        <article><span>{presentation.labels[2]}</span><h3>{presentation.labels[2]}</h3><p>{caseNote.implementation}</p></article>
+        <article><span>{presentation.labels[3]}</span><h3>{presentation.labels[3]}</h3><p>{caseNote.delivery}</p></article>
       </div>
     )}
     {caseEvidence && (
       <div class="case-evidence">
         <div class="evidence-lead">
-          <span class="section-kicker">INTERVIEW EVIDENCE</span>
           <h3>把项目讲到“我做了什么”</h3>
+          <span>个人贡献 / 证据 / 取舍</span>
           <p>{caseEvidence.contribution}</p>
         </div>
         <div class="evidence-grid">
           <article>
-            <span>05 / DECISIONS</span>
+            <span>关键技术取舍</span>
             <h3>关键技术取舍</h3>
             <ul>{caseEvidence.decisions.map((item) => <li>{item}</li>)}</ul>
           </article>
           <article>
-            <span>06 / EVIDENCE</span>
+            <span>如何验证与衡量</span>
             <h3>如何验证与衡量</h3>
             <p>{caseEvidence.evidence}</p>
             <p class="tradeoff"><strong>取舍：</strong>{caseEvidence.tradeoff}</p>
@@ -621,12 +621,12 @@ const presentation: Presentation = deviceProjects.has(project.slug)
         {deepDive && (
           <div class="deep-dive-grid">
             <article>
-              <span>07 / VERIFICATION</span>
+              <span>代码与文档证明</span>
               <h3>代码与文档如何证明</h3>
               <p>{deepDive.verification}</p>
             </article>
             <article>
-              <span>08 / STAR STORY</span>
+              <span>面试叙事</span>
               <h3>面试表达示例</h3>
               <p>{deepDive.story}</p>
             </article>
@@ -638,49 +638,44 @@ const presentation: Presentation = deviceProjects.has(project.slug)
 )}
 
 <style>
-  .case-notes { margin-bottom: 2.75rem; }
-  .case-notes-heading { display: flex; align-items: baseline; gap: .9rem; margin-bottom: 1.1rem; }
-  .case-notes-heading h2 { margin: .35rem 0 0; font: 700 1.45rem var(--font-display); }
-  .case-notes-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
-  .case-notes-grid article { min-height: 10rem; padding: 1.15rem; border: 1px solid var(--color-border); border-left: 2px solid var(--color-primary); background: var(--color-bg-secondary); }
-  .case-notes-grid article:nth-child(2n) { border-left-color: var(--color-accent); }
-  .case-notes-grid span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
-  .case-notes-grid h3 { margin: .65rem 0 .45rem; font: 700 1rem var(--font-display); }
-  .case-notes-grid p { color: var(--color-text-secondary); font-size: .84rem; line-height: 1.7; }
-  .device-case-grid, .algorithm-case-grid, .platform-case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
-  .device-case-grid article, .algorithm-case-grid article, .platform-case-grid article { min-height: 10rem; padding: 1.15rem; border: 1px solid var(--color-border); background: var(--color-bg-secondary); }
-  .device-case-grid article { border-top: 2px solid var(--color-primary); }
-  .device-case-grid article:nth-child(2n) { border-top-color: var(--color-accent); }
-  .device-case-grid .case-wide { grid-column: 1 / -1; min-height: auto; }
-  .algorithm-case-grid article { border-left: 2px solid var(--color-accent); }
-  .algorithm-case-grid .algorithm-hero { grid-column: 1 / -1; min-height: auto; border-left: 0; border-top: 2px solid var(--color-primary); }
-  .algorithm-case-grid .case-wide { grid-column: 1 / -1; min-height: auto; background: color-mix(in srgb, var(--color-primary), var(--color-bg-secondary) 94%); }
+  .case-notes { margin-bottom: 3.5rem; }
+  .case-notes-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding-bottom: .85rem; margin-bottom: 0; border-bottom: 1px solid var(--color-text); }
+  .case-notes-heading h2 { margin: 0; font: 700 clamp(1.45rem, 3vw, 2.15rem) var(--font-display); letter-spacing: -.035em; }
+  .case-notes-index { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .12em; }
+  .case-notes-grid, .device-case-grid, .algorithm-case-grid, .platform-case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; }
+  .case-notes-grid article, .device-case-grid article, .algorithm-case-grid article, .platform-case-grid article { min-height: 11rem; padding: 1.35rem 0 1.5rem; border-bottom: 1px solid var(--color-border); background: transparent; }
+  .case-notes-grid article:nth-child(2n), .device-case-grid article:nth-child(2n), .algorithm-case-grid article:nth-child(2n), .platform-case-grid article:nth-child(2n) { border-left: 1px solid var(--color-border); padding-left: 2rem; }
+  .case-notes-grid span, .device-case-grid span, .algorithm-case-grid span, .platform-case-grid span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+  .case-notes-grid h3, .device-case-grid h3, .algorithm-case-grid h3, .platform-case-grid h3 { margin: .8rem 0 .5rem; font: 700 1.08rem var(--font-display); }
+  .case-notes-grid p, .device-case-grid p, .algorithm-case-grid p, .platform-case-grid p { max-width: 42rem; color: var(--color-text-secondary); font-size: .88rem; line-height: 1.8; }
+  .device-case-grid .case-wide, .algorithm-case-grid .algorithm-hero, .algorithm-case-grid .case-wide { grid-column: 1 / -1; min-height: auto; }
+  .device-case-grid .case-wide p, .algorithm-case-grid .algorithm-hero p, .algorithm-case-grid .case-wide p { max-width: 58rem; }
   .platform-case-grid { grid-template-columns: 1.15fr .85fr; }
-  .platform-case-grid article { min-height: 9rem; border-bottom: 2px solid var(--color-primary); }
-  .platform-case-grid .platform-boundary { grid-row: span 2; min-height: 100%; background: var(--color-ink); border-color: #28606a; color: #e7f8f5; }
+  .platform-case-grid .platform-boundary { grid-row: span 2; min-height: 100%; padding: 1.35rem 2rem; background: var(--color-ink); border-left: 0; border-bottom: 0; color: #e7f8f5; }
   .platform-case-grid .platform-boundary span { color: var(--color-accent); }
-  .platform-case-grid .platform-boundary h3 { color: #f1fffc; }
+  .platform-case-grid .platform-boundary h3 { color: #f1fffc; font-size: 1.35rem; }
   .platform-case-grid .platform-boundary p { color: #a9c6c7; }
-  .case-evidence { margin-top: .75rem; padding: 1.25rem; border: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-bg-secondary), transparent 5%); }
-  .evidence-lead { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 1rem; align-items: baseline; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); }
-  .evidence-lead h3 { margin: 0; font: 700 1.12rem var(--font-display); }
-  .evidence-lead p { grid-column: 2; margin: .5rem 0 0; color: var(--color-text-secondary); font-size: .88rem; line-height: 1.75; }
-  .evidence-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-top: .75rem; }
-  .evidence-grid article { padding: 1rem; border: 1px solid var(--color-border); background: var(--color-bg); }
-  .evidence-grid article > span, .source-refs > span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
-  .evidence-grid h3 { margin: .55rem 0 .5rem; font: 700 1rem var(--font-display); }
-  .evidence-grid p, .evidence-grid li { color: var(--color-text-secondary); font-size: .82rem; line-height: 1.72; }
+  .case-evidence { margin-top: 2.25rem; padding-top: 1.25rem; border-top: 2px solid var(--color-primary); }
+  .evidence-lead { display: grid; grid-template-columns: minmax(12rem, .55fr) minmax(0, 1.45fr); column-gap: 2rem; align-items: baseline; padding-bottom: 1.35rem; border-bottom: 1px solid var(--color-border); }
+  .evidence-lead h3 { grid-column: 1; margin: 0; font: 700 1.2rem var(--font-display); }
+  .evidence-lead > span { grid-column: 1; margin-top: .45rem; color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
+  .evidence-lead p { grid-column: 2; grid-row: 1 / span 2; margin: 0; color: var(--color-text-secondary); font-size: .92rem; line-height: 1.8; }
+  .evidence-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; margin-top: 0; }
+  .evidence-grid article { padding: 1.35rem 0; background: transparent; border-bottom: 1px solid var(--color-border); }
+  .evidence-grid article:nth-child(2) { border-left: 1px solid var(--color-border); padding-left: 2rem; }
+  .evidence-grid article > span, .source-refs > span, .deep-dive-grid article > span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+  .evidence-grid h3, .deep-dive-grid h3 { margin: .65rem 0 .5rem; font: 700 1rem var(--font-display); }
+  .evidence-grid p, .evidence-grid li, .deep-dive-grid p { color: var(--color-text-secondary); font-size: .84rem; line-height: 1.78; }
   .evidence-grid ul { margin: 0; padding-left: 1.1rem; }
-  .evidence-grid li { margin-bottom: .4rem; }
-  .tradeoff { margin-top: .85rem; padding-top: .75rem; border-top: 1px dashed var(--color-border); }
+  .evidence-grid li { margin-bottom: .45rem; }
+  .tradeoff { margin-top: .9rem; padding-top: .8rem; border-top: 1px dashed var(--color-border); }
   .tradeoff strong { color: var(--color-text); }
-  .source-refs { margin-top: .9rem; padding-top: .85rem; border-top: 1px solid var(--color-border); }
-  .source-refs div { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .55rem; }
-  .source-refs code { padding: .35rem .5rem; color: var(--color-text-secondary); border: 1px solid var(--color-border); background: var(--color-bg); font: .68rem var(--font-mono); }
-  .deep-dive-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-top: .75rem; }
-  .deep-dive-grid article { padding: 1rem; border-top: 2px solid var(--color-accent); background: var(--color-bg); }
-  .deep-dive-grid article > span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
-  .deep-dive-grid h3 { margin: .55rem 0 .5rem; font: 700 1rem var(--font-display); }
-  .deep-dive-grid p { color: var(--color-text-secondary); font-size: .82rem; line-height: 1.72; }
-  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-top: .4rem; } .case-notes-grid, .device-case-grid, .algorithm-case-grid, .platform-case-grid, .evidence-grid, .deep-dive-grid { grid-template-columns: 1fr; } .device-case-grid .case-wide, .algorithm-case-grid .algorithm-hero, .algorithm-case-grid .case-wide { grid-column: auto; } .platform-case-grid .platform-boundary { grid-row: auto; min-height: auto; } .evidence-lead { display: block; } .evidence-lead h3 { margin-top: .4rem; } .evidence-lead p { margin-top: .6rem; } .case-evidence { padding: 1rem; } }
+  .source-refs { padding: 1.1rem 0; border-bottom: 1px solid var(--color-border); }
+  .source-refs div { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin-top: .65rem; }
+  .source-refs code { padding: 0; color: var(--color-text-secondary); background: transparent; font: .7rem var(--font-mono); }
+  .source-refs code::before { content: '↳ '; color: var(--color-accent); }
+  .deep-dive-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; }
+  .deep-dive-grid article { padding: 1.35rem 0 0; background: transparent; }
+  .deep-dive-grid article:nth-child(2) { border-left: 1px solid var(--color-border); padding-left: 2rem; }
+  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-bottom: .55rem; } .case-notes-grid, .device-case-grid, .algorithm-case-grid, .platform-case-grid, .evidence-grid, .deep-dive-grid { grid-template-columns: 1fr; } .case-notes-grid article:nth-child(2n), .device-case-grid article:nth-child(2n), .algorithm-case-grid article:nth-child(2n), .platform-case-grid article:nth-child(2n), .evidence-grid article:nth-child(2), .deep-dive-grid article:nth-child(2) { border-left: 0; padding-left: 0; } .device-case-grid .case-wide, .algorithm-case-grid .algorithm-hero, .algorithm-case-grid .case-wide { grid-column: auto; } .platform-case-grid { display: block; } .platform-case-grid .platform-boundary { min-height: auto; margin: 1rem 0; padding: 1.2rem 0; background: transparent; color: inherit; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); } .platform-case-grid .platform-boundary h3 { color: var(--color-text); } .platform-case-grid .platform-boundary p { color: var(--color-text-secondary); } .platform-case-grid .platform-boundary span { color: var(--color-primary); } .evidence-lead { display: block; } .evidence-lead h3 { margin-bottom: .45rem; } .evidence-lead p { margin-top: .8rem; } }
 </style>
