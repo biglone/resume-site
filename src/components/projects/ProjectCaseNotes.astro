@@ -8,6 +8,14 @@ interface CaseNote {
   delivery: string;
 }
 
+interface CaseEvidence {
+  contribution: string;
+  decisions: string[];
+  evidence: string;
+  tradeoff: string;
+  sourceRefs: string[];
+}
+
 interface Props { project: Project; }
 const { project } = Astro.props;
 
@@ -159,6 +167,179 @@ const notes: Record<string, CaseNote> = {
 };
 
 const caseNote = notes[project.slug];
+
+const evidence: Record<string, CaseEvidence> = {
+  'whistle-platform': {
+    contribution: '参与音视频、识别与图形工作台子系统的技术预研、设计和编码，重点关注实时链路中的数据边界、状态回传和现场诊断能力。',
+    decisions: ['将预处理、识别、鸣笛处理拆成可独立演进的阶段，降低算法与设备接入之间的耦合。', '用时间戳和固定帧粒度组织音视频同步，而不是让 UI 线程承担实时调度。', '针对板卡协议阻塞问题优先修复固件事件循环，再保留上层重启作为故障兜底。'],
+    evidence: '需求约束包含短鸣笛证据小于 2 秒、长鸣笛小于 5 秒；音频帧以 1024 samples 为处理单元，系统还需要处理采集、解码、同步、识别和证据落盘。',
+    tradeoff: '实时性、证据完整性和现场可诊断性之间需要平衡：过度缓冲会增加延迟，过早丢帧又会损失识别上下文。',
+    sourceRefs: ['src/core/app.cpp', '音频 / 视频接收与时间同步', '麦克风阵列固件 uIP / XTCP 事件循环']
+  },
+  'acoustic-camera-platform': {
+    contribution: '参与声学成像桌面平台的设备链路、算法处理和 Qt/QML 工作台建设，围绕真实硬件状态、数据分析和结果展示补齐交互闭环。',
+    decisions: ['把设备通信、采集处理、算法计算和展示层分开，避免硬件回调直接修改界面状态。', '将耗时 CUDA 算子从逐帧同步中剥离，并减少不必要的 cudaDeviceSynchronize。', '对增益、抗闪烁和设备查询采用明确的状态更新时序，优先保证现场结果可解释。'],
+    evidence: '项目历史记录给出了可复核的优化结果：sound_cloud_map 约 35ms 降至 16ms，ac_locator 约 25ms 降至 3ms，normalize_db_map 约 30ms 降至 4ms。',
+    tradeoff: 'GPU 加速带来吞吐提升，也增加设备兼容、内存拷贝和同步时序复杂度，因此优化不能只看单个 kernel 的耗时。',
+    sourceRefs: ['sound_cloud_map / generate_by_mat', 'ac_locator / move_mat', 'normalize_db_map', 'Qt/QML 设备状态与报告链路']
+  },
+  'focusound-screen-electron': {
+    contribution: '参与桌面控制台的设备通信、协议解析和控制交互，负责把串口设备能力安全地暴露给 React 界面。',
+    decisions: ['通过 Preload 和 IPC 隔离浏览器层与串口能力，避免渲染进程直接拥有系统权限。', '协议层先做 CRC16 校验和连接启动门控，再进入业务状态机。', '把忙碌重试、断开重连和状态回传显式化，避免“按钮点成功但设备没执行”的假成功。'],
+    evidence: '代码链路同时覆盖角度、通道增益、音频输出和设备状态；问题定位可以沿 React → IPC → SerialPort → 设备响应逐层排查。',
+    tradeoff: '安全边界和开发便利性存在取舍：IPC 增加了消息模型和调试成本，但换来了更清晰的权限边界和更低的误操作风险。',
+    sourceRefs: ['Electron main / preload / renderer', 'SerialPort + CRC16 协议解析', '设备状态与重试逻辑']
+  },
+  'dance-device-platform': {
+    contribution: '参与设备管理平台的业务模块和现场设备流程，将预约、占用、超时释放和 Android 控制串成可追踪的状态链路。',
+    decisions: ['把预约状态和设备实际状态分开建模，避免数据库状态直接等同于设备在线状态。', '用服务端会话和设备锁定约束并发操作，把重复预约和过期占用挡在业务层。', '将 ADB/Device Owner 操作包装成可诊断步骤，便于区分网络、权限和设备执行失败。'],
+    evidence: '权限设计文档采用 Casbin HRBAC，并对组织层级、角色映射和设备/场地资源数据权限做了明确约束。',
+    tradeoff: '业务一致性不能只依赖前端按钮禁用；需要接受设备端最终一致，并通过超时、重试和管理员诊断入口收敛异常状态。',
+    sourceRefs: ['Casbin HRBAC 权限模型', '预约 / 会话 / 设备锁定服务', 'Android Device Owner / ADB 操作']
+  },
+  'audfly-recording-agent': {
+    contribution: '参与 Windows 录音代理的授权、版本、配置和交付能力建设，把后台运行状态转化为现场用户能够理解和处理的反馈。',
+    decisions: ['用 MVVM 将界面状态与录音、授权、更新服务隔离，减少窗口代码对业务逻辑的侵入。', '授权检查和版本信息在启动及运行过程中分层处理，避免过期状态只在后台日志里出现。', '采用 Velopack 的 release/beta 渠道承载可控升级，而不是让现场手工替换安装目录。'],
+    evidence: '项目包含 AppData 配置、NLog 日志、多语言资源和 Velopack 发布链路，说明重点不只在录音功能，还包括长期运行和版本维护。',
+    tradeoff: '自动更新提升交付效率，但需要明确渠道、失败回滚和配置兼容策略，否则升级本身会成为现场风险。',
+    sourceRefs: ['WPF MVVM ViewModel', '授权有效期 / 版本信息', 'Velopack release / beta 打包']
+  },
+  'ac-viewer-analysis': {
+    contribution: '参与数据包导入、分析页面和交互细节实现，重点处理数据有效性、状态恢复和用户可见反馈。',
+    decisions: ['把云端资源有效性检查放在导入前，避免坏数据进入后续分析流程。', '将频谱、PRPD、声源图和报告作为分析能力组织，而不是让页面直接拼接原始数据。', '对关闭报告页面、鼠标滚轮、语言文本等细节做状态收敛，减少“偶发 UI 问题”。'],
+    evidence: '代码和提交记录覆盖数据包导入、云端图片有效性、报告初始状态、鼠标交互和版本库更新等具体场景。',
+    tradeoff: '桌面分析工具需要在大数据响应速度和信息完整性之间取舍，因此导入校验、渐进反馈和结果缓存比单纯增加控件更重要。',
+    sourceRefs: ['数据包导入 / 校验', '报告页面状态恢复', '鼠标滚轮与分析视图交互']
+  },
+  'acms-device-management': {
+    contribution: '参与 Web 管理端的设备配置、语言切换和声纹识别开关，负责把设备能力映射成可维护的表单和 API 交互。',
+    decisions: ['以 OpenAPI 作为前后端契约，减少接口字段在页面层重复定义。', '将设备语言和识别能力开关视为配置状态，明确读取、修改、成功反馈和失败回滚路径。', '在 TypeScript、lint 和 Jest 约束下迭代，优先保证管理页面对设备版本变化的可维护性。'],
+    evidence: '提交记录包含 voiceprint recognition switch、device language switching、API definition 和 translations 等可追踪变更。',
+    tradeoff: '管理端开发速度与接口契约稳定性需要平衡；先补齐类型和国际化边界，短期增加工作量，但能降低现场配置歧义。',
+    sourceRefs: ['OpenAPI definition / generated request layer', '设备语言设置页面', '声纹识别开关与国际化资源']
+  },
+  'acms-standalone-console': {
+    contribution: '参与独立部署控制台的 PTZ、校准、配置和升级页面，重点处理设备状态刷新与管理端显示的一致性。',
+    decisions: ['将 PTZ 一次操作拆成点位、旋转方向/角度和设备时间等 MQTT 语义，并在操作后重新获取设备状态。', '校准模式进入采用显式状态，不把页面按钮点击简单当作设备已完成。', '对独立部署场景保留版本、语言和存储配置入口，降低现场维护依赖。'],
+    evidence: '代码注释明确记录了 PTZ 请求的三类 MQTT 语义，以及更新后必须重新查询设备状态的时序要求。',
+    tradeoff: '减少请求次数和保证状态准确之间存在冲突；对关键控制采用“写入后读回”虽增加请求，但能避免 UI 假状态。',
+    sourceRefs: ['PTZ point_cmd / point_index', 'rotate_dir / angles / device time', '校准模式与设备状态同步']
+  },
+  'focusound-demonstration-app': {
+    contribution: '参与演示素材管理和播放前配置流程，把文件选择、分类、校验和媒体库刷新收敛到 Electron 应用内部。',
+    decisions: ['保存相对路径而不是机器绝对路径，降低演示素材迁移和打包后的失效概率。', '文件传输和媒体库刷新采用明确的完成时机，避免上传成功但列表仍显示旧状态。', '在新增/编辑入口增加表单校验，先阻断不完整素材进入播放流程。'],
+    evidence: '提交记录覆盖视频分类自动选择、表单校验、相对路径存储、文件传输和媒体库刷新/删除等完整操作链路。',
+    tradeoff: '演示软件更看重稳定的现场节奏，因此宁可在素材录入阶段增加校验，也不把错误留到播放时才暴露。',
+    sourceRefs: ['Electron 文件传输层', '视频新增 / 编辑 / 删除', 'UmiJS 表单与 ECharts 展示']
+  },
+  'focusound-production-test': {
+    contribution: '参与量产测试平台的设备抽象、测试调度和数据采集链路，关注不同仪器和目标框架之间的兼容边界。',
+    decisions: ['用独立设备库隔离 VISA.NET、Audiobus、串口和治具协议，让测试编排不依赖具体仪器实现。', '通过 ISerialPort/SerialDataStream 可替换接口提供 Mock，降低硬件不可用时的测试成本。', '主程序使用 .NET Framework，设备库采用 .NET Standard 2.0，兼顾现有产线和后续 .NET 6 接入。'],
+    evidence: '测试对象覆盖 F0、LCR、电压、功率、声学参数和通道切换；代码还包含 DeviceMonitorService、DeviceScheduleService、MeasurementService 和测试用例。',
+    tradeoff: '抽象层会增加初期建模成本，但能够把仪器差异集中在设备库，避免产线流程被串口或 VISA 细节污染。',
+    sourceRefs: ['Audfly.LCR / Audfly.OSC / Audfly.AudioAnalyzer', 'DeviceScheduleService', 'MeasurementService / SerialDataStream']
+  },
+  'audio-broadcast-service': {
+    contribution: '参与广播服务的 API、TCP 协议、TTS 引擎和发布链路设计，将多种音频控制入口统一到可测试的服务。',
+    decisions: ['以 HTTP API 承载业务控制、TCP 承载设备协议，并用统一的播放服务收敛 TTS、文件、停止和音量语义。', '将 Windows TTS 与 sherpa-onnx/Kokoro 作为可替换引擎，适配在线/离线和不同设备环境。', '通过 SSE 日志、TCP tester 和 smoke test 提供从接口到设备的可观察性。'],
+    evidence: '服务接口覆盖 /devices、/tts、/playaudio、/volume、/stop_device_play 和 /strobe_light；协议测试器使用 0xC3 请求与 0xD3 响应验证链路。',
+    tradeoff: '本地模型带来更好的离线可靠性，但会增加安装包体积和运行资源，因此需要把模型、词典和引擎配置独立管理。',
+    sourceRefs: ['HTTP routes / device service', 'sherpa-onnx / Kokoro engine', 'tools/tcp-tester/internal/protocol/messages.go']
+  },
+  'scada-graphic-configuration': {
+    contribution: '参与属性子系统架构和 Qt Graphics 自定义图元开发，把监控对象模型落到可编辑、可组态的图形界面。',
+    decisions: ['让属性模型成为图元编辑的稳定边界，避免每个图元自己维护一套属性同步逻辑。', '将图元状态、属性变化和画布交互分开处理，使后续扩展新图元不必重写画布。', '从需求和概要设计阶段介入，先明确对象边界再进入编码，减少 UI 驱动架构反复。'],
+    evidence: '参与内容覆盖需求文档、概要设计、属性子系统架构设计、自定义图元和编码实现，体现了从预研到模块落地的完整链路。',
+    tradeoff: '组态系统需要在编辑自由度和模型约束之间平衡；过度自由会增加运行时风险，过度约束又会限制工程配置效率。',
+    sourceRefs: ['属性子系统模型', 'Qt Graphics 自定义图元', '画布编辑与属性同步']
+  },
+  'qixuntong-desktop-client': {
+    contribution: '负责即时通讯客户端日常维护和工具模块开发，独立完成截图、图片浏览、文件管理和上线提醒等功能。',
+    decisions: ['将高频桌面工具以模块接入现有 Qt 客户端，复用统一窗口、消息和文件状态，而不是再做独立程序。', '把文件路径、图片展示和消息提醒作为独立状态处理，降低主窗口复杂度。', '在既有代码基础上渐进维护，优先修复真实用户路径中的兼容性和易用性问题。'],
+    evidence: '独立模块覆盖截图、图片浏览器、文件管理器和上线短息提醒，能具体展开窗口管理、文件系统和消息状态的实现细节。',
+    tradeoff: '复用既有客户端能降低交付成本，但要求新模块遵守旧架构约束，重构必须控制影响面。',
+    sourceRefs: ['Qt 客户端主窗口与模块入口', '截图工具 / 图片浏览器', '文件管理器 / 上线提醒']
+  },
+  'wujiang-smart-campus': {
+    contribution: '负责班级管理、事务管理和应急消息等业务模块，将即时通讯基础能力转化为校园场景中的可操作流程。',
+    decisions: ['复用即时通讯作为人员和通知通道，业务模块只承载班级、事务和应急领域状态。', '让消息触达与业务状态变化分开表达，避免“消息发出”被误认为“事务已处理”。', '优先围绕校方高频流程组织 Qt 页面，减少通用通信能力对业务交互的侵入。'],
+    evidence: '项目业务边界包含班级管理、事务管理和应急消息处理，能够从消息模型、角色权限和异常提示展开。',
+    tradeoff: '通用通信平台复用率与校园业务定制化之间需要平衡，模块边界清晰才能避免后续需求互相污染。',
+    sourceRefs: ['班级管理模块', '事务管理模块', '应急消息处理流程']
+  },
+  'dream-editor': {
+    contribution: '主导梦想编辑器维护、定制版本开发和持续重构，围绕稳定性、易用性和制作效率处理历史代码问题。',
+    decisions: ['先识别影响制作流程的高频耦合点，再按功能边界拆分和重构，而不是一次性重写。', '将定制需求沉淀为基础能力与差异化配置，避免多个版本长期分叉。', '把性能优化与交互修复结合验证，关注用户完成一本图书的整体效率。'],
+    evidence: '持续一年多的代码重构和性能优化后，项目在稳定性和易用性上得到明显改善，并支撑多个编辑器定制版本。',
+    tradeoff: '历史项目重构必须在可交付和理想架构之间取舍，采用小步替换比大规模改写更适合持续版本迭代。',
+    sourceRefs: ['Qt 编辑器核心模块', '定制版本差异化逻辑', '资源 / 编辑 / 输出流程']
+  },
+  'ar-sdk-recognition-tracking': {
+    contribution: '负责 AR SDK 底层识别与跟踪算法优化，通过图像预处理和 ORB 参数实验改善图书页识别稳定性。',
+    decisions: ['先优化输入图像质量，再调整 ORB 特征参数，避免把采集噪声误判为算法参数问题。', '用识别成功和持续跟踪作为不同指标分别观察，避免只看首次匹配结果。', '把算法调整放回真实图书采集场景验证，而不是只依赖离线样本。'],
+    evidence: '优化路径明确包含采集图像预处理、ORB 特征提取参数调整以及识别/跟踪成功率验证。',
+    tradeoff: '更强的特征提取配置可能提升召回率，但也会增加计算量和误匹配风险，需要结合设备性能调参。',
+    sourceRefs: ['OpenCV 图像预处理', 'ORB 特征提取与匹配', 'SDK 识别 / 跟踪接口']
+  },
+  'audfly-cpp-foundation': {
+    contribution: '参与基础 C++ 组件重构，重点修正 shared_queue 空队列行为和并发等待语义，让音频业务可以复用一致的底层能力。',
+    decisions: ['空队列时阻塞等待而不是忙等，减少 CPU 空转并保持生产者/消费者模型清晰。', '通过条件变量和互斥保护队列状态，同时明确返回值和移动语义。', '用 header library + CMake/vcpkg 交付，降低跨项目复制成本。'],
+    evidence: '提交记录明确涉及 shared_queue::pop_front：空队列等待、返回值确定和并发语义修正；项目配套 GoogleTest 与多平台工程。',
+    tradeoff: '阻塞队列提高资源效率，但调用方必须处理停止、超时和析构唤醒，否则会把等待带入生命周期问题。',
+    sourceRefs: ['shared_queue::pop_front', 'circular_queue / circular_buffer', 'GoogleTest / CMake / vcpkg']
+  },
+  codeharbor: {
+    contribution: '设计 Matrix 消息到多个 AI CLI 的桥接与任务编排，重点解决长任务、并发、取消、附件和会话持久化问题。',
+    decisions: ['用 SQLite 取代易丢失的单文件状态，并保留 state.json 迁移路径。', '以用户、房间和全局三层限流保护 CLI 进程，避免长任务拖垮桥接服务。', '把进度、typing、取消和附件交付建模成任务状态，而不是散落在消息回调中。'],
+    evidence: 'README 和测试覆盖重复事件保护、后端切换、/stop 取消、Whisper 转写、语义文件交付、Vitest/Playwright 和 NPM 发布。',
+    tradeoff: '更强的恢复能力需要持久化和状态机成本，但这是消息系统面对进程重启、重复投递和 CLI 卡死时的必要工程投入。',
+    sourceRefs: ['Orchestrator / logical workers', 'SQLite session persistence', 'Matrix adapter / CLI executor']
+  },
+  plover: {
+    contribution: '围绕 GUI 自动化的计划生成、执行和修复设计服务边界，重点把一次性脚本变成可审查、可回放的计划。',
+    decisions: ['计划采用版本化和 repair pending 状态，保留人工审核点而不是静默覆盖。', 'Executor 抽象真实桌面和 Mock 环境，让 planner、恢复逻辑和 E2E 可以独立验证。', '用时间线和非进展检测暴露卡住步骤，避免自动化失败只能看最终错误。'],
+    evidence: '项目结构包含 FastAPI planner、executor/gRPC、React/Vite 前端、版本化 plan、manual approval、mock executor 及安全恢复 E2E。',
+    tradeoff: '自动修复速度与可控性存在张力；高风险动作需要停在待审核状态，牺牲一点自动化连续性换取可解释性。',
+    sourceRefs: ['backend/plover_core plan state', 'FastAPI planner / gRPC executor', 'timeline / repair / approval UI']
+  },
+  bookwise: {
+    contribution: '设计从文档解析到章节学习内容生成的任务链路，重点处理多格式输入、Provider 切换、缓存和失败恢复。',
+    decisions: ['按章节拆分任务，允许长文档增量处理，避免一次生成失败导致全部重来。', 'Provider 层同时支持 Codex CLI 和启发式回退，把模型依赖隔离在任务执行边界。', '缓存已完成内容并记录失败状态，让重试成本与文档规模解耦。'],
+    evidence: '项目覆盖 PDF/EPUB/Markdown、AI provider switch、cache/fallback、Docker 和 Cloudflare Tunnel，形成可运行的内容生产链路。',
+    tradeoff: '自动生成质量、速度和成本不能同时最大化，因此需要用缓存、回退和可重试任务保持产品可用性。',
+    sourceRefs: ['PDF / EPUB / Markdown parser', 'chapter task state', 'Codex CLI / heuristic provider']
+  },
+  sharepier: {
+    contribution: '设计文件上传和分享的服务边界，处理大文件、断点续传、存储抽象、过期清理和分享安全策略。',
+    decisions: ['用 upload session 管理分片生命周期，将本地磁盘和 S3-compatible 存储抽象到同一接口。', '把密码、过期时间、下载次数和配额放在服务端统一校验，避免只依赖前端限制。', '用审计日志和 TTL 清理解决临时分享的可追踪与资源回收问题。'],
+    evidence: '项目技术栈为 Go/React/Postgres，功能覆盖 resumable upload、local/S3、quotas、password/expiry/download limits 和 audit logs。',
+    tradeoff: '分享便利性与安全控制存在直接冲突；策略越细，用户操作越复杂，因此必须把默认值和异常反馈设计清楚。',
+    sourceRefs: ['upload session / chunk assembly', 'LocalStorage / S3 storage adapter', 'share policy / audit log']
+  },
+  'codex-history-viewer': {
+    contribution: '构建本地 Codex 历史查看与同步工具，连接 SQLite、JSONL、Tauri UI 以及服务端增量同步。',
+    decisions: ['直接读取本地 SQLite 与 session JSONL，减少对外部 CLI 输出格式的依赖。', '将项目分组、会话搜索和多来源导入放在数据层统一处理，前端只消费稳定模型。', '服务端采用增量同步而非全量上传，兼顾本地隐私和跨设备回顾。'],
+    evidence: '项目包含 Tauri v2/Rust、本地 state_5.sqlite、sessions JSONL、Fastify/Postgres server sync 和 Linux ARM64 GitHub Actions 发布。',
+    tradeoff: '本地优先提升隐私和离线能力，但需要处理文件锁、格式演进和多来源数据不一致。',
+    sourceRefs: ['Rust/Tauri local data layer', '~/.codex/state_5.sqlite and JSONL', 'Fastify/PostgreSQL incremental sync']
+  },
+  'strawberry-voice-platform': {
+    contribution: '围绕 Jetson/ReSpeaker 语音设备的接入、部署和验收，补齐网络异常、服务不可达和恢复场景的验证工具。',
+    decisions: ['设备身份通过 Token 管理，避免只凭网络位置识别终端。', '用 WebSocket 保持语音链路，用虚拟终端和压测工具提前验证服务承载能力。', '将离线提示、回切演练和采购前自检纳入交付流程，而不是只验证 Demo happy path。'],
+    evidence: '项目文档和脚本覆盖 Jetson、ReSpeaker、WebSocket、Docker、Tunnel、token、smoke test 与故障恢复演练。',
+    tradeoff: '边缘设备的可靠性依赖部署环境，增加诊断和自检会提高前期工作量，但能显著降低现场定位成本。',
+    sourceRefs: ['Jetson device service', 'WebSocket gateway / token', 'smoke / recovery / load tests']
+  },
+  'todo-harbor': {
+    contribution: '完成待办、周期任务、提醒、层级任务和专注记录的产品化闭环，重点处理可撤销操作和长期数据维护。',
+    decisions: ['周期任务采用下一次实例生成，不把所有未来任务一次性写入数据库。', '批量编辑和多步 Undo 需要记录操作上下文，避免用户误操作后只能手工修复。', '认证隔离、健康检查和 Docker 部署作为基础能力一起交付。'],
+    evidence: '项目覆盖 Express/SQLite、recurring tasks、reminders、hierarchy、batch edit、import/export、Undo、Pomodoro、auth isolation 和 CI。',
+    tradeoff: '功能丰富会增加状态组合数量，因此需要用明确的数据模型和操作历史换取可恢复性。',
+    sourceRefs: ['recurring task scheduler', 'operation history / Undo', 'Pomodoro / import-export / auth boundary']
+  }
+};
+
+const caseEvidence = evidence[project.slug];
 ---
 
 {caseNote && (
@@ -173,6 +354,32 @@ const caseNote = notes[project.slug];
       <article><span>03 / IMPLEMENTATION</span><h3>关键实现</h3><p>{caseNote.implementation}</p></article>
       <article><span>04 / DELIVERY</span><h3>交付关注点</h3><p>{caseNote.delivery}</p></article>
     </div>
+    {caseEvidence && (
+      <div class="case-evidence">
+        <div class="evidence-lead">
+          <span class="section-kicker">INTERVIEW EVIDENCE</span>
+          <h3>把项目讲到“我做了什么”</h3>
+          <p>{caseEvidence.contribution}</p>
+        </div>
+        <div class="evidence-grid">
+          <article>
+            <span>05 / DECISIONS</span>
+            <h3>关键技术取舍</h3>
+            <ul>{caseEvidence.decisions.map((item) => <li>{item}</li>)}</ul>
+          </article>
+          <article>
+            <span>06 / EVIDENCE</span>
+            <h3>如何验证与衡量</h3>
+            <p>{caseEvidence.evidence}</p>
+            <p class="tradeoff"><strong>取舍：</strong>{caseEvidence.tradeoff}</p>
+          </article>
+        </div>
+        <div class="source-refs">
+          <span>可讨论的代码入口</span>
+          <div>{caseEvidence.sourceRefs.map((ref) => <code>{ref}</code>)}</div>
+        </div>
+      </div>
+    )}
   </section>
 )}
 
@@ -186,5 +393,21 @@ const caseNote = notes[project.slug];
   .case-notes-grid span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
   .case-notes-grid h3 { margin: .65rem 0 .45rem; font: 700 1rem var(--font-display); }
   .case-notes-grid p { color: var(--color-text-secondary); font-size: .84rem; line-height: 1.7; }
-  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-top: .4rem; } .case-notes-grid { grid-template-columns: 1fr; } }
+  .case-evidence { margin-top: .75rem; padding: 1.25rem; border: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-bg-secondary), transparent 5%); }
+  .evidence-lead { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 1rem; align-items: baseline; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); }
+  .evidence-lead h3 { margin: 0; font: 700 1.12rem var(--font-display); }
+  .evidence-lead p { grid-column: 2; margin: .5rem 0 0; color: var(--color-text-secondary); font-size: .88rem; line-height: 1.75; }
+  .evidence-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-top: .75rem; }
+  .evidence-grid article { padding: 1rem; border: 1px solid var(--color-border); background: var(--color-bg); }
+  .evidence-grid article > span, .source-refs > span { color: var(--color-primary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
+  .evidence-grid h3 { margin: .55rem 0 .5rem; font: 700 1rem var(--font-display); }
+  .evidence-grid p, .evidence-grid li { color: var(--color-text-secondary); font-size: .82rem; line-height: 1.72; }
+  .evidence-grid ul { margin: 0; padding-left: 1.1rem; }
+  .evidence-grid li { margin-bottom: .4rem; }
+  .tradeoff { margin-top: .85rem; padding-top: .75rem; border-top: 1px dashed var(--color-border); }
+  .tradeoff strong { color: var(--color-text); }
+  .source-refs { margin-top: .9rem; padding-top: .85rem; border-top: 1px solid var(--color-border); }
+  .source-refs div { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .55rem; }
+  .source-refs code { padding: .35rem .5rem; color: var(--color-text-secondary); border: 1px solid var(--color-border); background: var(--color-bg); font: .68rem var(--font-mono); }
+  @media (max-width: 640px) { .case-notes-heading { display: block; } .case-notes-heading h2 { margin-top: .4rem; } .case-notes-grid, .evidence-grid { grid-template-columns: 1fr; } .evidence-lead { display: block; } .evidence-lead h3 { margin-top: .4rem; } .evidence-lead p { margin-top: .6rem; } .case-evidence { padding: 1rem; } }
 </style>
