@@ -97,5 +97,18 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
   .project-card-featured .tag-row .badge-outline { border-color: #5b777a; color: #f0f7ee; }
   .project-card:not(.project-card-featured) .metric-row strong { color: var(--color-text); }
   .project-card:not(.project-card-featured) .metric-row span { color: var(--color-text-secondary); }
+  .project-grid { display: block; background: transparent; border: 0; }
+  .project-card { display: grid; grid-template-columns: 7rem minmax(0, 1.25fr) minmax(14rem, .75fr); grid-template-rows: auto auto auto 1fr auto; column-gap: 2rem; row-gap: .8rem; min-height: 0; padding: 2rem 0; border: 0; border-top: 1px solid var(--color-border); border-radius: 0; background: transparent; }
+  .project-card:last-child { border-bottom: 1px solid var(--color-border); }
+  .project-card:hover { transform: none; box-shadow: none; background: color-mix(in srgb, var(--color-surface), transparent 45%); }
+  .project-card-featured { border-top: 2px solid var(--color-accent); background: transparent; color: var(--color-text); box-shadow: none; }
+  .card-topline { grid-column: 1; grid-row: 1 / span 5; display: flex; align-items: flex-start; justify-content: space-between; flex-direction: column; margin: 0; }
+  .project-card-head { grid-column: 2; grid-row: 1; }
+  .project-description { grid-column: 3; grid-row: 1 / span 2; margin: 0; }
+  .highlight-list { grid-column: 2; grid-row: 2 / span 2; margin: 1rem 0 0; }
+  .metric-row { grid-column: 2; grid-row: 4; margin: 1.5rem 0 0; border-bottom: 0; }
+  .tag-row { grid-column: 3; grid-row: 4; align-self: end; }
+  .badge-outline, .project-card-featured .tag-row .badge-outline { border: 0; padding: 0; color: var(--color-text-secondary); background: transparent; }
+  @media (max-width: 760px) { .project-card { display: block; padding: 1.5rem 0 2rem; } .card-topline { flex-direction: row; margin-bottom: 1.5rem; } .card-links { flex-direction: row; } .project-description { margin-top: 1.4rem; } .highlight-list { margin-top: 1.2rem; } .metric-row, .tag-row { margin-top: 1rem; } }
   @media (max-width: 760px) { .section-intro { display: block; } .section-intro > p { margin-top: 1rem; } .project-grid { grid-template-columns: 1fr; } .project-card { min-height: unset; } }
 </style>

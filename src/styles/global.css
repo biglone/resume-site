@@ -606,3 +606,74 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .project-card { min-height: auto; padding: 1.2rem; }
   .project-group + .project-group { margin-top: 4rem; }
 }
+
+/* Second direction: human editorial portfolio. Technical language belongs in the case pages. */
+body { background-image: none; }
+body::after { display: none; }
+h1, h2, h3, h4, h5 { font-weight: 500; }
+.section-kicker, .eyebrow, .signal-label, .lane-index, .project-number { font-family: var(--font-body); letter-spacing: .02em; text-transform: none; }
+.nav-link, .brand-copy strong, .brand-copy small, .hero-role, .project-role, .project-company, .card-links, .meta-row { font-family: var(--font-body); text-transform: none; letter-spacing: 0; }
+.nav-link { font-size: .82rem; }
+.brand-copy strong { font-size: .82rem; }
+.brand-copy small { font-size: .66rem; }
+.brand-glyph { border-radius: 50%; background: var(--color-text); color: var(--color-bg); }
+.hero-card { border: 0; border-top: 1px solid var(--color-text); box-shadow: none; background: transparent; padding: 1.25rem 0 0; }
+.hero-card::before, .hero-card::after { display: none; }
+.hero-avatar { width: 4.5rem !important; height: 4.5rem !important; border-radius: 50%; border: 1px solid var(--color-border); }
+.hero-card-label { color: var(--color-text-secondary); font-family: var(--font-body); letter-spacing: 0; }
+.hero-title { color: var(--color-text); }
+.hero-role { color: var(--color-text); font-size: 1.05rem; font-weight: 500; text-transform: none; }
+.hero-meta { color: var(--color-text-secondary); font-family: var(--font-body); letter-spacing: 0; }
+.btn-primary { background: var(--color-text); color: var(--color-bg); box-shadow: none; }
+.btn-primary:hover { background: var(--color-accent); color: #fff; box-shadow: none; }
+.btn-secondary { border-color: var(--color-border); }
+
+.project-overview { padding-top: 7rem; padding-bottom: 5rem; }
+.overview-heading { align-items: start; }
+.overview-heading .section-title { max-width: 12ch; font-size: clamp(2.7rem, 6vw, 5.4rem); }
+.overview-note { max-width: 24rem; padding-top: .7rem; font-size: .95rem; }
+.projects-section { padding-top: 7rem; background: var(--color-bg-secondary); }
+.section-intro { align-items: start; }
+.section-intro .section-title { max-width: 10ch; font-size: clamp(2.7rem, 6vw, 5.4rem); }
+.section-intro > p { padding-top: .7rem; }
+.project-grid { display: block; background: transparent; border: 0; }
+.project-card { display: grid; grid-template-columns: 7rem minmax(0, 1.25fr) minmax(14rem, .75fr); grid-template-rows: auto auto auto 1fr auto; column-gap: 2rem; row-gap: .8rem; min-height: 0; padding: 2rem 0; border: 0; border-top: 1px solid var(--color-border); background: transparent; }
+.project-card:last-child { border-bottom: 1px solid var(--color-border); }
+.project-card:hover { box-shadow: none; background: color-mix(in srgb, var(--color-surface), transparent 45%); }
+.project-card-featured { border-top: 2px solid var(--color-accent); background: transparent; color: var(--color-text); box-shadow: none; }
+.project-card-featured:hover { background: color-mix(in srgb, var(--color-accent-soft), transparent 45%); }
+.card-topline { grid-column: 1; grid-row: 1 / span 5; display: flex; align-items: flex-start; justify-content: space-between; flex-direction: column; margin: 0; }
+.project-number { color: var(--color-accent); font-size: .9rem; }
+.card-links { display: flex; flex-direction: column; gap: .35rem; font-size: .76rem; }
+.card-links a, .project-card-featured .card-links a { color: var(--color-text-secondary); }
+.project-card-head { grid-column: 2; grid-row: 1; }
+.project-card h4 { font-size: clamp(1.8rem, 3vw, 3rem); line-height: .98; }
+.project-card-featured h4, .project-card-featured .project-company, .project-card-featured .project-description, .project-card-featured .highlight-list, .project-card-featured .project-role, .project-card-featured .project-number { color: var(--color-text); }
+.project-card-featured .project-role, .project-card-featured .project-number { color: var(--color-accent); }
+.project-description { grid-column: 3; grid-row: 1 / span 2; margin: 0; max-width: 28rem; font-size: .95rem; }
+.highlight-list { grid-column: 2; grid-row: 2 / span 2; margin: 1rem 0 0; max-width: 34rem; }
+.metric-row { grid-column: 2; grid-row: 4; margin: 1.5rem 0 0; padding: .9rem 0; border-top: 1px solid var(--color-border); border-bottom: 0; }
+.project-card-featured .metric-row { border-color: var(--color-border); }
+.project-card-featured .metric-row strong, .project-card:not(.project-card-featured) .metric-row strong { color: var(--color-text); }
+.project-card-featured .metric-row span, .project-card:not(.project-card-featured) .metric-row span { color: var(--color-text-secondary); }
+.tag-row { grid-column: 3; grid-row: 4; align-self: end; }
+.badge-outline, .project-card-featured .tag-row .badge-outline { border: 0; padding: 0; color: var(--color-text-secondary); background: transparent; }
+.tag-row .badge-outline:not(:last-of-type)::after { content: '  /'; color: var(--color-border); margin-left: .45rem; }
+.more-tags { color: var(--color-text-secondary); }
+
+#experience .card { border: 0; border-top: 1px solid var(--color-border); border-radius: 0; background: transparent; padding: 2rem 0; }
+#experience .card:hover { box-shadow: none; background: color-mix(in srgb, var(--color-surface), transparent 50%); }
+#experience .card h3 { font-family: var(--font-display); font-size: 2rem; font-weight: 500; }
+#experience .timeline-dot { width: .45rem; height: .45rem; border-radius: 50%; }
+
+@media (max-width: 760px) {
+  .hero-title { font-size: clamp(4.4rem, 22vw, 7rem); }
+  .overview-heading .section-title, .section-intro .section-title { font-size: clamp(2.8rem, 14vw, 4.5rem); }
+  .project-card { display: block; padding: 1.5rem 0 2rem; }
+  .card-topline { display: flex; flex-direction: row; margin-bottom: 1.5rem; }
+  .card-links { flex-direction: row; }
+  .project-description { margin-top: 1.4rem; }
+  .highlight-list { margin-top: 1.2rem; }
+  .metric-row { margin-top: 1.5rem; }
+  .tag-row { margin-top: 1rem; }
+}

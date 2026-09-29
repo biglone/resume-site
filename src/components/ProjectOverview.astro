@@ -18,43 +18,26 @@ const lanes = [
   <div class="section-container">
     <div class="overview-heading">
       <div>
-        <p class="eyebrow">02 — Working method</p>
-        <h2 id="project-map-title" class="section-title">把底层能力做成可交付的产品</h2>
+        <p class="eyebrow">项目方法</p>
+        <h2 id="project-map-title" class="section-title">把复杂的系统，做成可理解的产品。</h2>
       </div>
-      <p class="overview-note">从设备与算法，到桌面端、Web 服务和自动化部署，项目经历覆盖完整交付链路。</p>
+      <p class="overview-note">我关心的不只是功能是否完成，也关心一套复杂的技术如何被使用、被解释，以及最后如何稳定地交到别人手里。</p>
     </div>
 
-    <div class="overview-grid">
-      <div class="signal-card signal-card-main">
-        <span class="signal-label">PROJECTS / SELECTED</span>
+    <div class="overview-editorial">
+      <aside class="overview-count">
         <strong>{total}</strong>
-        <span>代表项目</span>
-        <div class="scope-bars" aria-label="项目类型分布">
-          <div style={'width: ' + (company.length / total * 100) + '%'}></div>
-          <div style={'width: ' + (personal.length / total * 100) + '%'}></div>
-        </div>
-        <div class="scope-legend">
-          <span><i class="legend-company"></i>公司项目 {company.length}</span>
-          <span><i class="legend-personal"></i>个人项目 {personal.length}</span>
-        </div>
+        <span>个被认真做过的项目</span>
+        <small>{company.length} 个工作项目 · {personal.length} 个个人项目</small>
+      </aside>
+      <div class="method-list">
+        {lanes.map((lane) => (
+          <div class="method-item">
+            <span>{lane.label}</span>
+            <p>{lane.value}</p>
+          </div>
+        ))}
       </div>
-
-      <div class="signal-card">
-        <span class="signal-label">HOW I WORK</span>
-        <div class="delivery-flow">
-          <span>Device</span><b>→</b><span>Process</span><b>→</b><span>Product</span><b>→</b><span>Ship</span>
-        </div>
-        <p>设备接入、数据处理、交互产品、构建发布和运行维护在项目中形成闭环。</p>
-      </div>
-    </div>
-
-    <div class="lane-grid">
-      {lanes.map((lane, index) => (
-        <div class="lane" style={'--lane-color: ' + lane.color + '; --lane-delay: ' + index * 80 + 'ms'}>
-          <span class="lane-index">0{index + 1}</span>
-          <div><strong>{lane.label}</strong><p>{lane.value}</p></div>
-        </div>
-      ))}
     </div>
   </div>
 </section>
@@ -88,4 +71,15 @@ const lanes = [
   .lane strong { font-size: .85rem; }
   .lane p { color: var(--color-text-secondary); font-size: .72rem; line-height: 1.5; margin-top: .35rem; }
   @media (max-width: 760px) { .overview-heading { display: block; } .overview-note { margin-top: 1rem; } .overview-grid, .lane-grid { grid-template-columns: 1fr; } }
+
+  .overview-editorial { display: grid; grid-template-columns: .75fr 1.25fr; gap: 5rem; margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border); }
+  .overview-count { display: flex; flex-direction: column; align-items: flex-start; }
+  .overview-count strong { color: var(--color-accent); font: 400 clamp(5rem, 11vw, 9rem)/.72 var(--font-display); letter-spacing: -.07em; }
+  .overview-count span { margin-top: 1.2rem; font-family: var(--font-display); font-size: 1.35rem; }
+  .overview-count small { margin-top: .7rem; color: var(--color-text-secondary); font-size: .75rem; }
+  .method-list { border-top: 1px solid var(--color-text); }
+  .method-item { display: grid; grid-template-columns: 10rem 1fr; gap: 1.5rem; padding: 1rem 0; border-bottom: 1px solid var(--color-border); }
+  .method-item span { color: var(--color-text-secondary); font: 500 .75rem var(--font-body); }
+  .method-item p { margin: 0; color: var(--color-text); font-size: .95rem; line-height: 1.6; }
+  @media (max-width: 760px) { .overview-editorial { grid-template-columns: 1fr; gap: 2.5rem; margin-top: 2.5rem; } .method-item { grid-template-columns: 7rem 1fr; gap: 1rem; } }
 </style>
