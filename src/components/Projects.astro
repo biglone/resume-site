@@ -83,5 +83,19 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
   .metric-row span { display: block; color: var(--color-text-secondary); font-size: .62rem; margin-top: .3rem; }
   .tag-row { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
   .more-tags { color: var(--color-text-secondary); font-size: .7rem; }
+  /* Keep featured cards readable when component-scoped styles are emitted after the global theme. */
+  .project-card-featured { background: var(--color-ink); color: #f8f1e7; }
+  .project-card-featured .project-company,
+  .project-card-featured .project-description,
+  .project-card-featured .highlight-list,
+  .project-card-featured .card-links a,
+  .project-card-featured .metric-row span { color: #c1cfcc; }
+  .project-card-featured .project-role,
+  .project-card-featured .project-number { color: var(--color-warm); }
+  .project-card-featured .metric-row { border-color: #34545a; }
+  .project-card-featured .metric-row strong { color: #fff7ea; }
+  .project-card-featured .tag-row .badge-outline { border-color: #5b777a; color: #f0f7ee; }
+  .project-card:not(.project-card-featured) .metric-row strong { color: var(--color-text); }
+  .project-card:not(.project-card-featured) .metric-row span { color: var(--color-text-secondary); }
   @media (max-width: 760px) { .section-intro { display: block; } .section-intro > p { margin-top: 1rem; } .project-grid { grid-template-columns: 1fr; } .project-card { min-height: unset; } }
 </style>
