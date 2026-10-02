@@ -16,6 +16,28 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
+const analysisModules = import.meta.glob('../../data/project-analysis/*.md', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+}) as Record<string, string>;
+
+const analysisBySlug = Object.fromEntries(
+  Object.entries(analysisModules).map(([file, content]) => [
+    file.split('/').pop()?.replace(/\.md$/, '') || '',
+    content
+  ])
+);
+
+function selectInlineAnalysis(markdown: string) {
+  const sections = markdown
+    .replace(/^# .*\n\n/, '')
+    .split(/(?=^## \d+\.)/gm)
+    .filter((section) => section.startsWith('## '));
+  const keep = ['## 02.', '## 03.', '## 05.'];
+  return sections.filter((section) => keep.some((heading) => section.startsWith(heading))).join('\n');
+}
+
 const fallbackSite: SiteConfig = {
   title: 'Resume',
   description: 'Resume not published yet.',
@@ -58,6 +80,8 @@ if (metaPayload) {
 }
 
 const detailHtml = project?.detail ? marked(project.detail) : '';
+const inlineAnalysisMarkdown = project ? selectInlineAnalysis(analysisBySlug[project.slug] || '') : '';
+const inlineAnalysisHtml = inlineAnalysisMarkdown ? marked(inlineAnalysisMarkdown) : '';
 const siteTitle = site.title?.trim() || '';
 const autoTitle = profileName ? `${profileName}的简历` : siteTitle || fallbackSite.title;
 const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle : autoTitle;
@@ -178,24 +202,19 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           </section>
         )}
 
-        <!-- Independent analysis dossier -->
-        <section class="project-analysis-dossier mb-12" aria-label="独立项目分析档案">
-          <div>
-            <span class="project-intro-kicker">INDEPENDENT ANALYSIS DOSSIER</span>
-            <h2>打开这份项目的完整分析档案</h2>
-            <p>
-              包含源码扫描证据、技术边界、架构图、数据流、验证点和面试展开线索。网页主体保持简洁，深度内容放在独立文件中。
-            </p>
-          </div>
-          <a
-            href={`${baseUrl}analysis/${project.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="project-analysis-link"
-          >
-            阅读独立分析 ↗
-          </a>
-        </section>
+        <!-- Inline source analysis; intentionally excludes content already covered above and below. -->
+        {inlineAnalysisHtml && (
+          <section class="project-analysis-inline mb-12" aria-label="源码复核与工程证据">
+            <div class="project-section-heading">
+              <div>
+                <span class="project-intro-kicker">SOURCE REVIEW / ENGINEERING EVIDENCE</span>
+                <h2>源码复核与工程证据</h2>
+              </div>
+              <span class="project-section-note">SCAN / STACK / FLOW</span>
+            </div>
+            <div class="analysis-inline-prose" set:html={inlineAnalysisHtml} />
+          </section>
+        )}
 
         <!-- Detail Content (Markdown) -->
         {detailHtml && (
@@ -330,43 +349,52 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     border-top: 1px solid var(--color-border);
   }
 
-  .project-analysis-dossier {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 1.35rem 1.5rem;
+  .project-analysis-inline {
+    padding: 1.35rem 1.5rem 1.5rem;
     border: 1px solid var(--color-border);
     border-left: 3px solid var(--color-accent);
     background: var(--color-bg-secondary);
   }
 
-  .project-analysis-dossier h2 {
-    margin: .45rem 0 .55rem;
+  .analysis-inline-prose {
+    max-width: 54rem;
+  }
+
+  .analysis-inline-prose h2 {
+    margin: 1.8rem 0 .75rem;
     color: var(--color-text);
-    font: 700 clamp(1.2rem, 2.2vw, 1.55rem) var(--font-display);
+    font: 700 1.25rem var(--font-display);
   }
 
-  .project-analysis-dossier p {
-    max-width: 44rem;
-    margin: 0;
+  .analysis-inline-prose h3 {
+    margin: 1.25rem 0 .5rem;
+    color: var(--color-text);
+    font: 650 1rem var(--font-display);
+  }
+
+  .analysis-inline-prose p,
+  .analysis-inline-prose li {
     color: var(--color-text-secondary);
-    line-height: 1.65;
+    line-height: 1.7;
   }
 
-  .project-analysis-link {
-    flex: 0 0 auto;
-    padding: .7rem 1rem;
-    border: 1px solid var(--color-primary);
+  .analysis-inline-prose ul,
+  .analysis-inline-prose ol {
+    padding-left: 1.25rem;
+  }
+
+  .analysis-inline-prose pre {
+    margin: 1rem 0;
+    padding: 1rem;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    background: #172126;
+    color: #e7f0ec;
+  }
+
+  .analysis-inline-prose code {
     color: var(--color-primary);
-    font: 600 .75rem var(--font-mono);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .project-analysis-link:hover {
-    background: var(--color-primary);
-    color: var(--color-bg);
+    font-family: var(--font-mono);
   }
 
   .project-intro p:first-child {
@@ -393,13 +421,8 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
       margin-top: .55rem;
     }
 
-    .project-analysis-dossier {
-      display: block;
-    }
-
-    .project-analysis-link {
-      display: inline-block;
-      margin-top: 1rem;
+    .project-analysis-inline {
+      padding: 1rem;
     }
   }
 
