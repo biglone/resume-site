@@ -1,0 +1,174 @@
+---
+export const prerender = false;
+
+import { marked } from 'marked';
+import Layout from '../../layouts/Layout.astro';
+import type { Project, SiteConfig } from '../../types/resume';
+import { fetchMeta, fetchPublishedResume } from '../../lib/api';
+import { normalizeResume } from '../../lib/normalizeResume';
+
+const assetBaseUrl = import.meta.env.BASE_URL;
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const analysisModules = import.meta.glob('../../data/project-analysis/*.md', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+}) as Record<string, string>;
+
+const analysisBySlug = Object.fromEntries(
+  Object.entries(analysisModules).map(([file, content]) => {
+    const slug = file.split('/').pop()?.replace(/\.md$/, '') || '';
+    return [slug, content];
+  })
+);
+
+const slug = Astro.params.slug || '';
+const rawAnalysis = analysisBySlug[slug] || '';
+const analysisMarkdown = rawAnalysis.replace(/^# .*\n\n/, '');
+const analysisHtml = analysisMarkdown ? marked.parse(analysisMarkdown) : '';
+
+const fallbackSite: SiteConfig = {
+  title: 'Resume',
+  description: 'Resume not published yet.',
+  theme: 'auto',
+  language: 'zh-CN'
+};
+
+let project: Project | null = null;
+let site = fallbackSite;
+let profileName = '';
+let errorMessage = '';
+let meta = { appVersion: '', opsVersion: '' };
+
+try {
+  const data = await fetchPublishedResume();
+  if (data) {
+    const resume = normalizeResume(data.resume, assetBaseUrl);
+    site = resume.site;
+    profileName = resume.profile?.name?.trim() || '';
+    project = resume.projects.find((item) => item.slug === slug) || null;
+  }
+} catch (error) {
+  errorMessage = error instanceof Error ? error.message : 'Unable to load project.';
+}
+
+if (!project || !rawAnalysis) {
+  Astro.response.status = 404;
+  errorMessage = errorMessage || 'Analysis dossier not found.';
+}
+
+const metaPayload = await fetchMeta();
+if (metaPayload) meta = metaPayload;
+
+const pageTitle = project ? `${project.name} · 项目分析档案` : '项目分析档案';
+---
+
+<Layout
+  title={pageTitle}
+  description={project?.description || site.description}
+  language={site.language}
+  meta={meta}
+>
+  <main class="analysis-page">
+    <div class="section-container">
+      {project && rawAnalysis ? (
+        <>
+          <a href={`${baseUrl}projects/${project.slug}`} class="back-link">← 返回项目详情</a>
+
+          <header class="analysis-hero">
+            <div>
+              <span class="analysis-kicker">INDEPENDENT PROJECT DOSSIER</span>
+              <h1>{project.name}</h1>
+              <p>{project.description}</p>
+            </div>
+            <div class="analysis-meta">
+              <span>{project.category === 'company' ? 'COMPANY PROJECT' : 'PERSONAL PROJECT'}</span>
+              <span>{project.period}</span>
+              <span>{project.role}</span>
+            </div>
+          </header>
+
+          <div class="analysis-layout">
+            <aside class="analysis-sidebar" aria-label="分析档案导航">
+              <div class="sidebar-label">DOSSIER INDEX</div>
+              <a href="#01-结论先行">01 / 结论</a>
+              <a href="#02-扫描证据与可信边界">02 / 证据</a>
+              <a href="#03-技术栈与工程边界">03 / 技术栈</a>
+              <a href="#04-架构视图">04 / 架构</a>
+              <a href="#05-关键数据流与验证点">05 / 数据流</a>
+              <a href="#06-源码项目深读">06 / 深读</a>
+              <a href="#07-我在项目中的贡献表达">07 / 贡献</a>
+              <a href="#08-面试版star叙述骨架">08 / 面试</a>
+              <div class="sidebar-tags">
+                {project.tags.slice(0, 8).map((tag) => <span>{tag}</span>)}
+              </div>
+            </aside>
+
+            <article class="analysis-prose" set:html={analysisHtml} />
+          </div>
+
+          <footer class="analysis-footer">
+            <span>END OF DOSSIER · {project.slug}</span>
+            <a href={`${baseUrl}projects/${project.slug}`}>回到项目详情 ↗</a>
+          </footer>
+
+          <script is:inline type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+            mermaid.initialize({ startOnLoad: false, theme: 'base', securityLevel: 'strict' });
+            await mermaid.run({ querySelector: '.analysis-prose pre code.language-mermaid' });
+          </script>
+        </>
+      ) : (
+        <section class="missing-analysis">
+          <h1>项目分析档案不可用</h1>
+          <p>{errorMessage}</p>
+          <a href={baseUrl}>返回首页</a>
+        </section>
+      )}
+    </div>
+  </main>
+</Layout>
+
+<style is:global>
+  .analysis-page { padding: 3rem 0 5rem; }
+  .back-link { display: inline-block; margin-bottom: 1.8rem; color: var(--color-primary); font: 600 .72rem var(--font-mono); text-decoration: none; }
+  .analysis-hero { display: flex; justify-content: space-between; gap: 2rem; padding: 2.4rem 2.2rem; border: 1px solid var(--color-border); border-top: 3px solid var(--color-primary); background: var(--color-bg-secondary); }
+  .analysis-kicker, .sidebar-label { color: var(--color-primary); font: 600 .64rem var(--font-mono); letter-spacing: .14em; }
+  .analysis-hero h1 { max-width: 18ch; margin: .55rem 0 .75rem; color: var(--color-text); font: 800 clamp(2rem, 5vw, 4.4rem) var(--font-display); letter-spacing: -.055em; line-height: .98; }
+  .analysis-hero p { max-width: 44rem; margin: 0; color: var(--color-text-secondary); font-size: 1.04rem; line-height: 1.75; }
+  .analysis-meta { display: grid; align-content: end; justify-items: end; gap: .55rem; min-width: 13rem; color: var(--color-text-secondary); font: 500 .68rem var(--font-mono); text-align: right; }
+  .analysis-meta span:first-child { color: var(--color-accent); }
+  .analysis-layout { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 3rem; margin-top: 3rem; }
+  .analysis-sidebar { position: sticky; top: 1.5rem; align-self: start; display: grid; gap: .6rem; padding-top: .4rem; }
+  .analysis-sidebar a { color: var(--color-text-secondary); font: 500 .72rem var(--font-mono); text-decoration: none; }
+  .analysis-sidebar a:hover { color: var(--color-primary); }
+  .sidebar-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: 1.2rem; }
+  .sidebar-tags span { padding: .28rem .42rem; border: 1px solid var(--color-border); color: var(--color-text-secondary); font-size: .68rem; }
+  .analysis-prose { min-width: 0; color: var(--color-text); font-family: var(--font-body); }
+  .analysis-prose h2 { margin: 3rem 0 1rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border); color: var(--color-text); font: 750 clamp(1.35rem, 3vw, 2rem) var(--font-display); letter-spacing: -.035em; }
+  .analysis-prose h3 { margin: 1.6rem 0 .7rem; color: var(--color-text); font: 700 1.1rem var(--font-display); }
+  .analysis-prose p, .analysis-prose li { color: var(--color-text-secondary); line-height: 1.8; }
+  .analysis-prose ul, .analysis-prose ol { padding-left: 1.3rem; }
+  .analysis-prose li { margin: .45rem 0; }
+  .analysis-prose strong { color: var(--color-text); }
+  .analysis-prose code { padding: .1rem .3rem; background: var(--color-bg-secondary); color: var(--color-primary); font-family: var(--font-mono); font-size: .88em; }
+  .analysis-prose pre { margin: 1.2rem 0 1.6rem; padding: 1.2rem; overflow-x: auto; border: 1px solid var(--color-border); background: #172126; color: #e7f0ec; }
+  .analysis-prose pre code { padding: 0; background: transparent; color: inherit; }
+  .analysis-prose pre.mermaid { display: grid; place-items: center; min-height: 10rem; background: var(--color-bg-secondary); }
+  .analysis-prose pre.mermaid svg { max-width: 100%; height: auto; }
+  .analysis-footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--color-border); color: var(--color-text-secondary); font: 500 .68rem var(--font-mono); }
+  .analysis-footer a, .missing-analysis a { color: var(--color-primary); text-decoration: none; }
+  .missing-analysis { padding: 6rem 0; }
+  @media (max-width: 760px) {
+    .analysis-hero { display: block; padding: 1.5rem; }
+    .analysis-meta { justify-items: start; margin-top: 1.5rem; text-align: left; }
+    .analysis-layout { display: block; margin-top: 2rem; }
+    .analysis-sidebar { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 2rem; padding: 1rem; border: 1px solid var(--color-border); }
+    .sidebar-label, .sidebar-tags { grid-column: 1 / -1; }
+    .analysis-footer { display: block; }
+    .analysis-footer a { display: inline-block; margin-top: .8rem; }
+  }
+</style>
