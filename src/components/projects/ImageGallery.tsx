@@ -48,11 +48,11 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
   return (
     <div className="w-full">
       {/* Main Image */}
-      <div className="relative aspect-video media-frame mb-4">
+      <div className="relative min-h-[260px] max-h-[720px] media-frame mb-4 flex items-center justify-center overflow-auto">
         <img
           src={currentImage.src}
           alt={currentImage.alt}
-          className={`w-full h-full object-contain transition-opacity duration-300 ${
+          className={`max-w-full max-h-[68vh] w-auto h-auto object-contain transition-opacity duration-300 ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onError={(e) => {
