@@ -147,23 +147,36 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           </div>
         </header>
 
-        <!-- Image Gallery -->
-        {project.images && project.images.length > 0 && (
-          <section class="mb-12">
-            <ImageGallery images={project.images} client:load />
-          </section>
-        )}
-
-        <ProjectArchitecture project={project} />
-        <ProjectCaseNotes project={project} />
-
-        <section class="project-intro mb-10">
+        <!-- Project Brief -->
+        <section class="project-intro mb-10" aria-label="项目摘要">
+          <div class="project-intro-heading">
+            <span class="project-intro-kicker">PROJECT BRIEF / OUTCOME FIRST</span>
+            <h2>先看项目价值，再进入实现细节</h2>
+          </div>
           <p class="text-lg" style="color: var(--color-text-secondary);">
             {project.description}
           </p>
           <div class="project-intro-line"></div>
           <p class="project-intro-label">PROJECT BRIEF / ENGINEERING DELIVERY</p>
         </section>
+
+        <!-- Architecture and contribution -->
+        <ProjectArchitecture project={project} />
+        <ProjectCaseNotes project={project} />
+
+        <!-- Source-backed visual evidence -->
+        {project.images && project.images.length > 0 && (
+          <section class="project-visual-evidence mb-12" aria-label="源码图解与流程证据">
+            <div class="project-section-heading">
+              <div>
+                <span class="project-intro-kicker">SOURCE-BACKED VISUAL EVIDENCE</span>
+                <h2>源码图解与流程证据</h2>
+              </div>
+              <span class="project-section-note">ARCHITECTURE / FLOW / DECISIONS</span>
+            </div>
+            <ImageGallery images={project.images} client:load />
+          </section>
+        )}
 
         <!-- Detail Content (Markdown) -->
         {detailHtml && (
@@ -263,6 +276,41 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     max-width: 54rem;
   }
 
+  .project-intro-heading,
+  .project-section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-intro-heading h2,
+  .project-section-heading h2 {
+    margin: .45rem 0 0;
+    color: var(--color-text);
+    font: 700 clamp(1.35rem, 2.6vw, 1.9rem) var(--font-display);
+    letter-spacing: -.03em;
+  }
+
+  .project-intro-kicker,
+  .project-section-note {
+    color: var(--color-primary);
+    font: 500 .62rem var(--font-mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .project-section-note {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  .project-visual-evidence {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-border);
+  }
+
   .project-intro p:first-child {
     max-width: 48rem;
     font-size: clamp(1.1rem, 2vw, 1.35rem);
@@ -274,6 +322,18 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     height: 2px;
     margin: 1.5rem 0 .65rem;
     background: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .project-intro-heading,
+    .project-section-heading {
+      display: block;
+    }
+
+    .project-section-note {
+      display: block;
+      margin-top: .55rem;
+    }
   }
 
   .subsection-heading {

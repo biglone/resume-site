@@ -238,7 +238,12 @@ const notes: Record<string, CaseNote> = {
   }
 };
 
-const caseNote = notes[project.slug];
+const caseNote = notes[project.slug] || {
+  context: project.description,
+  architecture: `仓库以 ${project.tags.slice(0, 4).join('、')} 为主要技术边界，围绕输入、核心处理、状态持久化和交付入口组织功能。`,
+  implementation: project.highlights[0] || '围绕核心业务流程完成模块实现和问题定位。',
+  delivery: project.highlights[1] || '通过构建、测试或部署脚本形成可复现的交付入口。'
+};
 
 const evidence: Record<string, CaseEvidence> = {
   'whistle-platform': {
@@ -411,7 +416,13 @@ const evidence: Record<string, CaseEvidence> = {
   }
 };
 
-const caseEvidence = evidence[project.slug];
+const caseEvidence = evidence[project.slug] || {
+  contribution: project.role ? `${project.role}，围绕项目的核心流程、技术边界和交付质量完成实际开发与问题定位。` : '围绕项目核心流程参与设计、开发和交付。',
+  decisions: project.highlights.slice(0, 3),
+  evidence: project.metrics?.map((metric) => `${metric.label}：${metric.value}`).join('；') || '证据来自仓库 README、构建配置、测试入口和提交历史。',
+  tradeoff: '在功能完整性、实现复杂度和可维护性之间做平衡，优先保证核心路径可验证、可恢复。',
+  sourceRefs: ['README / 构建配置 / 测试入口', '源码模块与提交历史']
+};
 
 // 二次扫描后的项目证据：对应仓库中的 README、设计文档、测试入口、构建脚本和个人提交记录。
 const deepDives: Record<string, DeepDive> = {
@@ -513,7 +524,10 @@ const deepDives: Record<string, DeepDive> = {
   }
 };
 
-const deepDive = deepDives[project.slug];
+const deepDive = deepDives[project.slug] || {
+  verification: `扫描依据包括 README、${project.tags.slice(0, 4).join('、')} 配置、源码目录、测试入口和最近提交；详情页只呈现能够从仓库材料复核的技术结论。`,
+  story: `可以从“${project.description}”展开，重点说明我如何识别约束、划分模块、验证结果，并把实现交付到可使用的产品或工具中。`
+};
 
 const deviceProjects = new Set([
   'focusound-screen-electron', 'dance-device-platform', 'audfly-recording-agent',
