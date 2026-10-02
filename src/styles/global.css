@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Noto+Serif+SC:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700&display=swap');
 @import "tailwindcss";
 
 /* Custom theme variables */
 :root {
-  --font-display: 'Instrument Serif', 'Noto Serif SC', 'Songti SC', serif;
+  --font-display: 'Archivo', 'Noto Serif SC', 'PingFang SC', sans-serif;
   --font-body: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 
   --color-bg: #f7f3ec;
@@ -26,9 +26,9 @@
   --color-glow-2: rgba(200, 78, 60, 0.06);
   --color-grid: rgba(23, 43, 47, 0.06);
 
-  --shadow-soft: 0 12px 30px -24px rgba(18, 18, 18, 0.4);
-  --shadow-elevated: 0 24px 46px -30px rgba(18, 18, 18, 0.5);
-  --radius-card: 2px;
+  --shadow-soft: 0 1px 0 rgba(18, 18, 18, 0.06);
+  --shadow-elevated: 0 16px 30px -24px rgba(18, 18, 18, 0.38);
+  --radius-card: 0;
 }
 
 .dark {
@@ -63,31 +63,20 @@ html {
 body {
   background-color: var(--color-bg);
   background-image:
-    radial-gradient(900px 520px at 12% -18%, var(--color-glow-1), transparent 65%),
-    radial-gradient(720px 420px at 95% 0%, var(--color-glow-2), transparent 66%);
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
   color: var(--color-text);
   font-family: var(--font-body);
   line-height: 1.7;
   position: relative;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 body::before { display: none; }
 
-body::after {
-  content: '';
-  position: fixed;
-  width: 38rem;
-  height: 38rem;
-  right: -18rem;
-  bottom: -20rem;
-  border: 1px solid color-mix(in srgb, var(--color-accent), transparent 70%);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2rem color-mix(in srgb, var(--color-primary), transparent 94%), 0 0 0 5rem color-mix(in srgb, var(--color-primary), transparent 97%);
-  pointer-events: none;
-  z-index: -1;
-}
+body::after { display: none; }
 
 main {
   position: relative;
@@ -142,6 +131,7 @@ a {
 /* Utility classes */
 .section-container {
   @apply max-w-7xl mx-auto px-5 sm:px-8 lg:px-12;
+  width: 100%;
 }
 
 .font-display {
@@ -184,7 +174,7 @@ a {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-soft);
-  @apply p-6 transition-all;
+  @apply p-6 transition-colors;
 }
 
 .card:hover {
@@ -214,21 +204,22 @@ a {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-bg);
   box-shadow: var(--shadow-soft);
-  @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer;
+  @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-none text-sm font-semibold transition-colors cursor-pointer;
 }
 
 .btn-primary:hover {
-  box-shadow: var(--shadow-elevated);
+  background: var(--color-primary-hover);
+  color: var(--color-bg);
 }
 
 .btn-secondary {
   border: 1px solid var(--color-border);
   background: rgba(var(--color-bg-rgb), 0.7);
   color: var(--color-text);
-  @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer;
+  @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-none text-sm font-semibold transition-colors cursor-pointer;
 }
 
 .btn-secondary:hover {
@@ -240,7 +231,7 @@ a {
   border: 1px solid var(--color-border);
   background: rgba(var(--color-bg-rgb), 0.8);
   color: var(--color-text);
-  @apply p-2 rounded-full transition-all cursor-pointer;
+  @apply p-2 rounded-none transition-colors cursor-pointer;
 }
 
 .icon-button:hover {
@@ -250,12 +241,25 @@ a {
 }
 
 .nav-shell {
-  background: rgba(var(--color-bg-rgb), 0.85);
+  background: var(--color-bg);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-soft);
-  @apply flex items-center justify-between gap-4 px-5 py-3 rounded-full backdrop-blur;
-  border-color: color-mix(in srgb, var(--color-primary), var(--color-border) 55%);
-  box-shadow: 0 12px 40px rgba(0, 35, 43, .1), inset 0 1px 0 rgba(255,255,255,.6);
+  border-left: 3px solid var(--color-accent);
+  @apply flex items-center justify-between gap-4 px-5 py-3 rounded-none;
+}
+
+:where(a, button):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
 
 .nav-link {
@@ -741,3 +745,27 @@ body { color: var(--color-text); background-color: var(--color-bg); line-height:
 .card-links a, .project-card-featured .card-links a { color: var(--color-primary) !important; }
 #experience .card h3 { color: var(--color-text); }
 #experience .card ul, #experience .card .text-sm { color: var(--color-text-secondary) !important; }
+
+/* Final UI refresh: flatter surfaces, stronger hierarchy, fewer dashboard cues. */
+#skills .card {
+  border: 0;
+  border-top: 1px solid var(--color-text);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 1.35rem 0 0;
+}
+
+#skills .card:hover { background: transparent; box-shadow: none; }
+#skills .card h3 { font: 650 1.35rem var(--font-display); letter-spacing: -.035em; }
+#skills .progress-track { height: 3px; border-radius: 0; background: var(--color-border); }
+#skills .progress-bar { background: var(--color-accent); }
+
+.hero-card { border-top: 2px solid var(--color-text); }
+.hero-avatar { border-radius: 0; }
+.hero-card .meta-row { padding: .65rem 0; border-bottom: 1px solid var(--color-border); }
+
+@media (max-width: 760px) {
+  #skills .grid { gap: 3rem; }
+  .hero-card { margin-top: 1rem; }
+}
