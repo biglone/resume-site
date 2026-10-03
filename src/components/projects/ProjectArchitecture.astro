@@ -214,6 +214,11 @@ const architectureTitle = project.slug === 'audio-broadcast-service'
     <span class="architecture-label">{diagram.label}</span>
   </div>
   <p class="architecture-note">{diagram.note}</p>
+  <div class="architecture-legend" aria-label="架构图图例">
+    <span><i class="legend-signal"></i>重点链路</span>
+    <span><i class="legend-node"></i>代码边界</span>
+    <span><i class="legend-arrow">→</i>处理 / 控制流</span>
+  </div>
   <div class="architecture-flow">
     {diagram.nodes.map((node, index) => (
       <>
@@ -244,6 +249,12 @@ const architectureTitle = project.slug === 'audio-broadcast-service'
   .architecture-heading h2 { margin: 0; font: 700 1.45rem var(--font-display); letter-spacing: -.03em; }
   .architecture-label { color: var(--color-accent); font: 500 .62rem var(--font-mono); letter-spacing: .12em; text-align: right; }
   .architecture-note { max-width: 42rem; margin: .8rem 1.25rem 1.5rem; color: var(--color-text-secondary); font-size: .84rem; line-height: 1.7; }
+  .architecture-legend { display: flex; flex-wrap: wrap; gap: .75rem 1rem; margin: 0 1.25rem 1rem; color: var(--color-text-secondary); font: 500 .6rem var(--font-mono); }
+  .architecture-legend span { display: inline-flex; align-items: center; gap: .35rem; }
+  .architecture-legend i { display: inline-grid; place-items: center; width: .55rem; height: .55rem; font-style: normal; }
+  .legend-signal { background: var(--color-accent); }
+  .legend-node { border: 1px solid var(--color-border); background: var(--color-bg); }
+  .legend-arrow { width: auto !important; color: var(--color-accent); font-size: .8rem; }
   .architecture-flow { display: flex; align-items: stretch; gap: 0; overflow-x: auto; padding: .25rem 1.25rem .45rem; }
   .architecture-node { flex: 1 0 9.5rem; min-height: 5.75rem; display: flex; flex-direction: column; justify-content: space-between; padding: .8rem .9rem; border: 1px solid var(--color-border); border-right: 0; background: var(--color-bg); }
   .architecture-node:last-of-type { border-right: 1px solid var(--color-border); }
