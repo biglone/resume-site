@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 /* Custom theme variables */
 :root {
-  --font-display: 'Archivo', 'Noto Serif SC', 'PingFang SC', sans-serif;
+  --font-display: 'Space Grotesk', 'Noto Serif SC', 'PingFang SC', sans-serif;
   --font-body: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 
   --color-bg: #f7f3ec;
@@ -684,34 +684,34 @@ h1, h2, h3, h4, h5 { font-weight: 500; }
 
 /* Clarity pass: remove the remaining dashboard signals and protect text contrast. */
 :root {
-  --color-bg: #fbfaf7;
-  --color-bg-secondary: #f2efe9;
+  --color-bg: #f6f7f9;
+  --color-bg-secondary: #edf1f5;
   --color-surface: #ffffff;
-  --color-text: #202321;
-  --color-text-secondary: #53605a;
-  --color-border: #d5d1c8;
-  --color-primary: #284c43;
-  --color-primary-hover: #17372f;
-  --color-accent: #b64536;
-  --color-accent-soft: #f1d9d0;
-  --color-warm: #866228;
-  --color-ink: #202321;
-  --color-panel: #284c43;
+  --color-text: #141a21;
+  --color-text-secondary: #52606d;
+  --color-border: #d5dce4;
+  --color-primary: #172a3a;
+  --color-primary-hover: #0d1d2b;
+  --color-accent: #2f6df6;
+  --color-accent-soft: #e3ecff;
+  --color-warm: #c65335;
+  --color-ink: #172a3a;
+  --color-panel: #213b52;
 }
 .dark {
-  --color-bg: #1d2421;
-  --color-bg-secondary: #252d29;
-  --color-surface: #2d3732;
-  --color-text: #faf8f2;
-  --color-text-secondary: #d0d8d0;
-  --color-border: #56645b;
-  --color-primary: #c8e0cf;
-  --color-primary-hover: #f1f7ec;
-  --color-accent: #f18a72;
-  --color-accent-soft: #60423b;
-  --color-warm: #edc978;
-  --color-ink: #111714;
-  --color-panel: #29453a;
+  --color-bg: #121a22;
+  --color-bg-secondary: #192630;
+  --color-surface: #202f3b;
+  --color-text: #f3f6f8;
+  --color-text-secondary: #bdc8d2;
+  --color-border: #41515f;
+  --color-primary: #c6d8e8;
+  --color-primary-hover: #e5eff8;
+  --color-accent: #7ca5ff;
+  --color-accent-soft: #273b63;
+  --color-warm: #f09a78;
+  --color-ink: #0d151c;
+  --color-panel: #1e394e;
 }
 body { color: var(--color-text); background-color: var(--color-bg); line-height: 1.75; }
 #about::before { content: none; }
@@ -768,4 +768,51 @@ body { color: var(--color-text); background-color: var(--color-bg); line-height:
 @media (max-width: 760px) {
   #skills .grid { gap: 3rem; }
   .hero-card { margin-top: 1rem; }
+}
+
+/* Swiss technical portfolio theme: cool paper, navy ink, one cobalt signal. */
+body {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-border), transparent 72%) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-border), transparent 72%) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.nav-shell {
+  border-left: 0;
+  border-bottom: 2px solid var(--color-primary);
+  background: color-mix(in srgb, var(--color-bg), transparent 4%);
+}
+
+.brand-glyph {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.nav-link:hover,
+.card-links a:hover,
+.link:hover { color: var(--color-accent); }
+
+.hero-title { font-weight: 700; letter-spacing: -.075em; }
+.hero-role { color: var(--color-accent); }
+.hero-card { border-top-color: var(--color-accent); background: var(--color-surface); }
+.btn-primary { background: var(--color-accent); color: #fff; }
+.btn-primary:hover { background: #1f56cf; color: #fff; box-shadow: 4px 4px 0 var(--color-primary); }
+.btn-secondary:hover { border-color: var(--color-accent); background: var(--color-accent-soft); color: var(--color-primary); }
+
+.projects-section { background: color-mix(in srgb, var(--color-bg-secondary), transparent 34%); }
+.project-card-featured { box-shadow: inset 4px 0 0 var(--color-accent); }
+.project-card:hover { background: color-mix(in srgb, var(--color-accent-soft), transparent 44%); }
+.project-card-featured:hover { background: var(--color-surface); }
+.group-heading { border-bottom-color: var(--color-primary); }
+.project-number,
+.project-role { color: var(--color-accent) !important; }
+
+#experience .card { background: color-mix(in srgb, var(--color-surface), transparent 16%); }
+#experience .timeline-dot { background: var(--color-accent); }
+
+@media (max-width: 760px) {
+  body { background-size: 32px 32px; }
+  .hero-title { letter-spacing: -.065em; }
 }

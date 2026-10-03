@@ -7,8 +7,8 @@
 ---
 
 **Project:** Biglone Resume
-**Generated:** 2026-10-02 15:50:01
-**Category:** Marketing Agency
+**Generated:** 2026-10-03 16:00:00
+**Category:** Software Engineer Portfolio
 **Design Dials:** Variance 5/10 (Balanced / Modern) | Motion 3/10 (Subtle) | Density 4/10 (Standard)
 
 ---
@@ -19,24 +19,24 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#EC4899` | `--color-primary` |
-| On Primary | `#000000` | `--color-on-primary` |
-| Secondary | `#F472B6` | `--color-secondary` |
-| On Secondary | `#0F172A` | `--color-on-secondary` |
-| Accent/CTA | `#0891B2` | `--color-accent` |
-| On Accent/CTA | `#000000` | `--color-on-accent` |
-| Background | `#FDF2F8` | `--color-background` |
-| Foreground | `#831843` | `--color-foreground` |
+| Primary | `#172A3A` | `--color-primary` |
+| On Primary | `#FFFFFF` | `--color-on-primary` |
+| Secondary | `#52606D` | `--color-secondary` |
+| On Secondary | `#FFFFFF` | `--color-on-secondary` |
+| Accent/CTA | `#2F6DF6` | `--color-accent` |
+| On Accent/CTA | `#FFFFFF` | `--color-on-accent` |
+| Background | `#F6F7F9` | `--color-background` |
+| Foreground | `#141A21` | `--color-foreground` |
 | Card | `#FFFFFF` | `--color-card` |
-| Card Foreground | `#831843` | `--color-card-foreground` |
-| Muted | `#F1EEF5` | `--color-muted` |
-| Muted Foreground | `#475569` | `--color-muted-foreground` |
-| Border | `#FBCFE8` | `--color-border` |
+| Card Foreground | `#141A21` | `--color-card-foreground` |
+| Muted | `#EDF1F5` | `--color-muted` |
+| Muted Foreground | `#52606D` | `--color-muted-foreground` |
+| Border | `#D5DCE4` | `--color-border` |
 | Destructive | `#DC2626` | `--color-destructive` |
 | On Destructive | `#FFFFFF` | `--color-on-destructive` |
 | Ring | `#EC4899` | `--color-ring` |
 
-**Color Notes:** Bold pink + creative cyan [Accent adjusted from #06B6D4]
+**Color Notes:** Cool neutral paper with deep navy structure and a single cobalt action color.
 
 ### Typography
 
@@ -167,13 +167,13 @@
 
 ## Style Guidelines
 
-**Style:** Brutalism
+**Style:** Swiss technical portfolio
 
-**Keywords:** Raw, unpolished, stark, high contrast, plain text, default fonts, visible borders, asymmetric, anti-design
+**Keywords:** precise, cool neutral, editorial index, high contrast, structured whitespace, visible rules, restrained signal color
 
-**Best For:** Design portfolios, artistic projects, counter-culture brands, editorial/media sites, tech blogs
+**Best For:** Software engineering portfolios, technical case studies, product engineering resumes
 
-**Key Effects:** No smooth transitions (instant), sharp corners (0px), bold typography (700+), visible grid, large blocks
+**Key Effects:** sharp corners, bold sans typography, light ruled background, flat surfaces, minimal motion
 
 ### Page Pattern
 
