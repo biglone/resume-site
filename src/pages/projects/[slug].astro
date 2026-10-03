@@ -114,7 +114,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
   )}
 
   {project && (
-    <article class="py-12">
+    <article class="project-detail-page py-12">
       <div class="section-container">
         <!-- Back Link -->
         <a
@@ -197,6 +197,11 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           ))}
         </section>
 
+        <div class="reading-mode-switch" aria-label="详情阅读模式">
+          <span class="reading-mode-label">READING MODE / <b>完整档案</b></span>
+          <button type="button" class="reading-mode-button" aria-pressed="false">切换为面试速览</button>
+        </div>
+
         <!-- Project Brief -->
         <section class="project-intro mb-10" aria-label="项目摘要">
           <div class="project-intro-heading">
@@ -216,7 +221,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
 
         <!-- Source-backed visual evidence -->
         {project.images && project.images.length > 0 && (
-          <section class="project-visual-evidence mb-12" aria-label="源码图解与流程证据">
+          <section class="project-visual-evidence full-mode-section mb-12" aria-label="源码图解与流程证据">
             <div class="project-section-heading">
               <div>
                 <span class="project-intro-kicker">SOURCE-BACKED VISUAL EVIDENCE</span>
@@ -230,7 +235,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
 
         <!-- Inline source analysis; intentionally excludes content already covered above and below. -->
         {inlineAnalysisHtml && (
-          <section class="project-analysis-inline mb-12" aria-label="源码复核与工程证据">
+          <section class="project-analysis-inline full-mode-section mb-12" aria-label="源码复核与工程证据">
             <div class="project-section-heading">
               <div>
                 <span class="project-intro-kicker">SOURCE REVIEW / ENGINEERING EVIDENCE</span>
@@ -265,14 +270,14 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
 
         <!-- Detail Content (Markdown) -->
         {detailHtml && (
-          <section class="mb-12">
+          <section class="full-mode-section mb-12">
             <div class="prose prose-lg dark:prose-invert max-w-none" set:html={detailHtml} />
           </section>
         )}
 
         <!-- Git Commits -->
         {project.commits && project.commits.length > 0 && (
-          <section class="mb-12">
+          <section class="full-mode-section mb-12">
             <h2 class="text-xl font-semibold mb-4">代码提交规范</h2>
             <CommitHistory commits={project.commits} />
           </section>
@@ -298,6 +303,18 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     </article>
   )}
 </Layout>
+
+<script>
+  const readingModeButton = document.querySelector<HTMLButtonElement>('.reading-mode-button');
+  const readingModeLabel = document.querySelector<HTMLElement>('.reading-mode-label b');
+  const projectDetailPage = document.querySelector<HTMLElement>('.project-detail-page');
+  readingModeButton?.addEventListener('click', () => {
+    const interviewMode = projectDetailPage?.classList.toggle('interview-mode') || false;
+    readingModeButton.setAttribute('aria-pressed', String(interviewMode));
+    readingModeButton.textContent = interviewMode ? '切换为完整档案' : '切换为面试速览';
+    if (readingModeLabel) readingModeLabel.textContent = interviewMode ? '面试速览' : '完整档案';
+  });
+</script>
 
 <style is:global>
   .project-detail-header {
@@ -378,6 +395,13 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
   .project-fact-tags span { color: var(--color-text-secondary); font: 500 .68rem var(--font-mono); }
   .project-fact-tags span:not(:last-child)::after { content: ' /'; margin-left: .55rem; color: var(--color-border); }
   .project-fact-result strong { color: var(--color-accent); font-size: 1.15rem; }
+
+  .reading-mode-switch { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin: -2rem 0 3rem; padding: .65rem 0; border-bottom: 1px solid var(--color-border); }
+  .reading-mode-label { color: var(--color-text-secondary); font: 500 .62rem var(--font-mono); letter-spacing: .1em; }
+  .reading-mode-label b { color: var(--color-primary); font-weight: 500; }
+  .reading-mode-button { padding: .45rem .7rem; border: 1px solid var(--color-border); background: transparent; color: var(--color-primary); cursor: pointer; font: 500 .68rem var(--font-mono); }
+  .reading-mode-button:hover, .reading-mode-button:focus-visible { border-color: var(--color-accent); color: var(--color-accent); outline: none; }
+  .project-detail-page.interview-mode .full-mode-section { display: none; }
 
   .project-employer {
     color: var(--color-text);
@@ -673,6 +697,8 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     .project-fact:nth-child(2) { border-right: 0; }
     .project-fact:nth-child(3) { border-top: 1px solid var(--color-border); }
     .project-fact-result { border-top: 1px solid var(--color-border); border-right: 0; }
+    .reading-mode-switch { margin-top: -1.25rem; margin-bottom: 2.5rem; align-items: flex-start; }
+    .reading-mode-label { line-height: 1.5; }
     .project-header-kicker { display: block; }
     .case-index { display: block; margin-top: .65rem; }
     .metric-detail-grid { grid-template-columns: 1fr; }
