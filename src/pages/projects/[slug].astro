@@ -171,6 +171,32 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           </div>
         </header>
 
+        <section class="project-facts" aria-label="项目速览">
+          <div class="project-fact">
+            <span>归属</span>
+            <strong>{project.category === 'company' ? '公司项目' : '个人项目'}</strong>
+            <small>{project.employer || '独立开发'}</small>
+          </div>
+          <div class="project-fact">
+            <span>周期</span>
+            <strong>{project.period || '—'}</strong>
+            <small>{project.role || '项目开发'}</small>
+          </div>
+          <div class="project-fact project-fact-wide">
+            <span>核心技术</span>
+            <div class="project-fact-tags">
+              {project.tags.slice(0, 6).map((tag) => <span>{tag}</span>)}
+            </div>
+          </div>
+          {project.metrics?.slice(0, 1).map((metric) => (
+            <div class="project-fact project-fact-result">
+              <span>关键结果</span>
+              <strong>{metric.value}</strong>
+              <small>{metric.label}</small>
+            </div>
+          ))}
+        </section>
+
         <!-- Project Brief -->
         <section class="project-intro mb-10" aria-label="项目摘要">
           <div class="project-intro-heading">
@@ -325,6 +351,33 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     max-width: 16ch;
     font-weight: 800;
   }
+
+  .project-facts {
+    display: grid;
+    grid-template-columns: minmax(8rem, .75fr) minmax(10rem, 1fr) minmax(16rem, 1.8fr) minmax(8rem, .75fr);
+    margin: -1px 0 3.5rem;
+    border-top: 1px solid var(--color-primary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .project-fact {
+    display: grid;
+    align-content: start;
+    gap: .35rem;
+    min-height: 6.6rem;
+    padding: 1rem 1.1rem;
+    border-right: 1px solid var(--color-border);
+  }
+
+  .project-fact:last-child { border-right: 0; }
+  .project-fact > span { color: var(--color-accent); font: 500 .6rem var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+  .project-fact strong { color: var(--color-text); font: 650 .92rem var(--font-display); line-height: 1.35; }
+  .project-fact small { color: var(--color-text-secondary); font-size: .72rem; line-height: 1.45; }
+  .project-fact-wide { min-width: 0; }
+  .project-fact-tags { display: flex; flex-wrap: wrap; gap: .35rem .65rem; }
+  .project-fact-tags span { color: var(--color-text-secondary); font: 500 .68rem var(--font-mono); }
+  .project-fact-tags span:not(:last-child)::after { content: ' /'; margin-left: .55rem; color: var(--color-border); }
+  .project-fact-result strong { color: var(--color-accent); font-size: 1.15rem; }
 
   .project-employer {
     color: var(--color-text);
@@ -615,6 +668,11 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
 
   @media (max-width: 640px) {
     .project-detail-header { padding: 1.5rem 1.15rem; }
+    .project-facts { grid-template-columns: repeat(2, 1fr); margin-bottom: 2.75rem; }
+    .project-fact { min-height: 5.8rem; padding: .85rem .75rem; }
+    .project-fact:nth-child(2) { border-right: 0; }
+    .project-fact:nth-child(3) { border-top: 1px solid var(--color-border); }
+    .project-fact-result { border-top: 1px solid var(--color-border); border-right: 0; }
     .project-header-kicker { display: block; }
     .case-index { display: block; margin-top: .65rem; }
     .metric-detail-grid { grid-template-columns: 1fr; }
