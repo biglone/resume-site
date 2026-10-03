@@ -116,7 +116,20 @@ const pageTitle = project ? `${project.name} · 项目分析档案` : '项目分
 
           <script is:inline type="module">
             import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-            mermaid.initialize({ startOnLoad: false, theme: 'base', securityLevel: 'strict' });
+            mermaid.initialize({
+              startOnLoad: false,
+              theme: 'base',
+              securityLevel: 'strict',
+              themeVariables: {
+                primaryColor: '#eef4ff',
+                primaryTextColor: '#141a21',
+                primaryBorderColor: '#2f6df6',
+                lineColor: '#52606d',
+                secondaryColor: '#f6f7f9',
+                tertiaryColor: '#ffffff',
+                fontFamily: 'Space Grotesk, sans-serif'
+              }
+            });
             await mermaid.run({ querySelector: '.analysis-prose pre code.language-mermaid' });
           </script>
         </>
@@ -154,8 +167,8 @@ const pageTitle = project ? `${project.name} · 项目分析档案` : '项目分
   .analysis-prose li { margin: .45rem 0; }
   .analysis-prose strong { color: var(--color-text); }
   .analysis-prose code { padding: .1rem .3rem; background: var(--color-bg-secondary); color: var(--color-primary); font-family: var(--font-mono); font-size: .88em; }
-  .analysis-prose pre { margin: 1.2rem 0 1.6rem; padding: 1.2rem; overflow-x: auto; border: 1px solid var(--color-border); background: #172126; color: #e7f0ec; }
-  .analysis-prose pre code { padding: 0; background: transparent; color: inherit; }
+  .analysis-prose pre { margin: 1.2rem 0 1.6rem; padding: 1.2rem; overflow-x: auto; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); box-shadow: inset 3px 0 0 var(--color-accent); }
+  .analysis-prose pre code { padding: 0; background: transparent; color: var(--color-text); }
   .analysis-prose pre.mermaid { display: grid; place-items: center; min-height: 10rem; background: var(--color-bg-secondary); }
   .analysis-prose pre.mermaid svg { max-width: 100%; height: auto; }
   .analysis-footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--color-border); color: var(--color-text-secondary); font: 500 .68rem var(--font-mono); }

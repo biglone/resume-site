@@ -216,6 +216,27 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           </section>
         )}
 
+        {inlineAnalysisHtml && (
+          <script is:inline type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+            mermaid.initialize({
+              startOnLoad: false,
+              theme: 'base',
+              securityLevel: 'strict',
+              themeVariables: {
+                primaryColor: '#eef4ff',
+                primaryTextColor: '#141a21',
+                primaryBorderColor: '#2f6df6',
+                lineColor: '#52606d',
+                secondaryColor: '#f6f7f9',
+                tertiaryColor: '#ffffff',
+                fontFamily: 'Space Grotesk, sans-serif'
+              }
+            });
+            await mermaid.run({ querySelector: '.analysis-inline-prose pre code.language-mermaid' });
+          </script>
+        )}
+
         <!-- Detail Content (Markdown) -->
         {detailHtml && (
           <section class="mb-12">
@@ -388,14 +409,19 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     padding: 1rem;
     overflow-x: auto;
     border: 1px solid var(--color-border);
-    background: #172126;
-    color: #e7f0ec;
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: inset 3px 0 0 var(--color-accent);
   }
 
   .analysis-inline-prose code {
     color: var(--color-primary);
     font-family: var(--font-mono);
   }
+
+  .analysis-inline-prose pre code { color: var(--color-text); }
+  .analysis-inline-prose pre.mermaid { display: grid; place-items: center; min-height: 9rem; }
+  .analysis-inline-prose pre.mermaid svg { max-width: 100%; height: auto; }
 
   .project-intro p:first-child {
     max-width: 48rem;
@@ -562,9 +588,10 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
   }
 
   .prose pre {
-    background-color: #14181d;
-    color: #e2e8f0;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text);
     padding: 1rem;
+    border: 1px solid var(--color-border);
     border-radius: 0.5rem;
     overflow-x: auto;
     margin-bottom: 1rem;
@@ -574,6 +601,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     background: none;
     padding: 0;
     font-size: 0.875rem;
+    color: var(--color-text);
   }
 
   .prose a {

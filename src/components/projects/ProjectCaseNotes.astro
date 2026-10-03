@@ -665,10 +665,10 @@ const presentation: Presentation = deviceProjects.has(project.slug)
   .device-case-grid .case-wide, .algorithm-case-grid .algorithm-hero, .algorithm-case-grid .case-wide { grid-column: 1 / -1; min-height: auto; }
   .device-case-grid .case-wide p, .algorithm-case-grid .algorithm-hero p, .algorithm-case-grid .case-wide p { max-width: 58rem; }
   .platform-case-grid { grid-template-columns: 1.15fr .85fr; }
-  .platform-case-grid .platform-boundary { grid-row: span 2; min-height: 100%; padding: 1.35rem 2rem; background: var(--color-ink); border-left: 0; border-bottom: 0; color: #e7f8f5; }
+  .platform-case-grid .platform-boundary { grid-row: span 2; min-height: 100%; padding: 1.35rem 2rem; background: var(--color-surface); border-left: 3px solid var(--color-accent); border-bottom: 0; color: var(--color-text); }
   .platform-case-grid .platform-boundary span { color: var(--color-accent); }
-  .platform-case-grid .platform-boundary h3 { color: #f1fffc; font-size: 1.35rem; }
-  .platform-case-grid .platform-boundary p { color: #a9c6c7; }
+  .platform-case-grid .platform-boundary h3 { color: var(--color-text); font-size: 1.35rem; }
+  .platform-case-grid .platform-boundary p { color: var(--color-text-secondary); }
   .case-evidence { margin-top: 2.25rem; padding-top: 1.25rem; border-top: 2px solid var(--color-primary); }
   .evidence-lead { display: grid; grid-template-columns: minmax(12rem, .55fr) minmax(0, 1.45fr); column-gap: 2rem; align-items: baseline; padding-bottom: 1.35rem; border-bottom: 1px solid var(--color-border); }
   .evidence-lead h3 { grid-column: 1; margin: 0; font: 700 1.2rem var(--font-display); }
