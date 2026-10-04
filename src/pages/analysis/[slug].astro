@@ -6,6 +6,7 @@ import Layout from '../../layouts/Layout.astro';
 import type { Project, SiteConfig } from '../../types/resume';
 import { fetchMeta, fetchPublishedResume } from '../../lib/api';
 import { normalizeResume } from '../../lib/normalizeResume';
+import { prepareProjectAnalysis } from '../../lib/presentationText';
 
 const assetBaseUrl = import.meta.env.BASE_URL;
 const baseUrl = import.meta.env.BASE_URL.endsWith('/')
@@ -27,7 +28,7 @@ const analysisBySlug = Object.fromEntries(
 
 const slug = Astro.params.slug || '';
 const rawAnalysis = analysisBySlug[slug] || '';
-const analysisMarkdown = rawAnalysis.replace(/^# .*\n\n/, '');
+const analysisMarkdown = prepareProjectAnalysis(rawAnalysis.replace(/^# .*\n\n/, ''));
 const analysisHtml = analysisMarkdown ? marked.parse(analysisMarkdown) : '';
 
 const fallbackSite: SiteConfig = {
@@ -63,7 +64,7 @@ if (!project || !rawAnalysis) {
 const metaPayload = await fetchMeta();
 if (metaPayload) meta = metaPayload;
 
-const pageTitle = project ? `${project.name} · 项目分析档案` : '项目分析档案';
+const pageTitle = project ? `${project.name} · 项目技术说明` : '项目技术说明';
 ---
 
 <Layout
@@ -80,7 +81,7 @@ const pageTitle = project ? `${project.name} · 项目分析档案` : '项目分
 
           <header class="analysis-hero">
             <div>
-              <span class="analysis-kicker">INDEPENDENT PROJECT DOSSIER</span>
+              <span class="analysis-kicker">PROJECT TECHNICAL PROFILE</span>
               <h1>{project.name}</h1>
               <p>{project.description}</p>
             </div>
@@ -92,15 +93,15 @@ const pageTitle = project ? `${project.name} · 项目分析档案` : '项目分
           </header>
 
           <div class="analysis-layout">
-            <aside class="analysis-sidebar" aria-label="分析档案导航">
-              <div class="sidebar-label">DOSSIER INDEX</div>
+            <aside class="analysis-sidebar" aria-label="项目技术说明导航">
+              <div class="sidebar-label">PROJECT INDEX</div>
               <a href="#01-结论先行">01 / 结论</a>
-              <a href="#02-扫描证据与可信边界">02 / 证据</a>
+              <a href="#02-项目范围与技术背景">02 / 背景</a>
               <a href="#03-技术栈与工程边界">03 / 技术栈</a>
               <a href="#04-架构视图">04 / 架构</a>
               <a href="#05-关键数据流与验证点">05 / 数据流</a>
-              <a href="#06-源码项目深读">06 / 深读</a>
-              <a href="#07-我在项目中的贡献表达">07 / 贡献</a>
+              <a href="#06-系统设计与实现">06 / 实现</a>
+              <a href="#07-我的职责与交付结果">07 / 结果</a>
               <div class="sidebar-tags">
                 {project.tags.slice(0, 8).map((tag) => <span>{tag}</span>)}
               </div>
@@ -110,7 +111,7 @@ const pageTitle = project ? `${project.name} · 项目分析档案` : '项目分
           </div>
 
           <footer class="analysis-footer">
-            <span>END OF DOSSIER · {project.slug}</span>
+            <span>PROJECT TECHNICAL PROFILE · {project.slug}</span>
             <a href={`${baseUrl}projects/${project.slug}`}>回到项目详情 ↗</a>
           </footer>
 

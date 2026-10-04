@@ -10,6 +10,7 @@ import ProjectArchitecture from '../../components/projects/ProjectArchitecture.a
 import ProjectCaseNotes from '../../components/projects/ProjectCaseNotes.astro';
 import { fetchMeta, fetchPublishedResume } from '../../lib/api';
 import { normalizeResume } from '../../lib/normalizeResume';
+import { prepareProjectAnalysis } from '../../lib/presentationText';
 
 const assetBaseUrl = import.meta.env.BASE_URL;
 const baseUrl = import.meta.env.BASE_URL.endsWith('/')
@@ -81,7 +82,7 @@ if (metaPayload) {
 
 const detailHtml = project?.detail ? marked(project.detail) : '';
 const inlineAnalysisMarkdown = project ? selectInlineAnalysis(analysisBySlug[project.slug] || '') : '';
-const inlineAnalysisHtml = inlineAnalysisMarkdown ? marked(inlineAnalysisMarkdown) : '';
+const inlineAnalysisHtml = inlineAnalysisMarkdown ? marked(prepareProjectAnalysis(inlineAnalysisMarkdown)) : '';
 const siteTitle = site.title?.trim() || '';
 const autoTitle = profileName ? `${profileName}的简历` : siteTitle || fallbackSite.title;
 const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle : autoTitle;
@@ -131,7 +132,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
         <header class="project-detail-header mb-8">
           <div class="project-header-kicker">
             <p class="section-kicker">{project.category === 'company' ? 'COMPANY CASE / PROJECT' : 'PERSONAL CASE / PROJECT'}</p>
-            <span class="case-index">CASE FILE · {project.slug}</span>
+            <span class="case-index">PROJECT PROFILE · {project.category === 'company' ? 'COMPANY' : 'PERSONAL'}</span>
           </div>
           <h1 class="text-3xl sm:text-4xl font-semibold mb-4">{project.name}</h1>
 
@@ -198,21 +199,21 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
         </section>
 
         <div class="reading-mode-switch" aria-label="详情阅读模式">
-          <span class="reading-mode-label">READING MODE / <b>完整档案</b></span>
-          <button type="button" class="reading-mode-button" aria-pressed="false">切换为面试速览</button>
+          <span class="reading-mode-label">READING MODE / <b>详细内容</b></span>
+          <button type="button" class="reading-mode-button" aria-pressed="false">切换为重点摘要</button>
         </div>
 
         <!-- Project Brief -->
         <section class="project-intro mb-10" aria-label="项目摘要">
           <div class="project-intro-heading">
-            <span class="project-intro-kicker">PROJECT BRIEF / OUTCOME FIRST</span>
-            <h2>先看项目价值，再进入实现细节</h2>
+            <span class="project-intro-kicker">PROJECT OVERVIEW / BUSINESS VALUE</span>
+            <h2>项目价值与交付范围</h2>
           </div>
           <p class="text-lg" style="color: var(--color-text-secondary);">
             {project.description}
           </p>
           <div class="project-intro-line"></div>
-          <p class="project-intro-label">PROJECT BRIEF / ENGINEERING DELIVERY</p>
+          <p class="project-intro-label">PROJECT VALUE / ENGINEERING DELIVERY</p>
         </section>
 
         <!-- Architecture and contribution -->
@@ -224,8 +225,8 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           <section class="project-visual-evidence full-mode-section mb-12" aria-label="源码图解与流程证据">
             <div class="project-section-heading">
               <div>
-                <span class="project-intro-kicker">SOURCE-BACKED VISUAL EVIDENCE</span>
-                <h2>源码图解与流程证据</h2>
+                <span class="project-intro-kicker">SYSTEM FLOW / VISUAL EVIDENCE</span>
+                <h2>系统流程与界面证据</h2>
               </div>
               <span class="project-section-note">ARCHITECTURE / FLOW / DECISIONS</span>
             </div>
@@ -238,8 +239,8 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           <section class="project-analysis-inline full-mode-section mb-12" aria-label="源码复核与工程证据">
             <div class="project-section-heading">
               <div>
-                <span class="project-intro-kicker">SOURCE REVIEW / ENGINEERING EVIDENCE</span>
-                <h2>源码复核与工程证据</h2>
+                <span class="project-intro-kicker">ENGINEERING IMPLEMENTATION / PRACTICE</span>
+                <h2>技术实现与工程实践</h2>
               </div>
               <span class="project-section-note">SCAN / STACK / FLOW</span>
             </div>
@@ -311,8 +312,8 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
   readingModeButton?.addEventListener('click', () => {
     const interviewMode = projectDetailPage?.classList.toggle('interview-mode') || false;
     readingModeButton.setAttribute('aria-pressed', String(interviewMode));
-    readingModeButton.textContent = interviewMode ? '切换为完整档案' : '切换为面试速览';
-    if (readingModeLabel) readingModeLabel.textContent = interviewMode ? '面试速览' : '完整档案';
+    readingModeButton.textContent = interviewMode ? '切换为详细内容' : '切换为重点摘要';
+    if (readingModeLabel) readingModeLabel.textContent = interviewMode ? '重点摘要' : '详细内容';
   });
 </script>
 
