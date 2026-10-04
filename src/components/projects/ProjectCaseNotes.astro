@@ -611,38 +611,33 @@ const presentation: Presentation = deviceProjects.has(project.slug)
     {caseEvidence && (
       <div class="case-evidence">
         <div class="evidence-lead">
-          <h3>职责与交付结果</h3>
-          <span>职责 / 结果 / 技术取舍</span>
+          <h3>职责与交付</h3>
+          <span>职责 / 结果 / 技术决策</span>
           <p>{caseEvidence.contribution}</p>
         </div>
         <div class="evidence-grid">
           <article>
-            <span>关键技术取舍</span>
-            <h3>关键技术取舍</h3>
+            <span>技术决策</span>
+            <h3>技术决策</h3>
             <ul>{caseEvidence.decisions.map((item) => <li>{item}</li>)}</ul>
           </article>
           <article>
-            <span>如何验证与衡量</span>
-            <h3>如何验证与衡量</h3>
+            <span>验证方式</span>
+            <h3>验证方式</h3>
             <p>{caseEvidence.evidence}</p>
             <p class="tradeoff"><strong>取舍：</strong>{caseEvidence.tradeoff}</p>
           </article>
         </div>
         <div class="source-refs">
-          <span>关键实现位置</span>
+          <span>核心技术模块</span>
           <div>{caseEvidence.sourceRefs.map((ref) => <code>{ref}</code>)}</div>
         </div>
         {deepDive && (
           <div class="deep-dive-grid">
             <article>
-              <span>代码与文档证明</span>
-              <h3>工程依据</h3>
+              <span>技术实现依据</span>
+              <h3>技术实现依据</h3>
               <p>{deepDive.verification}</p>
-            </article>
-            <article>
-              <span>面试叙事</span>
-              <h3>面试表达示例</h3>
-              <p>{deepDive.story}</p>
             </article>
           </div>
         )}

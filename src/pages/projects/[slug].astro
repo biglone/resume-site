@@ -35,7 +35,9 @@ function selectInlineAnalysis(markdown: string) {
     .replace(/^# .*\n\n/, '')
     .split(/(?=^## \d+\.)/gm)
     .filter((section) => section.startsWith('## '));
-  const keep = ['## 02.', '## 03.', '## 05.'];
+  // The public page uses the conclusion, stack boundary, and data-flow sections.
+  // Repository metadata and interview prompts stay in the internal analysis route.
+  const keep = ['## 01.', '## 03.', '## 05.'];
   return sections
     .filter((section) => keep.some((heading) => section.startsWith(heading)))
     .map((section, index) => section.replace(/^## \d+\./, `## ${String(index + 1).padStart(2, '0')}.`))
@@ -194,7 +196,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           </div>
           {project.metrics?.slice(0, 1).map((metric) => (
             <div class="project-fact project-fact-result">
-              <span>关键结果</span>
+              <span>项目要点</span>
               <strong>{metric.value}</strong>
               <small>{metric.label}</small>
             </div>
@@ -225,11 +227,11 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
 
         <!-- Source-backed visual evidence -->
         {project.images && project.images.length > 0 && (
-          <section class="project-visual-evidence full-mode-section mb-12" aria-label="源码图解与流程证据">
+          <section class="project-visual-evidence full-mode-section mb-12" aria-label="项目界面与流程图解">
             <div class="project-section-heading">
               <div>
-                <span class="project-intro-kicker">SYSTEM FLOW / VISUAL EVIDENCE</span>
-                <h2>系统流程与界面证据</h2>
+                <span class="project-intro-kicker">SYSTEM FLOW / PROJECT VISUALS</span>
+                <h2>系统流程与界面图解</h2>
               </div>
               <span class="project-section-note">ARCHITECTURE / FLOW / DECISIONS</span>
             </div>
@@ -282,7 +284,7 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
         <!-- Git Commits -->
         {project.commits && project.commits.length > 0 && (
           <section class="full-mode-section mb-12">
-            <h2 class="text-xl font-semibold mb-4">代码提交规范</h2>
+            <h2 class="text-xl font-semibold mb-4">版本演进记录</h2>
             <CommitHistory commits={project.commits} />
           </section>
         )}

@@ -202,7 +202,7 @@ const architectureTitle = project.slug === 'audio-broadcast-service'
         ? '编辑与交互工作流'
       : project.slug === 'codeharbor' || project.slug === 'plover' || project.slug === 'sharepier' || project.slug === 'matrix-open-stack'
         ? '服务边界与部署关系'
-        : '系统结构与数据流';
+        : '交付链路概览';
 ---
 
 <section class="architecture-sketch" aria-label={`${project.name} 架构草图`}>
@@ -230,7 +230,7 @@ const architectureTitle = project.slug === 'audio-broadcast-service'
       </>
     ))}
   </div>
-  <div class="architecture-footer"><span>FLOW MODEL</span><span>基于项目代码结构整理</span></div>
+  <div class="architecture-footer"><span>PROJECT ARCHITECTURE</span><span>基于项目实现整理</span></div>
 </section>
 
 <style>
