@@ -19,5 +19,11 @@ export function prepareProjectAnalysis(markdown: string): string {
     .replaceAll('证据置信度', '资料来源')
     .replaceAll('源码/项目深读', '系统设计与实现')
     .replaceAll('我在项目中的贡献表达', '我的职责与交付结果')
-    .replaceAll('源码抽出的架构', '系统设计要点');
+    .replaceAll('源码抽出的架构', '系统设计要点')
+    .replaceAll('参与者', '模块开发')
+    .replaceAll('2023. - 2024.', '2023 - 2024')
+    .replace(
+      '输入是否可重放：优先寻找测试数据、样例文件、协议tester、离线工具或smoke test。',
+      '输入可重放性：通过测试数据、样例文件、协议 tester、离线工具或 smoke test 验证。'
+    );
 }

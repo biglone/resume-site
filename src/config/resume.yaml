@@ -54,7 +54,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: true
     period: "2022.10 - 至今"
-    role: "C++/Qt 软件开发 · 核心模块参与者"
+    role: "C++/Qt 软件开发 · 核心链路开发"
     description: "面向声音识别、声源定位、摄像头和设备管理的跨平台智能监控平台。"
     highlights: ["参与声音识别、声源定位、摄像头、证据生成和设备管理链路。", "参与 WebSocket 实时预览、诊断信息导出和 QML 管理工作台能力建设。", "维护 CMake、vcpkg、MSYS2、Docker 和 GitLab CI 跨平台构建发布流程。"]
     tags: ["C++17", "Qt6/QML", "OpenCV", "FFmpeg", "Boost.Asio", "LevelDB", "CMake", "GitLab CI"]
@@ -70,7 +70,7 @@ projects:
       ## 项目定位
       Whistle（鸣笛监控系统 V3）是一套面向道路现场声学事件监控的跨平台 C++ 系统，连接麦克风阵列、摄像头、声音识别、声源定位、车牌识别、证据生成与多种上报通道。V3 的核心目标是将短促事件控制在约 2 秒内、持续事件控制在约 5 秒内完成证据闭环，因此系统设计重点是实时管线的可预测性、设备异常的可诊断性和跨平台交付能力。
 
-      ## 从源码抽出的架构
+      ## 系统设计要点
       项目以 `wms_core` 为核心库，按实时数据边界拆为三段：
       - **数据预处理**：`AudioReceiver`/`AudioUdpReceiver` 和摄像头适配层负责接收、解码、分帧、时间戳同步及缓存。音频以 1024 samples 为基础帧，并通过音频处理单元队列向后续算法提供稳定输入。
       - **鸣笛识别**：识别服务从处理单元队列取数据，执行声音特征分析并输出鸣笛事件队列；定位模块再结合阵列数据计算声源区域。
@@ -99,8 +99,8 @@ projects:
       ## 一个可复用的排障案例
       麦克风阵列偶发离线时，表面现象是应用重连失败。通过日志、UDP 收发行为和固件事件循环对照，最终定位到 XMOS 固件中 UDP 反射逻辑的忙等阻塞，导致 uIP 事件循环无法持续处理网络事件。这个案例体现了我在跨进程、跨设备、跨语言边界上从现象复现、链路缩小到根因修复的排查方式，而不是只增加重启次数。
 
-      ## 面试可展开的技术话题
-      这个项目适合展开讨论：如何用时间戳和固定帧组织实时音视频、如何设计有界队列避免内存失控、如何在第三方单路识别限制下扩展吞吐、如何让取证任务等待完整时间窗、如何把网络失败转化为可恢复的持久化补传，以及如何用离线分析工具和 CI 产物缩短现场问题复现路径。
+      ## 技术设计要点
+      关键设计围绕时间戳和固定帧组织实时音视频、用有界队列控制内存与线程边界、在第三方单路识别限制下扩展吞吐，并将网络失败转化为可恢复的持久化补传。
 
       ## 我的工作
       - 将采集、预处理、识别和证据生成拆成队列化模块，降低算法耗时对采集线程的反压；音频按 1024 samples 分帧，并在音视频链路中保留时间戳。
@@ -113,7 +113,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: true
     period: "2022.10 - 至今"
-    role: "C++/Qt 软件开发 · 设备与可视化模块参与者"
+    role: "C++/Qt 软件开发 · 设备与可视化开发"
     description: "融合声学成像、频谱分析、PRPD、红外摄像头和 PTZ 控制的设备软件平台。"
     highlights: ["参与 OpenCV、FFmpeg、CUDA、MQTT、SQLite 和 Qt/QML 组成的设备软件链路。", "参与红外控制、设备兼容、抗闪烁、线程安全、增益和设备通信。", "配套云端管理和独立部署前端，覆盖诊断、升级、校准和安装包校验。"]
     tags: ["C++14", "Qt/QML", "OpenCV", "CUDA", "FFmpeg", "MQTT", "SQLite"]
@@ -135,7 +135,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: true
     period: "2022.10 - 至今"
-    role: "C++ 软件开发 · 音频服务与协议模块参与者"
+    role: "C++ 软件开发 · 音频服务与协议开发"
     description: "面向音频终端的 HTTP/TCP 播报服务，覆盖 TTS、音频文件播放、音量、停止和声光电控制。"
     highlights: ["将 HTTP API、TCP 设备协议、播放队列和 TTS 引擎组织成统一服务。", "支持 Windows TTS 与 sherpa-onnx/Kokoro 等本地语音引擎，并保留音频文件推送能力。", "配套 Web 管理页、SSE 日志、TCP 测试工具、Docker 构建和跨平台打包流程。"]
     tags: ["C++", "CMake", "HTTP", "TCP", "TTS", "sherpa-onnx", "Docker", "Go"]
@@ -180,7 +180,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: true
     period: "2022.10 - 至今"
-    role: "全栈/Android 设备管理参与者"
+    role: "全栈/Android 开发 · 设备管理链路"
     description: "覆盖 Go 后端、React 管理后台、微信小程序和 Android 设备端的综合系统。"
     highlights: ["覆盖 Go + Gin + GORM + MySQL、React/Ant Design、微信小程序和 Kotlin Android。", "基于 ADB 和 Android Device Owner 实现设备探测、锁定、权限和应用升级。", "参与预约、设备占用、会话超时、管理员权限和失败诊断流程。"]
     tags: ["Go", "Gin", "GORM", "React", "TypeScript", "Kotlin", "ADB", "Docker"]
@@ -224,7 +224,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: true
     period: "2022.10 - 至今"
-    role: "C++/Qt 开发 · 音视频分析与报告模块参与者"
+    role: "C++/Qt 开发 · 音视频分析与报告"
     description: "用于管理、分析声像仪导出的音视频数据包，并提供声学信息分析、可视化和报告输出能力。"
     highlights: ["基于 Qt 5.15.2 和 CMake 参与分析软件功能开发与维护。", "参与声源图、频谱、PRPD、音视频数据包和报告导出相关功能。", "处理云端文件有效性、导入流程、界面交互和多语言显示等问题。"]
     tags: ["C++", "Qt 5", "CMake", "音视频分析", "PRPD", "频谱", "报告生成"]
@@ -246,7 +246,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: false
     period: "2022.10 - 至今"
-    role: "React/TypeScript 开发 · Web 管理端参与者"
+    role: "React/TypeScript 开发 · Web 管理端"
     description: "面向声像仪设备、用户和业务配置的 Web 管理平台，提供设备管理、配置切换和后台运营能力。"
     highlights: ["基于 Ant Design Pro、React 和 TypeScript 参与管理端页面与业务流程开发。", "参与设备语言配置、声纹识别开关和 API 定义更新。", "配合 OpenAPI、国际化、版本管理和 lint/test 流程完成前端交付。"]
     tags: ["React", "TypeScript", "Ant Design Pro", "OpenAPI", "国际化", "Jest"]
@@ -268,7 +268,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: false
     period: "2022.10 - 至今"
-    role: "React/TypeScript 开发 · 设备控制与配置参与者"
+    role: "React/TypeScript 开发 · 设备控制与配置"
     description: "面向单机声像仪的配置、校准、预览、回放、PTZ 控制和系统维护控制台。"
     highlights: ["围绕设备时间、网络、存储、麦克风、校准和 PTZ 组织独立部署页面。", "通过 OpenAPI 请求层和 MQTT 语义完成设备配置与实时云台控制。", "处理 PTZ 角度同步、校准模式进入、升级倒计时和多语言现场交互。"]
     tags: ["React", "TypeScript", "UmiJS", "Ant Design", "OpenAPI", "MQTT", "PTZ", "国际化"]
@@ -291,7 +291,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: false
     period: "2022.10 - 至今"
-    role: "Electron/React 开发 · 演示内容管理参与者"
+    role: "Electron/React 开发 · 演示内容管理"
     description: "面向聚音屏产品演示的桌面应用，用于管理演示视频、分类内容和可视化播放流程。"
     highlights: ["基于 Electron、UmiJS、Ant Design 和 ECharts 开发跨平台演示应用。", "参与视频分类、视频信息维护、文件传输和媒体库刷新流程。", "处理相对路径、表单校验、交互反馈和演示内容管理问题。"]
     tags: ["Electron", "React", "UmiJS", "Ant Design", "ECharts", "视频管理"]
@@ -313,7 +313,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: true
     period: "2022.10 - 至今"
-    role: "C# / WPF 开发 · 产线测试平台参与者"
+    role: "C# / WPF 开发 · 产线测试平台"
     description: "面向聚音屏量产测试的 Windows 自动化平台，统一控制测试仪器、治具板和功放板并完成声学判定。"
     highlights: ["通过串口、VISA.NET 和 Audiobus API 控制 LCR 测试仪、示波器和音频分析仪。", "将设备发现、连接监测、测试调度、参数采集和结果判定拆分为独立库。", "支持三语言、Velopack 自动更新、release/beta 渠道和设备库单元测试。"]
     tags: ["C#", "WPF", ".NET Framework", "VISA.NET", "Audiobus", "SerialPort", "Velopack", "测试自动化"]
@@ -336,7 +336,7 @@ projects:
     employer: "苏州汇川技术有限公司"
     featured: true
     period: "2021.04 - 2022.10"
-    role: "C++/Qt 软件开发 · 图形组态模块参与者"
+    role: "C++/Qt 软件开发 · 图形组态模块"
     description: "面向工业监控系统的图形组态子系统，负责将监控对象、属性面板和自定义图元组织成可编辑的工程界面。"
     highlights: ["参与需求文档、概要设计和属性子系统的架构设计与编码实现。", "基于 Qt Graphics Framework 设计和实现可交互自定义图元。", "围绕图元属性、编辑状态和组态交互完善桌面端工程能力。"]
     tags: ["C++", "Qt", "Qt Graphics", "SCADA", "图形组态", "设计模式"]
@@ -424,7 +424,7 @@ projects:
     employer: "苏州梦想人软件科技有限公司"
     featured: false
     period: "2019.08 - 2021.03"
-    role: "C++/OpenCV 开发工程师 · 算法优化参与者"
+    role: "C++/OpenCV 开发工程师 · 算法优化"
     description: "面向图书页识别与跟踪的 AR SDK 算法优化项目，重点改进图像预处理和 ORB 特征提取流程。"
     highlights: ["对采集图像进行预处理，改善后续特征提取的输入质量。", "调整 ORB 特征提取参数，提升图书页识别与跟踪的成功率。", "围绕识别、跟踪和现场表现进行迭代验证与问题定位。"]
     tags: ["C++", "OpenCV", "ORB", "图像预处理", "特征提取", "AR"]
@@ -446,7 +446,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: false
     period: "2022.10 - 至今"
-    role: "C++ 软件开发 · 公共组件与并发基础设施参与者"
+    role: "C++ 软件开发 · 公共组件与并发基础设施"
     description: "面向音频和设备项目复用的 C++ 基础库，提供线程安全队列、环形缓冲、计时和日志组件。"
     highlights: ["提供 shared_queue、circular_queue、circular_buffer 和 stopwatch 等可复用组件。", "改进阻塞队列 pop_front 语义，统一空队列等待、生产消费和容量边界行为。", "配套 CMake、vcpkg、Visual Studio、GoogleTest 和 lint/test 脚本。"]
     tags: ["C++", "C++11", "多线程", "CMake", "vcpkg", "GoogleTest", "并发队列"]
@@ -627,7 +627,7 @@ projects:
     employer: "苏州清声学科技有限公司"
     featured: false
     period: "2024.06 - 2025.07"
-    role: "C# / C++ 音频控制开发 · 设备交互与配置参与者"
+    role: "C# / C++ 音频控制开发 · 设备交互与配置"
     description: "面向 Lenovo 音频设备的 Windows 控制软件，覆盖麦克风、雷达、音频模式、EQ 配置和设备状态交互。"
     highlights: ["参与 WPF 音频控制 UI、C++ 设备 DLL、RPC/IPC 和配置持久化链路。", "实现 EQ 模式、增益值、会议模式和播放效果配置，并限制连续命令发送间隔。", "参与 MessagePack/base64 管道数据传输、设备连接状态和现场提示反馈。"]
     tags: ["C#", "WPF", "C++", "RPC/IPC", "MessagePack", "音频设备", "EQ", "Windows"]
@@ -645,15 +645,15 @@ projects:
       - 参与管道数据使用 MessagePack 序列化和 Base64 编码传输，减少跨进程传输中的结构歧义。
       - 通过设置持久化、成功提示和日志补齐现场可见反馈，避免“配置提交成功但设备状态未知”的问题。
 
-      ## 可展开的工程问题
-      重点可以从 WPF UI 与 C++ 设备层边界、RPC/IPC 数据模型、设备断连后的状态恢复，以及频繁命令对硬件控制的节流策略展开。
+      ## 工程设计要点
+      设计重点集中在 WPF UI 与 C++ 设备层边界、RPC/IPC 数据模型、设备断连后的状态恢复，以及频繁命令对硬件控制的节流策略。
   - name: "AF-VST 音频效果处理引擎"
     slug: "af-vst-audio-engine"
     category: "company"
     employer: "苏州清声学科技有限公司"
     featured: false
-    period: "2023. - 2024."
-    role: "C++ 音频软件开发 · DSP 模块参与者"
+    period: "2023 - 2024"
+    role: "C++ 音频软件开发 · DSP 模块"
     description: "面向音频效果处理的 C++ 引擎，包含采集、通信、滤波、增益、混音、降噪和动态处理模块。"
     highlights: ["围绕音频帧、收发、处理器和通信模块组织实时处理链路。", "参与 FIR/IIR、增益、混音、噪声抑制、重采样和动态处理组件。", "使用 CMake 组织多模块构建，并处理浮点音频数据和跨模块接口。"]
     tags: ["C++", "DSP", "FIR/IIR", "降噪", "混音", "CMake", "ISPC", "实时音频"]
@@ -671,15 +671,15 @@ projects:
       - 处理音频数据从整数/混合表示转为浮点数据后的接口影响，避免模块之间出现隐式转换和精度损失。
       - 使用 CMake 管理多模块构建，并保留 ISPC 等性能优化入口，便于后续针对热点处理做向量化。
 
-      ## 可展开的工程问题
-      面试时可以从实时音频线程不能阻塞、帧大小与算法窗口的关系、滤波器状态跨帧保存，以及 DSP 模块如何测试和观测展开。
+      ## 工程设计要点
+      设计重点集中在实时音频线程不能阻塞、帧大小与算法窗口的关系、滤波器状态跨帧保存，以及 DSP 模块的测试与观测。
   - name: "APS 声感知设备管理前端"
     slug: "aps-sensing-console"
     category: "company"
     employer: "苏州清声学科技有限公司"
     featured: false
-    period: "2023. - 2024."
-    role: "Vue 前端开发 · 设备管理与可视化参与者"
+    period: "2023 - 2024"
+    role: "Vue 前端开发 · 设备管理与可视化"
     description: "面向声感知设备的 Web 管理端，提供设备接入、统计地图、配置和运行状态可视化。"
     highlights: ["基于 Vue 2、Element UI、Axios 和 ECharts 构建设备管理页面。", "参与统计地图、设备新增、IP 必填校验和首页功能分区交互。", "配合环境配置、静态构建和 OSS 上传脚本完成前端发布。"]
     tags: ["Vue 2", "Element UI", "ECharts", "Axios", "JavaScript", "OSS", "设备管理"]
@@ -696,8 +696,8 @@ projects:
       - 补充设备 IP 必填校验、统计图例和布局细节，减少无效设备配置进入后端。
       - 配合 `.env` 环境配置、Vue CLI 构建和 OSS 上传脚本，维护从本地调试到静态发布的前端链路。
 
-      ## 可展开的工程问题
-      可从设备管理表单的校验边界、ECharts 数据与页面状态同步、测试/生产 API 切换以及静态资源发布流程展开。
+      ## 工程设计要点
+      设计重点集中在设备管理表单的校验边界、ECharts 数据与页面状态同步、测试/生产 API 切换以及静态资源发布流程。
   - name: "AIGC 工程实践与代码问答系统"
     slug: "aigc-engineering-lab"
     category: "personal"
@@ -721,8 +721,8 @@ projects:
       - RAG 系统使用 tree-sitter 保持函数/类结构完整，再结合 OpenAI embedding、ChromaDB、混合搜索和 MMR 重排，为多语言代码提供来源可追溯的问答。
       - 通过 Gradio、benchmark、单元测试和 Docker 模板把理论验证落成可运行工程，而不是只停留在笔记或 Prompt 示例。
 
-      ## 面试切入点
-      可以展开 KV Cache 的复杂度变化、量化带来的精度/内存取舍、代码语义分块为什么优于固定长度切块，以及 RAG 答案如何返回来源证据。
+      ## 技术设计要点
+      重点覆盖 KV Cache 的复杂度变化、量化带来的精度/内存取舍、代码语义分块与固定长度切块的差异，以及 RAG 答案的来源证据返回。
   - name: "Matrix Open Stack 自托管通信平台"
     slug: "matrix-open-stack"
     category: "personal"
@@ -747,8 +747,8 @@ projects:
       - 用户/机器人创建默认关闭，只有本地安全脚本可以打开短暂维护窗口；邀请接口加入 IP 与 Token 指纹限流，降低公网暴露风险。
       - 提供备份、恢复、完整用户快照和 Cloudflared 模板，体现了从“能启动”到“可长期运行”的运维思维。
 
-      ## 面试切入点
-      可以从控制面与 homeserver 的职责划分、Docker socket 高风险能力如何默认关闭、审计日志和临时注册窗口如何降低误操作风险展开。
+      ## 技术设计要点
+      设计重点集中在控制面与 homeserver 的职责划分、Docker socket 高风险能力的默认关闭，以及审计日志和临时注册窗口对误操作风险的控制。
   - name: "FeedFlow 内容订阅与自动部署服务"
     slug: "feedflow"
     category: "personal"
@@ -773,8 +773,8 @@ projects:
       - 部署脚本使用独立的 `feedflow-prod` 生产目录，避免 webhook 发布时误伤开发目录；push 事件触发 webhook，再执行构建、迁移和服务重启。
       - 通过 systemd user service 管理后端和 webhook，形成“代码变更 → 自动部署 → 数据库迁移 → 日志复盘”的闭环。
 
-      ## 面试切入点
-      可以讨论外部依赖不可靠时的配置隔离、生产目录与源码目录分离、数据库迁移失败如何阻止错误发布，以及 webhook 的安全边界。
+      ## 技术设计要点
+      设计重点集中在外部依赖不可靠时的配置隔离、生产目录与源码目录分离、数据库迁移失败时阻止错误发布，以及 webhook 的安全边界。
   - name: "Linux.do Scout 实时抓取与搜索工具"
     slug: "linuxdo-scout"
     category: "personal"
@@ -798,8 +798,8 @@ projects:
       - 使用 better-sqlite3 持久化论坛内容，针对本地工具优先低运维成本和可迁移性，而不是引入重量级服务端数据库。
       - 通过 TypeScript、npm build、ESLint、Dockerfile 和 compose 文件形成可安装、可运行、可发布的工具链。
 
-      ## 面试切入点
-      可以从增量抓取的幂等性、SQLite 查询索引、外部站点限流/失败重试，以及 CLI 与 Web UI 复用同一数据层展开。
+      ## 技术设计要点
+      设计重点集中在增量抓取的幂等性、SQLite 查询索引、外部站点限流与失败重试，以及 CLI 与 Web UI 复用同一数据层。
   - name: "Qwen3-TTS Jetson 语音服务"
     slug: "qwen3-tts-service"
     category: "personal"
@@ -824,8 +824,8 @@ projects:
       - Docker 使用 NVIDIA runtime、模型目录只读挂载和 HuggingFace 缓存，解决 GPU 运行时、模型体积和重复下载问题。
       - 通过 `/healthz`、`/v1/voices` 和 `/v1/models` 提供部署探针和能力发现，为后续接入设备服务保留稳定边界。
 
-      ## 面试切入点
-      可以讨论模型生命周期与请求并发、音频格式转换、流式接口的缓冲边界，以及 Jetson 资源受限环境中的模型缓存和部署策略。
+      ## 技术设计要点
+      设计重点集中在模型生命周期与请求并发、音频格式转换、流式接口的缓冲边界，以及 Jetson 资源受限环境中的模型缓存和部署策略。
   - name: "Video Automation 2K 章节视频流水线"
     slug: "video-automation"
     category: "personal"
@@ -850,8 +850,8 @@ projects:
       - 当前正式链路聚焦 `chapter_stills`：生成 2048x1152 主视觉、章节视频、整集旁白混音并最终拼接。
       - 提供编译 smoke test 和脚本入口，对输入结构、路径和生产链路做早期校验。
 
-      ## 面试切入点
-      可以从声明式配置、流水线幂等性、章节级失败恢复、媒体处理中的音画时序，以及如何用 smoke test 保证脚本重构不破坏生产入口展开。
+      ## 技术设计要点
+      设计重点集中在声明式配置、流水线幂等性、章节级失败恢复、媒体处理中的音画时序，以及用 smoke test 保证脚本重构不破坏生产入口。
   - name: "帆书分类图书浏览站"
     slug: "fanshu-book-browser"
     category: "personal"
@@ -876,8 +876,8 @@ projects:
       - 设计 refined、playful、brand 三套主题，通过 CSS 变量和组件样式组织视觉差异，验证内容产品在信息密度、可读性和风格之间的取舍。
       - 配套截图、构建、lint 和免责声明，体现从数据整理到可发布前端产品的完整闭环。
 
-      ## 面试切入点
-      可以从本地数据与实时 API 的取舍、搜索字段归一化、主题 token 设计，以及高信息密度页面如何保持阅读层次展开。
+      ## 技术设计要点
+      设计重点集中在本地数据与实时 API 的取舍、搜索字段归一化、主题 token 设计，以及高信息密度页面的阅读层次。
 skills:
   - category: "核心开发"
     items:
