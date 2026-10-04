@@ -1,7 +1,7 @@
 # 刘元龙个人简历与作品集配置
 profile:
   name: "刘元龙"
-  title: "C++ / Qt 跨平台桌面与音频设备软件工程师"
+  title: "C++ / Qt 跨平台桌面与实时音频设备软件工程师"
   avatar: "/images/avatar.jpg"
   bio: "近十年软件开发经验，专注于 C++/Qt 桌面应用、音频与设备通信；同时独立构建 Electron、Web 全栈、AI Agent 和跨平台工具。"
   location: "苏州"
