@@ -6,7 +6,7 @@ import Layout from '../../layouts/Layout.astro';
 import type { Project, SiteConfig } from '../../types/resume';
 import { fetchMeta, fetchPublishedResume } from '../../lib/api';
 import { normalizeResume } from '../../lib/normalizeResume';
-import { prepareProjectAnalysis } from '../../lib/presentationText';
+import { prepareProjectAnalysis, selectProjectAnalysis } from '../../lib/presentationText';
 
 const assetBaseUrl = import.meta.env.BASE_URL;
 const baseUrl = import.meta.env.BASE_URL.endsWith('/')
@@ -28,7 +28,7 @@ const analysisBySlug = Object.fromEntries(
 
 const slug = Astro.params.slug || '';
 const rawAnalysis = analysisBySlug[slug] || '';
-const analysisMarkdown = prepareProjectAnalysis(rawAnalysis.replace(/^# .*\n\n/, ''));
+const analysisMarkdown = prepareProjectAnalysis(selectProjectAnalysis(rawAnalysis));
 const analysisHtml = analysisMarkdown ? marked.parse(analysisMarkdown) : '';
 
 const fallbackSite: SiteConfig = {
@@ -95,13 +95,9 @@ const pageTitle = project ? `${project.name} · 项目技术说明` : '项目技
           <div class="analysis-layout">
             <aside class="analysis-sidebar" aria-label="项目技术说明导航">
               <div class="sidebar-label">PROJECT INDEX</div>
-              <a href="#01-结论先行">01 / 结论</a>
-              <a href="#02-项目范围与技术背景">02 / 背景</a>
-              <a href="#03-技术栈与工程边界">03 / 技术栈</a>
-              <a href="#04-架构视图">04 / 架构</a>
-              <a href="#05-关键数据流与验证点">05 / 数据流</a>
-              <a href="#06-系统设计与实现">06 / 实现</a>
-              <a href="#07-我的职责与交付结果">07 / 结果</a>
+              <a href="#01-结论先行">01 / 项目结论</a>
+              <a href="#02-技术栈与工程边界">02 / 技术栈</a>
+              <a href="#03-关键数据流与验证点">03 / 数据流</a>
               <div class="sidebar-tags">
                 {project.tags.slice(0, 8).map((tag) => <span>{tag}</span>)}
               </div>

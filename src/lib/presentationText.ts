@@ -1,3 +1,16 @@
+/** Select the source-backed sections that are useful in the public portfolio. */
+export function selectProjectAnalysis(markdown: string): string {
+  const sections = markdown
+    .replace(/^# .*\n\n/, '')
+    .split(/(?=^## \d+\.)/gm)
+    .filter((section) => section.startsWith('## '));
+  const keep = ['## 01.', '## 03.', '## 05.'];
+  return sections
+    .filter((section) => keep.some((heading) => section.startsWith(heading)))
+    .map((section, index) => section.replace(/^## \d+\./, `## ${String(index + 1).padStart(2, '0')}.`))
+    .join('\n');
+}
+
 /**
  * Converts internal repository-analysis wording into language suitable for
  * an employer-facing project portfolio. Technical facts stay intact; only
