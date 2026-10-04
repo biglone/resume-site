@@ -36,7 +36,10 @@ function selectInlineAnalysis(markdown: string) {
     .split(/(?=^## \d+\.)/gm)
     .filter((section) => section.startsWith('## '));
   const keep = ['## 02.', '## 03.', '## 05.'];
-  return sections.filter((section) => keep.some((heading) => section.startsWith(heading))).join('\n');
+  return sections
+    .filter((section) => keep.some((heading) => section.startsWith(heading)))
+    .map((section, index) => section.replace(/^## \d+\./, `## ${String(index + 1).padStart(2, '0')}.`))
+    .join('\n');
 }
 
 const fallbackSite: SiteConfig = {
