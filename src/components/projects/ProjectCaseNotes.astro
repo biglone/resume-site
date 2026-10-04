@@ -611,8 +611,8 @@ const presentation: Presentation = deviceProjects.has(project.slug)
     {caseEvidence && (
       <div class="case-evidence">
         <div class="evidence-lead">
-          <h3>把项目讲到“我做了什么”</h3>
-          <span>个人贡献 / 证据 / 取舍</span>
+          <h3>职责与交付结果</h3>
+          <span>职责 / 结果 / 技术取舍</span>
           <p>{caseEvidence.contribution}</p>
         </div>
         <div class="evidence-grid">
@@ -629,14 +629,14 @@ const presentation: Presentation = deviceProjects.has(project.slug)
           </article>
         </div>
         <div class="source-refs">
-          <span>可讨论的代码入口</span>
+          <span>关键实现位置</span>
           <div>{caseEvidence.sourceRefs.map((ref) => <code>{ref}</code>)}</div>
         </div>
         {deepDive && (
           <div class="deep-dive-grid">
             <article>
               <span>代码与文档证明</span>
-              <h3>代码与文档如何证明</h3>
+              <h3>工程依据</h3>
               <p>{deepDive.verification}</p>
             </article>
             <article>
