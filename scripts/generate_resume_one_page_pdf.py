@@ -89,7 +89,7 @@ story.append(p("近10年软件开发经验，以 C++/Qt 跨平台桌面与音频
 
 story += section("核心能力")
 skills = [
-    [p("C++ / 桌面", "Label"), p("C++17、Qt/QML、Qt Graphics、CMake/vcpkg、并发、TCP/IP、Windows/Linux/macOS", "Body"), p("全栈 / 服务", "Label"), p("React、Vue 2、TypeScript、Go、Python、Electron、REST/WebSocket、SQLite/MySQL/PostgreSQL", "Body")],
+    [p("C++ / 桌面", "Label"), p("C++17、Qt/QML、Qt Graphics、CMake/vcpkg、并发、TCP/IP、Windows/Linux/macOS", "Body"), p("全栈 / 服务", "Label"), p("React、Vue、TypeScript、Go、Python、Electron、REST/WebSocket、SQLite/MySQL/PostgreSQL", "Body")],
     [p("音频 / 视觉", "Label"), p("OpenCV、FFmpeg、CUDA、FIR/IIR、混音/降噪、ORB、TTS、实时帧处理", "Body"), p("交付 / 质量", "Label"), p("Docker、GitLab CI、GitHub Actions、GoogleTest、Playwright、Jetson 部署", "Body")],
 ]
 story.append(Table(skills, colWidths=[27 * mm, 64 * mm, 27 * mm, 64 * mm], style=TableStyle([
