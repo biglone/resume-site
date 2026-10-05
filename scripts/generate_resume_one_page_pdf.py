@@ -89,7 +89,7 @@ story.append(p("近10年软件开发经验，以 C++/Qt 跨平台桌面与音频
 
 story += section("核心能力")
 skills = [
-    [p("C++ / 桌面", "Label"), p("C++17、Qt/QML、Qt Graphics、CMake/vcpkg、并发、TCP/IP、Windows/Linux/macOS", "Body"), p("全栈 / 服务", "Label"), p("React、TypeScript、Go、Python、Electron、REST/WebSocket、SQLite/MySQL/PostgreSQL", "Body")],
+    [p("C++ / 桌面", "Label"), p("C++17、Qt/QML、Qt Graphics、CMake/vcpkg、并发、TCP/IP、Windows/Linux/macOS", "Body"), p("全栈 / 服务", "Label"), p("React、Vue 2、TypeScript、Go、Python、Electron、REST/WebSocket、SQLite/MySQL/PostgreSQL", "Body")],
     [p("音频 / 视觉", "Label"), p("OpenCV、FFmpeg、CUDA、FIR/IIR、混音/降噪、ORB、TTS、实时帧处理", "Body"), p("交付 / 质量", "Label"), p("Docker、GitLab CI、GitHub Actions、GoogleTest、Playwright、Jetson 部署", "Body")],
 ]
 story.append(Table(skills, colWidths=[27 * mm, 64 * mm, 27 * mm, 64 * mm], style=TableStyle([
@@ -101,7 +101,7 @@ story.append(Table(skills, colWidths=[27 * mm, 64 * mm, 27 * mm, 64 * mm], style
 story += section("工作经历")
 experience_rows = [
     [p("苏州清声学科技有限公司", "Company"), p("软件开发工程师 · 2022.10-至今", "Meta")],
-    [p("", "Body"), p("• 负责声学监控、声学成像、设备控制、Web 管理端和产测平台模块，覆盖 C++/Qt、React、Electron、C#/WPF。<br/>• 参与采集→分析→定位→取证链路、设备协议与状态同步，使用 OpenCV/FFmpeg/CUDA 完成算法结果、设备状态和报告交付。<br/>• 优化 CUDA 热点约 35→16ms、25→3ms、30→4ms；参与 2 秒短事件/5 秒长事件证据链路和 Windows/Linux 跨平台发布。", "Body")],
+    [p("", "Body"), p("• 负责声学监控、声学成像、设备控制、Web 管理端和产测平台模块，覆盖 C++/Qt、React/Vue、Electron、C#/WPF。<br/>• 参与采集→分析→定位→取证链路、设备协议与状态同步，使用 OpenCV/FFmpeg/CUDA 完成算法结果、设备状态和报告交付。<br/>• 优化 CUDA 热点约 35→16ms、25→3ms、30→4ms；参与 2 秒短事件/5 秒长事件证据链路和 Windows/Linux 跨平台发布。", "Body")],
     [p("苏州汇川技术有限公司", "Company"), p("软件开发工程师 · 2021.04-2022.10", "Meta")],
     [p("", "Body"), p("• 参与监控系统图形组态子系统的技术预研、技术选型和概要设计，负责属性子系统架构与模块实现。<br/>• 基于 Qt Graphics 设计自定义图元及编辑行为，处理对象模型、属性面板、选中/移动和状态同步等交互边界。", "Body")],
     [p("苏州梦想人软件科技有限公司", "Company"), p("C++开发工程师 · 2019.08-2021.03", "Meta")],
