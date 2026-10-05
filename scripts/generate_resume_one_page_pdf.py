@@ -79,7 +79,8 @@ doc.addPageTemplates([PageTemplate(id="resume", frames=frame, onPage=footer)])
 
 story = [
     p("刘元龙", "Name"),
-    p("15370348006（微信同号）  |  leslie_mc@163.com  |  苏州  |  resume.biglone.tech", "Contact"),
+    p("15370348006（微信同号）  |  leslie_mc@163.com  |  苏州", "Contact"),
+    p("GitHub: <link href=\"https://github.com/biglone\">github.com/biglone</link>  |  个人网站: <link href=\"https://resume.biglone.tech\">resume.biglone.tech</link>", "Contact"),
     p("高级 C++/Qt · 全栈软件工程师  |  期望薪资：35K-50K", "Contact"),
     Spacer(1, 3),
 ]
