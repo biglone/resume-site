@@ -130,7 +130,8 @@ story.append(Table(projects, colWidths=[32 * mm, 150 * mm], style=TableStyle([
 
 story += section("教育与其他")
 story.append(p("昆明理工大学 · 计算机系统结构硕士（2013.09-2016.06）　|　淮阴工学院 · 计算机科学与技术本科（2009.09-2013.06）"))
-story.append(p("英语 CET-6 · 计算机三级 · 求职方向：高级 C++/Qt、跨平台桌面、音频/设备软件、实时处理、全栈工程。"))
+story.append(p("英语 CET-6 · 计算机三级"))
+story.append(p("求职方向：高级 C++/Qt、跨平台桌面、音频/设备软件、实时处理、全栈工程。"))
 
 doc.build(story)
 print(OUTPUT)
