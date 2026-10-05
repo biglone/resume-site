@@ -101,13 +101,13 @@ story.append(Table(skills, colWidths=[27 * mm, 64 * mm, 27 * mm, 64 * mm], style
 story += section("工作经历")
 experience_rows = [
     [p("苏州清声学科技有限公司", "Company"), p("软件开发工程师 · 2022.10-至今", "Meta")],
-    [p("", "Body"), p("负责声学监控、声学成像、设备控制、Web 管理端和产测平台模块；覆盖 C++/Qt、React、Electron、C#/WPF、OpenCV/FFmpeg/CUDA。CUDA 热点约 35→16ms、25→3ms、30→4ms，并参与 2 秒短事件/5 秒长事件证据链路与跨平台发布。", "Body")],
+    [p("", "Body"), p("• 负责声学监控、声学成像、设备控制、Web 管理端和产测平台模块，覆盖 C++/Qt、React、Electron、C#/WPF。<br/>• 参与采集→分析→定位→取证链路、设备协议与状态同步，使用 OpenCV/FFmpeg/CUDA 完成算法结果、设备状态和报告交付。<br/>• 优化 CUDA 热点约 35→16ms、25→3ms、30→4ms；参与 2 秒短事件/5 秒长事件证据链路和 Windows/Linux 跨平台发布。", "Body")],
     [p("苏州汇川技术有限公司", "Company"), p("软件开发工程师 · 2021.04-2022.10", "Meta")],
-    [p("", "Body"), p("负责 SCADA 图形组态属性子系统架构与 Qt Graphics 自定义图元，实现对象模型、属性编辑和交互状态同步。", "Body")],
+    [p("", "Body"), p("• 参与监控系统图形组态子系统的技术预研、技术选型和概要设计，负责属性子系统架构与模块实现。<br/>• 基于 Qt Graphics 设计自定义图元及编辑行为，处理对象模型、属性面板、选中/移动和状态同步等交互边界。", "Body")],
     [p("苏州梦想人软件科技有限公司", "Company"), p("C++开发工程师 · 2019.08-2021.03", "Meta")],
-    [p("", "Body"), p("主导 Qt 编辑器维护、定制版本开发、重构与性能优化；通过 OpenCV 图像预处理和 ORB 参数调优，提升 AR SDK 图书页识别与跟踪稳定性。", "Body")],
+    [p("", "Body"), p("• 主导 Qt 编辑器维护、定制版本开发、代码重构和性能优化，梳理公共能力与定制版本边界，改善稳定性和内容制作效率。<br/>• 负责 AR SDK 图像识别与跟踪优化，通过 OpenCV 图像预处理、ORB 特征参数调整和失败样本分析，提升图书页识别与跟踪稳定性。", "Body")],
     [p("苏州广立信息技术有限公司", "Company"), p("软件工程师 · 2016.05-2019.08", "Meta")],
-    [p("", "Body"), p("负责 Qt 即时通讯和智慧校园 PC 客户端，覆盖 TCP/IP、SQLite/MySQL、Linux；独立交付截图、图片浏览、文件管理和上线提醒模块。", "Body")],
+    [p("", "Body"), p("• 负责 Qt 即时通讯和智慧校园 PC 客户端，覆盖 TCP/IP、SQLite/MySQL、Linux 以及班级、事务、应急消息等业务模块。<br/>• 独立交付截图、图片浏览、文件管理和上线提醒模块，处理剪贴板、文件生命周期、消息状态和异常反馈等桌面交互问题。", "Body")],
 ]
 story.append(Table(experience_rows, colWidths=[52 * mm, 130 * mm], style=TableStyle([
     ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0),
