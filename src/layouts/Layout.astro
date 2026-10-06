@@ -8,6 +8,7 @@ interface Props {
   description?: string;
   keywords?: string;
   language?: string;
+  noIndex?: boolean;
   meta?: {
     appVersion?: string;
     opsVersion?: string;
@@ -19,6 +20,7 @@ const {
   description = 'Personal Resume Site',
   keywords = '',
   language = 'zh-CN',
+  noIndex = false,
   meta = {}
 } = Astro.props;
 ---
@@ -31,6 +33,7 @@ const {
     <meta name="description" content={description} />
     {keywords && <meta name="keywords" content={keywords} />}
     <meta name="generator" content={Astro.generator} />
+    {noIndex && <meta name="robots" content="noindex, nofollow, noarchive" />}
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
