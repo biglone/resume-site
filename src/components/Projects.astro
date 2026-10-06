@@ -17,11 +17,23 @@ const filters = [
   { label: 'Electron / Web', value: 'electron-web' },
   { label: 'AI / 工具链', value: 'ai-tools' },
 ];
+const getPeriodStart = (period = '') => {
+  const match = period.match(/(\d{4})\.(\d{2})/);
+  return match ? Number(`${match[1]}${match[2]}`) : 0;
+};
 const companyFilters = Array.from(new Set(
   projects
     .filter((project) => project.category === 'company' && project.employer)
     .map((project) => project.employer as string),
-));
+)).sort((a, b) => {
+  const latestStart = (employer: string) => Math.max(
+    ...projects
+      .filter((project) => project.category === 'company' && project.employer === employer)
+      .map((project) => getPeriodStart(project.period)),
+    0,
+  );
+  return latestStart(b) - latestStart(a);
+});
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
