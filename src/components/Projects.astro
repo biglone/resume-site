@@ -17,6 +17,11 @@ const filters = [
   { label: 'Electron / Web', value: 'electron-web' },
   { label: 'AI / 工具链', value: 'ai-tools' },
 ];
+const companyFilters = Array.from(new Set(
+  projects
+    .filter((project) => project.category === 'company' && project.employer)
+    .map((project) => project.employer as string),
+));
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
@@ -32,16 +37,20 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
       {filters.map((filter, index) => (
         <button type="button" class:list={['filter-button', index === 0 && 'is-active']} data-filter={filter.value} aria-pressed={index === 0 ? 'true' : 'false'}>{filter.label}</button>
       ))}
+      {companyFilters.length > 0 && <span class="filter-divider" aria-hidden="true">/</span>}
+      {companyFilters.map((company) => (
+        <button type="button" class="filter-button filter-button-company" data-filter={`employer:${company}`} data-employer={company} aria-pressed="false">{company}</button>
+      ))}
       <span class="filter-result" aria-live="polite"></span>
     </div>
 
     <div class="project-columns">
       {groups.map((group) => (
         <div class="project-group" data-project-group>
-          <div class="group-heading"><h3>{group.title}</h3><span>{group.note} · {group.items.length} 项</span></div>
+          <div class="group-heading"><h3>{group.title}</h3><span>{group.note} · <b data-group-count>{group.items.length}</b> 项</span></div>
           <div class="project-grid">
             {group.items.map((project, index) => (
-              <details class:list={['project-entry', project.featured && 'project-entry-featured']} name="project-accordion" data-category={project.category} data-tags={project.tags.join('|').toLowerCase()}>
+              <details class:list={['project-entry', project.featured && 'project-entry-featured']} name="project-accordion" data-category={project.category} data-employer={project.employer || ''} data-tags={project.tags.join('|').toLowerCase()}>
                 <summary class="project-summary">
                   <span class="project-number">{String(index + 1).padStart(2, '0')}</span>
                   <span class="project-summary-main">
@@ -97,19 +106,30 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
   };
 
   const applyFilter = (value: string) => {
+    const employerFilter = value.startsWith('employer:') ? value.slice('employer:'.length) : '';
     let visibleCount = 0;
     projectEntries.forEach((entry) => {
       const category = entry.dataset.category || '';
+      const employer = entry.dataset.employer || '';
       const tags = entry.dataset.tags || '';
       const matches = value === 'all'
         || category === value
+        || employer === employerFilter
         || (filterTerms[value] || []).some((term) => tags.includes(term));
       entry.hidden = !matches;
       if (!matches) entry.open = false;
       if (matches) visibleCount += 1;
     });
     projectGroups.forEach((group) => {
-      group.hidden = !Array.from(group.querySelectorAll<HTMLDetailsElement>('.project-entry')).some((entry) => !entry.hidden);
+      const entries = Array.from(group.querySelectorAll<HTMLDetailsElement>('.project-entry'));
+      const visibleEntries = entries.filter((entry) => !entry.hidden);
+      group.hidden = visibleEntries.length === 0;
+      const count = group.querySelector<HTMLElement>('[data-group-count]');
+      if (count) count.textContent = String(visibleEntries.length);
+      visibleEntries.forEach((entry, index) => {
+        const number = entry.querySelector<HTMLElement>('.project-number');
+        if (number) number.textContent = String(index + 1).padStart(2, '0');
+      });
     });
     filterButtons.forEach((button) => {
       const active = button.dataset.filter === value;
@@ -133,11 +153,13 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
   .eyebrow { font-family: var(--font-mono); color: var(--color-primary); letter-spacing: .14em; text-transform: uppercase; font-size: .68rem; margin-bottom: .65rem; }
   .project-filters { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem .7rem; margin: 0 0 2.25rem; padding: .8rem 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
   .filter-label { margin-right: .25rem; color: var(--color-accent); font: 500 .62rem var(--font-mono); letter-spacing: .12em; }
+  .filter-divider { color: var(--color-border-strong, var(--color-border)); font: 500 .72rem var(--font-mono); }
   .filter-button { padding: .42rem .6rem; border: 1px solid transparent; background: transparent; color: var(--color-text-secondary); cursor: pointer; font: 500 .68rem var(--font-mono); transition: border-color .2s ease, color .2s ease, background-color .2s ease; }
   .filter-button:hover, .filter-button:focus-visible { border-color: var(--color-accent); color: var(--color-primary); outline: none; }
   .filter-button.is-active { border-color: var(--color-primary); background: var(--color-primary); color: var(--color-bg); }
   .filter-result { margin-left: auto; color: var(--color-text-secondary); font: 500 .64rem var(--font-mono); }
   .project-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3.5rem; align-items: start; }
+  .project-columns > .project-group + .project-group { margin-top: 0; }
   .project-group { min-width: 0; }
   .group-heading { display: flex; align-items: baseline; gap: .8rem; border-bottom: 2px solid var(--color-primary); padding-bottom: .8rem; margin-bottom: 0; }
   .group-heading h3 { font: 650 1.25rem var(--font-display); color: var(--color-text); }
@@ -178,5 +200,5 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
   @keyframes projectReveal { from { opacity: 0; transform: translateY(-.35rem); } to { opacity: 1; transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) { .project-entry-body, .summary-toggle b, .project-summary::after { animation: none; transition: none; } }
   @media (max-width: 860px) { .project-columns { gap: 2rem; } .project-summary { grid-template-columns: 2rem minmax(0, 1fr); } .summary-toggle { grid-column: 2; } }
-  @media (max-width: 640px) { .section-intro { display: block; } .section-intro > p { margin-top: 1rem; } .project-filters { align-items: flex-start; } .filter-label { width: 100%; } .filter-result { margin-left: 0; width: 100%; } .project-columns { display: block; } .project-group + .project-group { margin-top: 3.5rem; } .project-summary { min-height: 6rem; } .project-entry-body { padding-left: 2.8rem; } }
+  @media (max-width: 640px) { .section-intro { display: block; } .section-intro > p { margin-top: 1rem; } .project-filters { align-items: flex-start; } .filter-label { width: 100%; } .filter-result { margin-left: 0; width: 100%; } .project-columns { display: block; } .project-columns > .project-group + .project-group { margin-top: 3.5rem; } .project-summary { min-height: 6rem; } .project-entry-body { padding-left: 2.8rem; } }
 </style>
