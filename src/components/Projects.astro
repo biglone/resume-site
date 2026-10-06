@@ -186,6 +186,14 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
       applyFilter('company-filter', employer);
     });
   });
+  document.addEventListener('click', (event) => {
+    if (!companyMenu || !companyMenu.open) return;
+    const target = event.target;
+    if (target instanceof Node && !companyMenu.contains(target)) companyMenu.open = false;
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && companyMenu) companyMenu.open = false;
+  });
   applyFilter('all');
 </script>
 
