@@ -90,7 +90,7 @@ story.append(p("近10年软件开发经验，以 C++/Qt 跨平台桌面与音频
 
 story += section("核心能力")
 skills = [
-    [p("C++ / 桌面", "Label"), p("C++17、Qt/QML、Qt Graphics、CMake/vcpkg、并发、TCP/IP、Windows/Linux/macOS", "Body"), p("全栈 / 服务", "Label"), p("React、Vue、TypeScript、Go、Python、Electron、REST/WebSocket、SQLite/MySQL/PostgreSQL", "Body")],
+    [p("C++ / 桌面", "Label"), p("C++17、Qt/QML、Qt Graphics、CMake/vcpkg、并发、TCP/IP、Windows/Linux/macOS", "Body"), p("全栈 / 服务", "Label"), p("React、Vue、TypeScript、Go、Python、C#/.NET、Electron、REST/WebSocket、SQLite/MySQL/PostgreSQL", "Body")],
     [p("音频 / 视觉", "Label"), p("OpenCV、FFmpeg、CUDA、FIR/IIR、混音/降噪、ORB、TTS、实时帧处理", "Body"), p("交付 / 质量", "Label"), p("Docker、GitLab CI、GitHub Actions、GoogleTest、Playwright、Jetson 部署", "Body")],
 ]
 story.append(Table(skills, colWidths=[27 * mm, 64 * mm, 27 * mm, 64 * mm], style=TableStyle([
@@ -102,7 +102,7 @@ story.append(Table(skills, colWidths=[27 * mm, 64 * mm, 27 * mm, 64 * mm], style
 story += section("工作经历")
 experience_rows = [
     [p("苏州清声学科技有限公司", "Company"), p("软件开发工程师 · 2022.10-至今", "Meta")],
-    [p("", "Body"), p("• 负责声学监控、声学成像、设备控制、Web 管理端和产测平台模块，覆盖 C++/Qt、React/Vue、Electron、C#/WPF。<br/>• 参与采集→分析→定位→取证链路、设备协议与状态同步，使用 OpenCV/FFmpeg/CUDA 完成算法结果、设备状态和报告交付。<br/>• 优化 CUDA 热点约 35→16ms、25→3ms、30→4ms；参与 2 秒短事件/5 秒长事件证据链路和 Windows/Linux 跨平台发布。", "Body")],
+    [p("", "Body"), p("• 负责多个声学与设备软件模块开发，参与声学监控、声学成像、设备控制、Web 管理端和产测平台建设，覆盖 C++/Qt、React/Vue、Electron、C#/WPF。<br/>• 参与 C++ 设备端、React/Vue 管理端与接口服务协作，处理采集→分析→定位→取证链路、设备协议、状态同步和报告交付。<br/>• 优化 CUDA 热点约 35→16ms、25→3ms、30→4ms；参与 2 秒短事件/5 秒长事件证据链路和 Windows/Linux 跨平台发布。", "Body")],
     [p("苏州汇川技术有限公司", "Company"), p("软件开发工程师 · 2021.04-2022.10", "Meta")],
     [p("", "Body"), p("• 参与监控系统图形组态子系统的技术预研、技术选型和概要设计，负责属性子系统架构与模块实现。<br/>• 基于 Qt Graphics 设计自定义图元及编辑行为，处理对象模型、属性面板、选中/移动和状态同步等交互边界。", "Body")],
     [p("苏州梦想人软件科技有限公司", "Company"), p("C++开发工程师 · 2019.08-2021.03", "Meta")],
@@ -120,7 +120,7 @@ story.append(Table(experience_rows, colWidths=[52 * mm, 130 * mm], style=TableSt
 story += section("精选项目")
 projects = [
     [p("声学监控与设备软件", "Project"), p("C++/Qt、OpenCV、FFmpeg、CUDA、MQTT；覆盖采集→分析→定位→取证、设备状态闭环和跨平台交付。", "Body")],
-    [p("CodeHarbor / Plover", "Project"), p("TypeScript/Node.js、Matrix、Python、gRPC；实现多模型任务编排、持久化、可回放执行和 E2E 测试。", "Body")],
+    [p("AI 工具链", "Project"), p("CodeHarbor / Plover：TypeScript/Node.js、Matrix、Python、gRPC；覆盖多模型任务编排、会话持久化、GUI 自动化、可回放执行和 E2E 测试。", "Body")],
     [p("AI 与边缘语音", "Project"), p("C++/Python、RAG、Qwen3-TTS、Jetson；实践推理优化、代码检索、流式/SSE 音频输出与 GPU 部署。", "Body")],
 ]
 story.append(Table(projects, colWidths=[32 * mm, 150 * mm], style=TableStyle([
@@ -132,7 +132,7 @@ story.append(Table(projects, colWidths=[32 * mm, 150 * mm], style=TableStyle([
 story += section("教育与其他")
 story.append(p("昆明理工大学 · 计算机系统结构硕士（2013.09-2016.06）　|　淮阴工学院 · 计算机科学与技术本科（2009.09-2013.06）"))
 story.append(p("英语 CET-6 · 计算机三级"))
-story.append(p("求职方向：高级 C++/Qt、跨平台桌面、音频/设备软件、实时处理、全栈工程。"))
+story.append(p("求职方向：高级 C++/Qt、跨平台桌面与音频设备软件，兼顾 Web 全栈与实时系统开发。"))
 
 doc.build(story)
 print(OUTPUT)
