@@ -86,7 +86,7 @@ story = [
 ]
 
 story += section("职业定位")
-story.append(p("近10年软件开发经验，以 C++/Qt 跨平台桌面与音频设备软件为主，兼具 React/TypeScript、Go、Electron 和 Python 全栈交付能力。擅长实时数据链路、设备协议、性能优化、故障定位与从开发到部署的工程闭环。"))
+story.append(p("近10年软件开发经验，以 C++/Qt 跨平台桌面与音频设备软件为主，兼具 React/TypeScript、Go、Electron 和 Python 全栈交付能力；擅长实时数据链路、设备协议、性能优化、故障定位与从开发到部署的工程闭环"))
 
 story += section("核心能力")
 skills = [
@@ -102,13 +102,13 @@ story.append(Table(skills, colWidths=[27 * mm, 64 * mm, 27 * mm, 64 * mm], style
 story += section("工作经历")
 experience_rows = [
     [p("苏州清听声学科技有限公司", "Company"), p("软件开发工程师 · 2022.10-至今", "Meta")],
-    [p("", "Body"), p("• 参与声学监控、声学成像、设备控制、Web 管理端和产测平台开发，负责多个 C++/Qt、React/Vue、Electron、C#/WPF 模块。<br/>• 围绕实时声学处理与设备协同，参与采集、分析、定位、取证链路开发；通过 CUDA 优化降低关键算法耗时，参与事件证据闭环与 Windows/Linux 跨平台交付。", "Body")],
+    [p("", "Body"), p("• 参与声学监控、声学成像、设备控制、Web 管理端和产测平台开发，负责多个 C++/Qt、React/Vue、Electron、C#/WPF 模块<br/>• 围绕实时声学处理与设备协同，参与采集、分析、定位、取证链路开发；通过 CUDA 优化降低关键算法耗时，参与事件证据闭环与 Windows/Linux 跨平台交付", "Body")],
     [p("苏州汇川技术有限公司", "Company"), p("软件开发工程师 · 2021.04-2022.10", "Meta")],
-    [p("", "Body"), p("• 参与监控系统图形组态子系统的技术预研、技术选型和概要设计，负责属性子系统架构与模块实现。<br/>• 基于 Qt Graphics 设计自定义图元及编辑行为，处理对象模型、属性面板、选中/移动和状态同步等交互边界。", "Body")],
+    [p("", "Body"), p("• 参与监控系统图形组态子系统的技术预研、技术选型和概要设计，负责属性子系统架构与模块实现<br/>• 基于 Qt Graphics 设计自定义图元及编辑行为，处理对象模型、属性面板、选中/移动和状态同步等交互边界", "Body")],
     [p("苏州梦想人软件科技有限公司", "Company"), p("C++开发工程师 · 2019.08-2021.03", "Meta")],
-    [p("", "Body"), p("• 主导 Qt 编辑器维护、定制版本开发、代码重构和性能优化，梳理公共能力与定制版本边界，改善稳定性和内容制作效率。<br/>• 负责 AR SDK 图像识别与跟踪优化，通过 OpenCV 图像预处理、ORB 特征参数调整和失败样本分析，提升图书页识别与跟踪稳定性。", "Body")],
+    [p("", "Body"), p("• 主导 Qt 编辑器维护、定制版本开发、代码重构和性能优化，梳理公共能力与定制版本边界，改善稳定性和内容制作效率<br/>• 负责 AR SDK 图像识别与跟踪优化，通过 OpenCV 图像预处理、ORB 特征参数调整和失败样本分析，提升图书页识别与跟踪稳定性", "Body")],
     [p("苏州广立信息技术有限公司", "Company"), p("软件工程师 · 2016.05-2019.08", "Meta")],
-    [p("", "Body"), p("• 负责 Qt 即时通讯和智慧校园 PC 客户端，覆盖 TCP/IP、SQLite/MySQL、Linux 以及班级、事务、应急消息等业务模块。<br/>• 独立交付截图、图片浏览、文件管理和上线提醒模块，处理剪贴板、文件生命周期、消息状态和异常反馈等桌面交互问题。", "Body")],
+    [p("", "Body"), p("• 负责 Qt 即时通讯和智慧校园 PC 客户端，覆盖 TCP/IP、SQLite/MySQL、Linux 以及班级、事务、应急消息等业务模块<br/>• 独立交付截图、图片浏览、文件管理和上线提醒模块，处理剪贴板、文件生命周期、消息状态和异常反馈等桌面交互问题", "Body")],
 ]
 story.append(Table(experience_rows, colWidths=[52 * mm, 130 * mm], style=TableStyle([
     ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0),
@@ -119,9 +119,9 @@ story.append(Table(experience_rows, colWidths=[52 * mm, 130 * mm], style=TableSt
 
 story += section("精选项目")
 projects = [
-    [p("声学监控与设备软件", "Project"), p("C++/Qt、OpenCV、FFmpeg、CUDA、MQTT；覆盖采集→分析→定位→取证、设备状态闭环和跨平台交付。", "Body")],
-    [p("AI 工具链", "Project"), p("CodeHarbor / Plover：TypeScript/Node.js、Matrix、Python、gRPC；覆盖多模型任务编排、会话持久化、GUI 自动化、可回放执行和 E2E 测试。", "Body")],
-    [p("AI 与边缘语音", "Project"), p("C++/Python、RAG、Qwen3-TTS、Jetson；实践推理优化、代码检索、流式/SSE 音频输出与 GPU 部署。", "Body")],
+    [p("声学监控与设备软件", "Project"), p("C++/Qt、OpenCV、FFmpeg、CUDA、MQTT；覆盖采集→分析→定位→取证、设备状态闭环和跨平台交付", "Body")],
+    [p("AI 工具链", "Project"), p("CodeHarbor / Plover：TypeScript/Node.js、Matrix、Python、gRPC；覆盖多模型任务编排、会话持久化、GUI 自动化、可回放执行和 E2E 测试", "Body")],
+    [p("AI 与边缘语音", "Project"), p("C++/Python、RAG、Qwen3-TTS、Jetson；实践推理优化、代码检索、流式/SSE 音频输出与 GPU 部署", "Body")],
 ]
 story.append(Table(projects, colWidths=[32 * mm, 150 * mm], style=TableStyle([
     ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LINEBELOW", (0, 0), (-1, -2), 0.3, LINE),
