@@ -120,8 +120,8 @@ story.append(Table(experience_rows, colWidths=[52 * mm, 130 * mm], style=TableSt
 story += section("精选项目")
 projects = [
     [p("声学监控与设备软件", "Project"), p("C++/Qt、OpenCV、FFmpeg、CUDA、MQTT；覆盖采集→分析→定位→取证、设备状态闭环和跨平台交付", "Body")],
-    [p("AI 工具链", "Project"), p("CodeHarbor / Plover：TypeScript/Node.js、Matrix、Python、gRPC；覆盖多模型任务编排、会话持久化、GUI 自动化、可回放执行和 E2E 测试", "Body")],
-    [p("AI 与边缘语音", "Project"), p("C++/Python、RAG、Qwen3-TTS、Jetson；实践推理优化、代码检索、流式/SSE 音频输出与 GPU 部署", "Body")],
+    [p("AI 与边缘计算", "Project"), p("CodeHarbor / Plover / Qwen3-TTS：TypeScript/Node.js、Python、gRPC、RAG、Jetson；覆盖多模型任务编排、GUI 自动化、推理优化、代码检索与流式音频服务", "Body")],
+    [p("Web 全栈与自托管平台", "Project"), p("SharePier / FeedFlow / Matrix Open Stack：Go/React、TypeScript、PostgreSQL、Docker；实践分片上传、对象存储、权限审计、Webhook 部署和自托管运维", "Body")],
 ]
 story.append(Table(projects, colWidths=[32 * mm, 150 * mm], style=TableStyle([
     ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LINEBELOW", (0, 0), (-1, -2), 0.3, LINE),
