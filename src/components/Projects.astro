@@ -5,6 +5,7 @@ import Badge from './common/Badge.astro';
 interface Props { projects: Project[]; }
 const { projects } = Astro.props;
 const getPeriodEdge = (period = '', edge: 'start' | 'end') => {
+  if (edge === 'end' && /(至今|现在|present|current)/i.test(period)) return Number.MAX_SAFE_INTEGER;
   const matches = [...period.matchAll(/(\d{4})(?:\.(\d{1,2}))?/g)];
   if (matches.length === 0) return 0;
   const match = edge === 'start' ? matches[0] : matches[matches.length - 1];
@@ -13,13 +14,13 @@ const getPeriodEdge = (period = '', edge: 'start' | 'end') => {
   return year * 12 + month;
 };
 const compareProjectPeriods = (a: Project, b: Project) => {
-  const startDiff = getPeriodEdge(b.period, 'start') - getPeriodEdge(a.period, 'start');
-  if (startDiff !== 0) return startDiff;
-  return getPeriodEdge(b.period, 'end') - getPeriodEdge(a.period, 'end');
+  const endDiff = getPeriodEdge(b.period, 'end') - getPeriodEdge(a.period, 'end');
+  if (endDiff !== 0) return endDiff;
+  return getPeriodEdge(b.period, 'start') - getPeriodEdge(a.period, 'start');
 };
 const groups = [
-  { title: '公司项目', note: '按项目时间从新到旧', items: projects.filter((project) => project.category === 'company').sort(compareProjectPeriods) },
-  { title: '个人项目', note: '按项目时间从新到旧', items: projects.filter((project) => project.category === 'personal').sort(compareProjectPeriods) },
+  { title: '公司项目', note: '按最新项目时间从新到旧', items: projects.filter((project) => project.category === 'company').sort(compareProjectPeriods) },
+  { title: '个人项目', note: '按最新项目时间从新到旧', items: projects.filter((project) => project.category === 'personal').sort(compareProjectPeriods) },
 ];
 const filters = [
   { label: '全部项目', value: 'all' },
