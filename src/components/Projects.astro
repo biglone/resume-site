@@ -4,9 +4,22 @@ import Badge from './common/Badge.astro';
 
 interface Props { projects: Project[]; }
 const { projects } = Astro.props;
+const getPeriodEdge = (period = '', edge: 'start' | 'end') => {
+  const matches = [...period.matchAll(/(\d{4})(?:\.(\d{1,2}))?/g)];
+  if (matches.length === 0) return 0;
+  const match = edge === 'start' ? matches[0] : matches[matches.length - 1];
+  const year = Number(match[1]);
+  const month = match[2] ? Number(match[2]) : edge === 'end' ? 12 : 1;
+  return year * 12 + month;
+};
+const compareProjectPeriods = (a: Project, b: Project) => {
+  const startDiff = getPeriodEdge(b.period, 'start') - getPeriodEdge(a.period, 'start');
+  if (startDiff !== 0) return startDiff;
+  return getPeriodEdge(b.period, 'end') - getPeriodEdge(a.period, 'end');
+};
 const groups = [
-  { title: '公司项目', note: '按任职时间从新到旧', items: projects.filter((project) => project.category === 'company').sort((a, b) => (b.period || '').localeCompare(a.period || '')) },
-  { title: '个人项目', note: '实验、工具与产品', items: projects.filter((project) => project.category === 'personal') },
+  { title: '公司项目', note: '按项目时间从新到旧', items: projects.filter((project) => project.category === 'company').sort(compareProjectPeriods) },
+  { title: '个人项目', note: '按项目时间从新到旧', items: projects.filter((project) => project.category === 'personal').sort(compareProjectPeriods) },
 ];
 const filters = [
   { label: '全部项目', value: 'all' },
@@ -17,10 +30,6 @@ const filters = [
   { label: 'Electron / Web', value: 'electron-web' },
   { label: 'AI / 工具链', value: 'ai-tools' },
 ];
-const getPeriodStart = (period = '') => {
-  const match = period.match(/(\d{4})\.(\d{2})/);
-  return match ? Number(`${match[1]}${match[2]}`) : 0;
-};
 const companyFilters = Array.from(new Set(
   projects
     .filter((project) => project.category === 'company' && project.employer)
@@ -29,7 +38,7 @@ const companyFilters = Array.from(new Set(
   const latestStart = (employer: string) => Math.max(
     ...projects
       .filter((project) => project.category === 'company' && project.employer === employer)
-      .map((project) => getPeriodStart(project.period)),
+      .map((project) => getPeriodEdge(project.period, 'start')),
     0,
   );
   return latestStart(b) - latestStart(a);
