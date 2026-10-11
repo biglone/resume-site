@@ -2,39 +2,24 @@
 import ThemeToggle from './ThemeToggle';
 ---
 
-<header class="sticky top-4 z-50">
+<header class="site-header">
   <nav class="section-container">
     <div class="nav-shell">
       <a
         href={import.meta.env.BASE_URL}
         class="brand-mark"
+        aria-label="返回首页"
       >
-        <span class="brand-glyph">LY</span>
-        <span class="brand-copy"><strong>LIU YUANLONG</strong><small>SOFTWARE / PRODUCT / FORM</small></span>
+        <span class="brand-glyph" aria-hidden="true">LY</span>
+        <span class="brand-name">刘元龙</span>
       </a>
 
-      <div class="flex items-center gap-4">
-        <ul class="hidden sm:flex items-center gap-6">
-          <li>
-            <a href="#about" class="nav-link">
-              关于
-            </a>
-          </li>
-          <li>
-            <a href="#experience" class="nav-link">
-              经历
-            </a>
-          </li>
-          <li>
-            <a href="#projects" class="nav-link">
-              项目
-            </a>
-          </li>
-          <li>
-            <a href="#skills" class="nav-link">
-              技能
-            </a>
-          </li>
+      <div class="flex items-center gap-5">
+        <ul class="hidden sm:flex items-center gap-7" role="list">
+          <li><a href="#about"      class="nav-link">关于</a></li>
+          <li><a href="#experience" class="nav-link">经历</a></li>
+          <li><a href="#projects"   class="nav-link">项目</a></li>
+          <li><a href="#skills"     class="nav-link">技能</a></li>
         </ul>
 
         <ThemeToggle client:load />
@@ -44,9 +29,53 @@ import ThemeToggle from './ThemeToggle';
 </header>
 
 <style>
-  .brand-mark { display: inline-flex; align-items: center; gap: .7rem; }
-  .brand-glyph { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; background: var(--color-text); color: var(--color-bg); font: 800 .78rem var(--font-mono); border: 2px solid var(--color-text); }
-  .brand-copy { display: grid; gap: .05rem; line-height: 1; }
-  .brand-copy strong { font: 700 .78rem var(--font-mono); letter-spacing: .08em; }
-  .brand-copy small { color: var(--color-text-secondary); font: 500 .52rem var(--font-mono); letter-spacing: .12em; }
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .nav-shell {
+    padding: .75rem 0;
+  }
+
+  /* Brand */
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    text-decoration: none;
+  }
+
+  .brand-glyph {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--color-accent);
+    color: #fff;
+    font: 700 .7rem var(--font-mono);
+    letter-spacing: .05em;
+    border-radius: var(--radius);
+    flex-shrink: 0;
+  }
+
+  .brand-name {
+    font: 600 .88rem var(--font-display);
+    color: var(--color-text);
+    letter-spacing: -.01em;
+  }
+
+  /* Nav links */
+  .nav-link {
+    color: var(--color-text-muted);
+    font-size: .84rem;
+    font-weight: 500;
+    transition: color 0.18s ease;
+    letter-spacing: -.01em;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text);
+  }
 </style>
