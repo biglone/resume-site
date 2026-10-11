@@ -1,6 +1,5 @@
 ---
 import type { Experience as ExperienceType } from '../types/resume';
-import Badge from './common/Badge.astro';
 
 interface Props {
   experience: ExperienceType[];
@@ -9,53 +8,200 @@ interface Props {
 const { experience } = Astro.props;
 ---
 
-<section id="experience" class="py-16">
+<section id="experience" class="exp-section">
   <div class="section-container">
-    <h2 class="section-title">工作经历</h2>
+    <div class="exp-header">
+      <span class="section-kicker">EXPERIENCE</span>
+      <h2 class="section-title">工作经历</h2>
+    </div>
 
-    <div class="relative">
-      <!-- Timeline line -->
-      <div class="absolute left-0 sm:left-4 top-0 bottom-0 w-0.5 timeline-line"></div>
+    <div class="exp-list">
+      {experience.map((exp, index) => (
+        <div
+          class="exp-item animate-fade-in-up"
+          style={`animation-delay:${index * 0.08}s`}
+        >
+          <!-- Left: period -->
+          <div class="exp-period">
+            <span>{exp.period}</span>
+            {exp.location && <span class="exp-loc">{exp.location}</span>}
+          </div>
 
-      <!-- Experience items -->
-      <div class="space-y-8">
-        {experience.map((exp, index) => (
-          <div
-            class="relative pl-8 sm:pl-16 animate-fade-in-up"
-            style={`animation-delay: ${index * 0.1}s`}
-          >
-            <!-- Timeline dot -->
-            <div class="absolute left-0 sm:left-4 w-3.5 h-3.5 -translate-x-1/2 rounded-full timeline-dot"></div>
+          <!-- Right: content -->
+          <div class="exp-body">
+            <div class="exp-title-row">
+              <h3 class="exp-company">{exp.company}</h3>
+              <span class="exp-position">{exp.position}</span>
+            </div>
 
-            <div class="card">
-              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
-                <div>
-                  <h3 class="text-lg font-semibold">{exp.position}</h3>
-                  <p class="text-base" style="color: var(--color-primary);">
-                    {exp.company}
-                  </p>
-                </div>
-                <div class="text-sm" style="color: var(--color-text-secondary);">
-                  <p>{exp.period}</p>
-                  {exp.location && <p>{exp.location}</p>}
-                </div>
-              </div>
+            <ul class="exp-desc">
+              {exp.description.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
 
-              <ul class="list-disc list-inside space-y-2 mb-4 text-sm" style="color: var(--color-text-secondary);">
-                {exp.description.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-
-              <div class="flex flex-wrap gap-2">
-                {exp.tags.map((tag) => (
-                  <Badge text={tag} />
-                ))}
-              </div>
+            <div class="exp-tags" aria-label="技术标签">
+              {exp.tags.map((tag, i) => (
+                <>
+                  <span class="exp-tag">{tag}</span>
+                  {i < exp.tags.length - 1 && <span class="exp-tag-sep" aria-hidden="true">/</span>}
+                </>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   </div>
 </section>
+
+<style>
+  .exp-section {
+    padding: 5rem 0;
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .exp-header {
+    margin-bottom: 2.5rem;
+  }
+
+  /* List */
+  .exp-list {
+    display: grid;
+    gap: 0;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-border);
+    transition: background-color 0.18s ease;
+  }
+
+  .exp-item:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .exp-item:hover {
+    background: color-mix(in srgb, var(--color-surface), transparent 40%);
+    margin: 0 -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-radius: var(--radius);
+    border-color: transparent;
+  }
+
+  /* Period column */
+  .exp-period {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    padding-top: .25rem;
+  }
+
+  .exp-period span:first-child {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .exp-loc {
+    font-size: .72rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Body */
+  .exp-body {
+    min-width: 0;
+  }
+
+  .exp-title-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .5rem .9rem;
+    margin-bottom: 1rem;
+  }
+
+  .exp-company {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -.035em;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  /* Highlight the most recent company */
+  .exp-item:first-child .exp-company {
+    font-size: 1.6rem;
+  }
+
+  .exp-position {
+    color: var(--color-accent);
+    font-size: .8rem;
+    font-weight: 500;
+  }
+
+  /* Description */
+  .exp-desc {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.2rem;
+    display: grid;
+    gap: .5rem;
+    max-width: 56ch;
+  }
+
+  .exp-desc li {
+    position: relative;
+    padding-left: 1rem;
+    color: var(--color-text-muted);
+    font-size: .875rem;
+    line-height: 1.75;
+  }
+
+  .exp-desc li::before {
+    content: '';
+    position: absolute;
+    top: .65em;
+    left: 0;
+    width: .3rem;
+    height: .3rem;
+    background: var(--color-accent);
+    border-radius: 50%;
+    opacity: .7;
+  }
+
+  /* Tags — inline slash-separated */
+  .exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .25rem .35rem;
+  }
+
+  .exp-tag {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    font-weight: 500;
+  }
+
+  .exp-tag-sep {
+    color: var(--color-border);
+    font-size: .72rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .exp-item { grid-template-columns: 1fr; gap: .75rem; }
+    .exp-period { flex-direction: row; gap: .6rem; }
+    .exp-item:hover { margin: 0; padding: 2rem 0; border-radius: 0; border-top: 1px solid var(--color-border); }
+    .exp-item:first-child .exp-company { font-size: 1.35rem; }
+  }
+</style>
