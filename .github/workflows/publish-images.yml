@@ -26,22 +26,14 @@ jobs:
             context: .
             dockerfile: Dockerfile
             image: ghcr.io/biglone/resume-site-web
-            build_args: |
-              ASTRO_SITE=${{ env.ASTRO_SITE }}
-              ASTRO_BASE=${{ env.ASTRO_BASE }}
           - name: admin
             context: ./admin
             dockerfile: ./admin/Dockerfile
             image: ghcr.io/biglone/resume-site-admin
-            build_args: |
-              VITE_API_BASE_URL=${{ env.VITE_API_BASE_URL }}
-              VITE_PUBLIC_SITE_URL=${{ env.VITE_PUBLIC_SITE_URL }}
           - name: api
             context: ./server
             dockerfile: ./server/Dockerfile
             image: ghcr.io/biglone/resume-site-api
-            build_args: |
-              APP_VERSION=${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v4
@@ -65,5 +57,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ matrix.build_args }}
+          build-args: |
+            ASTRO_SITE=${{ env.ASTRO_SITE }}
+            ASTRO_BASE=${{ env.ASTRO_BASE }}
+            VITE_API_BASE_URL=${{ env.VITE_API_BASE_URL }}
+            VITE_PUBLIC_SITE_URL=${{ env.VITE_PUBLIC_SITE_URL }}
+            APP_VERSION=${{ github.sha }}
           platforms: linux/amd64

@@ -10,25 +10,11 @@ import ProjectArchitecture from '../../components/projects/ProjectArchitecture.a
 import ProjectCaseNotes from '../../components/projects/ProjectCaseNotes.astro';
 import { fetchMeta, fetchPublishedResume } from '../../lib/api';
 import { normalizeResume } from '../../lib/normalizeResume';
-import { prepareProjectAnalysis, selectProjectAnalysis } from '../../lib/presentationText';
 
 const assetBaseUrl = import.meta.env.BASE_URL;
 const baseUrl = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
-
-const analysisModules = import.meta.glob('../../data/project-analysis/*.md', {
-  eager: true,
-  query: '?raw',
-  import: 'default'
-}) as Record<string, string>;
-
-const analysisBySlug = Object.fromEntries(
-  Object.entries(analysisModules).map(([file, content]) => [
-    file.split('/').pop()?.replace(/\.md$/, '') || '',
-    content
-  ])
-);
 
 const fallbackSite: SiteConfig = {
   title: 'Resume',
@@ -72,8 +58,6 @@ if (metaPayload) {
 }
 
 const detailHtml = project?.detail ? marked(project.detail) : '';
-const inlineAnalysisMarkdown = project ? selectProjectAnalysis(analysisBySlug[project.slug] || '') : '';
-const inlineAnalysisHtml = inlineAnalysisMarkdown ? marked(prepareProjectAnalysis(inlineAnalysisMarkdown)) : '';
 const siteTitle = site.title?.trim() || '';
 const autoTitle = profileName ? `${profileName}的简历` : siteTitle || fallbackSite.title;
 const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle : autoTitle;
@@ -225,46 +209,12 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
           </section>
         )}
 
-        <!-- Inline source analysis; intentionally excludes content already covered above and below. -->
-        {inlineAnalysisHtml && (
-          <section class="project-analysis-inline full-mode-section mb-12" aria-label="技术实现与工程实践">
-            <div class="project-section-heading">
-              <div>
-                <span class="project-intro-kicker">ENGINEERING IMPLEMENTATION / PRACTICE</span>
-                <h2>技术实现与工程实践</h2>
-              </div>
-              <span class="project-section-note">SCAN / STACK / FLOW</span>
-            </div>
-            <div class="analysis-inline-prose" set:html={inlineAnalysisHtml} />
-          </section>
-        )}
-
-        {inlineAnalysisHtml && (
-          <script is:inline type="module">
-            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-            mermaid.initialize({
-              startOnLoad: false,
-              theme: 'base',
-              securityLevel: 'strict',
-              themeVariables: {
-                primaryColor: '#eef4ff',
-                primaryTextColor: '#141a21',
-                primaryBorderColor: '#2f6df6',
-                lineColor: '#52606d',
-                secondaryColor: '#f6f7f9',
-                tertiaryColor: '#ffffff',
-                fontFamily: 'Space Grotesk, sans-serif'
-              }
-            });
-            await mermaid.run({ querySelector: '.analysis-inline-prose pre code.language-mermaid' });
-          </script>
-        )}
-
-        <!-- Detail Content (Markdown) -->
+        <!-- Optional long-form detail stays collapsed so the case-specific summary leads. -->
         {detailHtml && (
-          <section class="full-mode-section mb-12">
+          <details class="project-longform full-mode-section mb-12">
+            <summary>展开技术细节与项目记录</summary>
             <div class="prose prose-lg dark:prose-invert max-w-none" set:html={detailHtml} />
-          </section>
+          </details>
         )}
 
         <!-- Git Commits -->
@@ -439,58 +389,23 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
     border-top: 1px solid var(--color-border);
   }
 
-  .project-analysis-inline {
-    padding: 1.35rem 1.5rem 1.5rem;
-    border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-accent);
-    background: var(--color-bg-secondary);
+  .project-longform {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .analysis-inline-prose {
-    max-width: 54rem;
+  .project-longform > summary {
+    padding: 1rem 0;
+    color: var(--color-accent);
+    cursor: pointer;
+    font: 600 .8rem var(--font-display);
+    list-style: none;
   }
 
-  .analysis-inline-prose h2 {
-    margin: 1.8rem 0 .75rem;
-    color: var(--color-text);
-    font: 700 1.25rem var(--font-display);
-  }
-
-  .analysis-inline-prose h3 {
-    margin: 1.25rem 0 .5rem;
-    color: var(--color-text);
-    font: 650 1rem var(--font-display);
-  }
-
-  .analysis-inline-prose p,
-  .analysis-inline-prose li {
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-  }
-
-  .analysis-inline-prose ul,
-  .analysis-inline-prose ol {
-    padding-left: 1.25rem;
-  }
-
-  .analysis-inline-prose pre {
-    margin: 1rem 0;
-    padding: 1rem;
-    overflow-x: auto;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    color: var(--color-text);
-    box-shadow: inset 3px 0 0 var(--color-accent);
-  }
-
-  .analysis-inline-prose code {
-    color: var(--color-primary);
-    font-family: var(--font-mono);
-  }
-
-  .analysis-inline-prose pre code { color: var(--color-text); }
-  .analysis-inline-prose pre.mermaid { display: grid; place-items: center; min-height: 9rem; }
-  .analysis-inline-prose pre.mermaid svg { max-width: 100%; height: auto; }
+  .project-longform > summary::-webkit-details-marker { display: none; }
+  .project-longform > summary::after { content: '＋'; float: right; color: var(--color-text-muted); }
+  .project-longform[open] > summary::after { content: '−'; }
+  .project-longform .prose { padding-bottom: 1.5rem; }
 
   .project-intro p:first-child {
     max-width: 48rem;
@@ -516,9 +431,6 @@ const pageTitle = siteTitle && !siteTitle.includes('个人主页') ? siteTitle :
       margin-top: .55rem;
     }
 
-    .project-analysis-inline {
-      padding: 1rem;
-    }
   }
 
   .subsection-heading {
