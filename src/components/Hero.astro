@@ -7,75 +7,199 @@ interface Props {
 }
 
 const { profile } = Astro.props;
+
+const coreStack = ['C++17', 'Qt/QML', 'OpenCV', 'Electron', 'React', 'Go', 'Python', 'Docker'];
 ---
 
-<section id="about" class="py-16 sm:py-24">
+<section id="about">
   <div class="section-container">
-    <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-start">
-      <div class="space-y-6 animate-fade-in-up">
-        <p class="hero-meta">苏州 · C++ / Qt · 音频设备 · 跨平台软件</p>
-        <h1 class="hero-title">{profile.name}</h1>
-        <p class="hero-role">{profile.title}</p>
-        <p class="hero-bio max-w-2xl">{profile.bio}</p>
 
-        <div class="flex flex-wrap items-center gap-3">
-          {profile.email && (
-            <a href={`mailto:${profile.email}`} class="btn-primary">
-              联系我
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </a>
-          )}
-          <a href="#projects" class="btn-secondary">
-            查看项目
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+    <!-- Top bar: avatar + name + location + CTA -->
+    <div class="hero-topbar animate-fade-in-up">
+      <div class="hero-identity">
+        <div class="hero-avatar" style="width:52px;height:52px;">
+          <img
+            src={profile.avatar}
+            alt={profile.name}
+            class="w-full h-full object-cover"
+            onerror={`this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('${profile.name}') + '&size=80&background=1d5cdf&color=fff'`}
+          />
+        </div>
+        <div>
+          <div class="hero-namerow">
+            <span class="hero-name">{profile.name}</span>
+            {profile.location && <span class="hero-dot" aria-hidden="true">·</span>}
+            {profile.location && <span class="hero-loc">{profile.location}</span>}
+          </div>
+          <p class="hero-meta">SOFTWARE ENGINEER  ·  2026</p>
+        </div>
+      </div>
+
+      <div class="hero-cta-group">
+        {profile.email && (
+          <a href={`mailto:${profile.email}`} class="btn-primary" id="hero-contact-btn">
+            联系我
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </a>
-        </div>
-      </div>
-
-      <div class="hero-card animate-fade-in-up" style="animation-delay: 0.1s">
-        <div class="flex items-center gap-5">
-          <div class="hero-avatar w-24 h-24 sm:w-28 sm:h-28">
-            <img
-              src={profile.avatar}
-              alt={profile.name}
-              class="w-full h-full object-cover"
-              onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent(this.alt) + '&size=160&background=1d4ed8&color=fff'"
-            />
-          </div>
-          <div>
-            <p class="hero-card-label">PROFESSIONAL FOCUS</p>
-            <p class="text-base font-semibold">{profile.title}</p>
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          {profile.location && (
-            <div class="meta-row">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span>{profile.location}</span>
-            </div>
-          )}
-          {profile.email && (
-            <a href={`mailto:${profile.email}`} class="meta-row link">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <span>{profile.email}</span>
-            </a>
-          )}
-        </div>
-
-        <div class="pt-4 border-t" style="border-color: var(--color-border);">
-          <SocialLinks social={profile.social} />
-        </div>
+        )}
+        <a href="#projects" class="btn-secondary" id="hero-projects-btn">
+          查看项目
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
       </div>
     </div>
+
+    <!-- Big title -->
+    <div class="hero-headline animate-fade-in-up" style="animation-delay:.06s">
+      <h1 class="hero-title">{profile.title.split('·')[0].trim()}</h1>
+    </div>
+
+    <!-- Bio -->
+    <p class="hero-bio animate-fade-in-up" style="animation-delay:.12s">
+      {profile.bio}
+    </p>
+
+    <!-- Divider + Stack + Social -->
+    <div class="hero-footer animate-fade-in-up" style="animation-delay:.18s">
+      <div class="hero-stack">
+        {coreStack.map((tag, i) => (
+          <span class="stack-tag">{tag}</span>
+        ))}
+      </div>
+      <div class="hero-social">
+        <SocialLinks social={profile.social} />
+      </div>
+    </div>
+
   </div>
 </section>
+
+<style>
+  /* --- Layout --- */
+  #about {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  /* --- Top bar --- */
+  .hero-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+  }
+
+  .hero-identity {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-namerow {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-name {
+    font: 600 1.05rem var(--font-display);
+    color: var(--color-text);
+    letter-spacing: -.02em;
+  }
+
+  .hero-dot {
+    color: var(--color-text-muted);
+    font-size: .9rem;
+  }
+
+  .hero-loc {
+    color: var(--color-text-muted);
+    font-size: .88rem;
+  }
+
+  .hero-meta {
+    margin: .2rem 0 0;
+    color: var(--color-text-muted);
+    font: 500 .64rem var(--font-mono);
+    letter-spacing: .1em;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    flex-wrap: wrap;
+  }
+
+  /* --- Headline --- */
+  .hero-headline {
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-title {
+    font-size: clamp(3.2rem, 8vw, 6.5rem);
+    font-weight: 700;
+    letter-spacing: -.06em;
+    line-height: .9;
+    color: var(--color-text);
+    max-width: 14ch;
+  }
+
+  /* --- Bio --- */
+  .hero-bio {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    line-height: 1.85;
+    max-width: 52rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* --- Footer row --- */
+  .hero-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .hero-stack {
+    display: flex;
+    align-items: center;
+    gap: .45rem .7rem;
+    flex-wrap: wrap;
+  }
+
+  .stack-tag {
+    color: var(--color-text-muted);
+    font: 500 .75rem var(--font-mono);
+    transition: color 0.18s ease;
+  }
+
+  .stack-tag:not(:last-child)::after {
+    content: ' ·';
+    color: var(--color-border);
+    margin-left: .45rem;
+  }
+
+  .stack-tag:hover {
+    color: var(--color-text);
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 640px) {
+    #about { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+    .hero-topbar { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+    .hero-cta-group { width: 100%; }
+    .hero-footer { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+  }
+</style>
