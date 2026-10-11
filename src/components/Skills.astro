@@ -6,40 +6,214 @@ interface Props {
 }
 
 const { skills } = Astro.props;
+
+// Map level numbers to tier labels
+const getTier = (level: number) => {
+  if (level >= 88) return 'expert';
+  if (level >= 72) return 'proficient';
+  return 'familiar';
+};
+
+const tierMeta = {
+  expert:     { label: '精通', desc: '核心技术，长期深度使用' },
+  proficient: { label: '熟练', desc: '频繁使用，有完整项目经验' },
+  familiar:   { label: '了解', desc: '有项目实践，持续学习中' },
+};
+
+// Collect all skills with tier, sorted by level desc within each category
+const sections = skills.map(cat => ({
+  category: cat.category,
+  items: [...cat.items].sort((a, b) => b.level - a.level),
+}));
 ---
 
-<section id="skills" class="py-16">
+<section id="skills" class="skills-section">
   <div class="section-container">
-    <h2 class="section-title">技术栈</h2>
+    <div class="skills-header">
+      <div>
+        <span class="section-kicker">SKILLS</span>
+        <h2 class="section-title">技术栈</h2>
+      </div>
+      <p class="skills-note">基于近十年实际项目经验，按使用深度分级。</p>
+    </div>
 
-    <div class="grid gap-6 md:grid-cols-2">
-      {skills.map((category, categoryIndex) => (
-        <div
-          class="card animate-fade-in-up"
-          style={`animation-delay: ${categoryIndex * 0.1}s`}
-        >
-          <h3 class="text-lg font-semibold mb-4">{category.category}</h3>
+    <!-- Legend -->
+    <div class="tier-legend" aria-label="技能分级说明">
+      {Object.entries(tierMeta).map(([key, meta]) => (
+        <div class={`legend-item legend-${key}`}>
+          <span class="legend-dot" aria-hidden="true"></span>
+          <strong>{meta.label}</strong>
+          <span>{meta.desc}</span>
+        </div>
+      ))}
+    </div>
 
-          <div class="space-y-4">
-            {category.items.map((skill, skillIndex) => (
-              <div>
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-sm font-medium">{skill.name}</span>
-                  <span class="text-xs" style="color: var(--color-text-secondary);">
-                    {skill.level}%
-                  </span>
-                </div>
-                <div class="progress-track">
-                  <div
-                    class="progress-bar"
-                    style={`width: ${skill.level}%; animation-delay: ${(categoryIndex * 0.1) + (skillIndex * 0.05)}s`}
-                  ></div>
-                </div>
-              </div>
-            ))}
+    <!-- Skill categories -->
+    <div class="skills-grid">
+      {sections.map((cat, ci) => (
+        <div class="skill-cat animate-fade-in-up" style={`animation-delay:${ci * 0.07}s`}>
+          <h3 class="cat-title">{cat.category}</h3>
+          <div class="skill-tags">
+            {cat.items.map(skill => {
+              const tier = getTier(skill.level);
+              return (
+                <span class={`skill-tag skill-tag--${tier}`} title={`${skill.name} · ${tierMeta[tier].label}`}>
+                  {skill.name}
+                </span>
+              );
+            })}
           </div>
         </div>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .skills-section {
+    padding: 5rem 0;
+    background: var(--color-bg);
+  }
+
+  .skills-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .skills-header .section-title {
+    margin-bottom: 0;
+  }
+
+  .skills-note {
+    color: var(--color-text-muted);
+    font-size: .88rem;
+    max-width: 22rem;
+    text-align: right;
+  }
+
+  /* Legend */
+  .tier-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+    padding: .9rem 1.1rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    font-size: .78rem;
+  }
+
+  .legend-dot {
+    width: .55rem;
+    height: .55rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-item strong {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .legend-item span {
+    color: var(--color-text-muted);
+  }
+
+  .legend-expert     .legend-dot { background: var(--color-accent); }
+  .legend-proficient .legend-dot { background: color-mix(in srgb, var(--color-accent), transparent 45%); }
+  .legend-familiar   .legend-dot { background: var(--color-border); }
+
+  /* Grid */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .skill-cat {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.35rem 1.4rem;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .skill-cat:hover {
+    box-shadow: var(--shadow-card);
+  }
+
+  .cat-title {
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+    font-family: var(--font-mono);
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+
+  /* Skill tag tiers */
+  .skill-tag {
+    display: inline-block;
+    padding: .32rem .75rem;
+    border-radius: var(--radius-pill);
+    font-size: .78rem;
+    font-weight: 500;
+    letter-spacing: .005em;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: default;
+  }
+
+  .skill-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* Expert: solid accent */
+  .skill-tag--expert {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    border-color: color-mix(in srgb, var(--color-accent), transparent 72%);
+    font-weight: 600;
+  }
+
+  /* Proficient: muted accent */
+  .skill-tag--proficient {
+    background: var(--color-bg-secondary);
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  /* Familiar: ghost */
+  .skill-tag--familiar {
+    background: transparent;
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+    font-weight: 400;
+  }
+
+  @media (max-width: 640px) {
+    .skills-header { flex-direction: column; align-items: flex-start; }
+    .skills-note { text-align: left; }
+    .skills-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .tier-legend { gap: 1rem; }
+  }
+</style>
